@@ -1,25 +1,19 @@
 import { graphql } from "../generated/gql";
 
-export const CreateSaleMutation = graphql(`
-  mutation CreateSale($accountID: String!, $input: CreateSaleInput!) {
-    createSale(accountId: $accountID, input: $input) {
-      __typename
+export const GetSaleQuery = graphql(`
+  query GetSale($accountId: String!, $id: ID!, $take: Int, $cursor: String, $direction:  PaginationDirection) {
+    sale(accountId: $accountId, id: $id) {
       id
       accountId
       title
       description
       currency
       status
-      sequenceNumber
       closingMethod
-      closingTimeCountdown
       items {
-        __typename
         edges {
-          __typename
           cursor
           node {
-            __typename
             id
             title
             totalBids
@@ -29,60 +23,52 @@ export const CreateSaleMutation = graphql(`
             saleId
             reserve
             startingBid
-            status
             lowEstimate
             highEstimate
             itemNumber
             bids {
-              __typename
+              bidId
               amount
-              maxAmount
               userId
               date
               bidStatus
+              maxAmount
               bidSequenceNumber
             }
-            dates {
-              __typename
-              closingStart
+            dates{
+              closingStart,
               closingEnd
             }
+            allowedBidTypes
           }
         }
         pageInfo {
-          __typename
           startCursor
           endCursor
           hasNextPage
         }
       }
       incrementTable {
-        __typename
         rules {
           highRange
           lowRange
           step
-          __typename
         }
       }
       dates {
-        __typename
-        openDate
         closingDate
+        openDate
       }
-      participants {
-        __typename
-        edges {
-          __typename
-          cursor
-          node {
-            __typename
+      closingTimeCountdown,
+      participants(take: $take, cursor: $cursor, direction: $direction){
+        edges{
+          cursor,
+          node{
             userId
           }
-        }
-        totalCount
-        pageInfo {
-          __typename
+        },
+        totalCount,
+        pageInfo{
           startCursor
           endCursor
           hasNextPage
@@ -90,5 +76,4 @@ export const CreateSaleMutation = graphql(`
       }
     }
   }
-`)
-
+`);
