@@ -7,20 +7,22 @@ const config: CodegenConfig = {
     {
       ["https://management.api.stage.basta.ai/graphql"]: {
         headers: {
-          ['x-api-key']: "ug981jDsMxjhWMtS2wPP46dQnREUxo0Gj8zTjTI4-zI=",
-          ['x-account-id']: "49d64cf0-a5e9-49dd-bb1f-4c3a05bf9e3b", 
+          ['x-api-key']: process.env.TEMP_API_KEY!,
+          ['x-account-id']: process.env.TEMP_ACCOUNT_ID!, 
         }
       }
     }
   ],
   generates: {
-    "src/generated/graphql.ts": {
-      plugins: ["typescript", "typescript-document-nodes"]
-    },
-    "./graphql.schema.json": {
-      plugins: ["introspection"]
+    './src/gql/generated/': {
+      overwrite: true,
+      documents: 'src/gql/**/*.gql.ts',
+      preset: 'client',
+      presetConfig: {
+        fragmentMasking: { unmaskFunctionName: 'getFragmentData' },
+      },
     }
-  }
+ }
 };
 
 export default config;
