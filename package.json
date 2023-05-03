@@ -17,7 +17,7 @@
     "clean": "rm -rf dist",
     "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
     "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check",
-    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts"
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts --verbose"
   },
   "keywords": [
     "Basta",
@@ -32,6 +32,8 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^3.3.1",
     "@graphql-codegen/client-preset": "^3.0.1",
+    "@graphql-codegen/typescript": "^3.0.4",
+    "@graphql-codegen/typescript-operations": "^3.0.4",
     "@graphql-eslint/eslint-plugin": "^3.18.0",
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.59.2",

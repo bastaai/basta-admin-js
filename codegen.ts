@@ -4,7 +4,8 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      ['https://management.api.stage.basta.ai/graphql']: {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      [process.env.BASTA_MANAGEMENT_API_URL!]: {
         headers: {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           ['x-api-key']: process.env.TEMP_API_KEY!,
@@ -15,13 +16,10 @@ const config: CodegenConfig = {
     },
   ],
   generates: {
-    './gql/generated/': {
+    './src/gql/generated/': {
       overwrite: true,
-      documents: 'gql/**/*.gql.ts',
+      documents: 'src/gql/**/*.graphql',
       preset: 'client',
-      presetConfig: {
-        fragmentMasking: { unmaskFunctionName: 'getFragmentData' },
-      },
     },
   },
 };
