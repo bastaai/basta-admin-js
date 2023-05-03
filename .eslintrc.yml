@@ -29,3 +29,11 @@ rules:
   '@typescript-eslint/no-unused-vars':
     - 2
     - ignoreRestSiblings: true
+overrides:
+  - files:
+      - '*.graphql'
+    parser: '@graphql-eslint/eslint-plugin'
+    plugins:
+      - '@graphql-eslint'
+    rules:
+      '@graphql-eslint/known-type-names': 'error'
