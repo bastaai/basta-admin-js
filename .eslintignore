@@ -1,1 +1,4 @@
-**/fragment-masking.ts
+dist
+node_modules
+examples
+tests/types

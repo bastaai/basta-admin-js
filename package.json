@@ -2,20 +2,44 @@
   "name": "@bastaai/basta-admin-js",
   "version": "0.1.0-beta.0",
   "description": "A private SDK for managing Basta auctions and performing advanced operations with ease. Designed for secure server-side use with private key authentication.",
-  "main": "index.js",
+  "main": "dist/basta-admin.js",
+  "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
   "license": "UNLICENSED",
+  "keywords": [
+    "Basta",
+    "Basta.ai",
+    "Basta Admin SDK",
+    "basta-admin-js"
+  ],
+  "author": "Basta (https://www.basta.ai)",
+  "homepage": "https://docs.basta.ai",
+  "files": [
+    "dist",
+    "types"
+  ],
   "scripts": {
-    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts"
+    "test": "npm lint && npm test:unit && npm typecheck",
+    "test:unit": "jest",
+    "lint": "eslint '{src,types}/**/*.{ts,js}' && npm prettier-check",
+    "typecheck": "tsc",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
+    "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "3.3.1",
-    "@graphql-codegen/client-preset": "^3.0.1",
-    "@graphql-eslint/eslint-plugin": "^3.18.0",
-    "dotenv": "^16.0.3",
+    "@types/jest": "^29.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
-    "graphql": "^16.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.5.0",
     "prettier": "^2.8.8",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   }
 }
