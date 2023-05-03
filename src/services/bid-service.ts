@@ -1,7 +1,7 @@
 import { BastaReqHeaders } from '../../types/req-headers';
-import { BidServiceSDK } from '../../types/sdk';
+import { IBidService } from '../../types/sdk';
 
-export class BidService implements BidServiceSDK {
+export class BidService implements IBidService {
   protected readonly _url: string;
   protected readonly _headers: BastaReqHeaders;
 

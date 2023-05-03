@@ -1,10 +1,11 @@
-import { BidServiceSDK, SDK, SaleServiceSDK } from '../types/sdk';
+import { IBastaAdmin, IBidService, ISaleService } from '../types/sdk';
 import { BidService } from './services/bid-service';
+
 import { SaleService } from './services/sale-service';
 
-export class BastaAdmin implements SDK {
-  readonly sale: SaleServiceSDK;
-  readonly bid: BidServiceSDK;
+export class BastaAdmin implements IBastaAdmin {
+  readonly sale: ISaleService;
+  readonly bid: IBidService;
 
   protected readonly _url: string;
   protected readonly _headers: {

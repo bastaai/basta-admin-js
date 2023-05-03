@@ -1,5 +1,5 @@
 import { Sale } from '../../types';
-import { SaleServiceSDK } from '../../types/sdk';
+import { ISaleService } from '../../types/sdk';
 import {
   GetSaleDocument,
   GetSaleQueryVariables,
@@ -8,7 +8,7 @@ import {
 import { print } from 'graphql';
 import { BastaReqHeaders } from '../../types/req-headers';
 
-export class SaleService implements SaleServiceSDK {
+export class SaleService implements ISaleService {
   protected readonly _url: string;
   protected readonly _headers: BastaReqHeaders;
 

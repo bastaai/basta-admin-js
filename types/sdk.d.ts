@@ -1,8 +1,8 @@
 import { Sale } from './sale';
 
-export interface SDK {
-  sale: SaleServiceSDK;
-  bid: BidServiceSDK;
+export interface IBastaAdmin {
+  sale: ISaleService;
+  bid: IBidService;
 
   /**
    * Generates a signed JWT token that can be used to access web sockets containing sensitive user data.
@@ -11,7 +11,7 @@ export interface SDK {
   refreshUserToken(): Promise<'string' | null>;
 }
 
-interface BidServiceSDK {
+interface IBidService {
   /**
    * Places a bid on a Basta item.
    */
@@ -23,7 +23,7 @@ interface BidServiceSDK {
   placeOffer(): Promise<boolean>;
 }
 
-interface SaleServiceSDK {
+interface ISaleService {
   /**
    * Creates a Basta sale.
    */
