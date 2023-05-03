@@ -9,7 +9,7 @@
   "homepage": "https://docs.basta.ai",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "clean": "rm -rf dist",
     "test": "npm lint && npm test:unit && npm typecheck",
     "test:unit": "jest",

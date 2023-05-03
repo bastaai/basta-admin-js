@@ -1,2 +1,2 @@
 export * from './basta-admin';
-export * from '../types';
+export * from '../types/sale';

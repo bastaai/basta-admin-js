@@ -1,9 +1,10 @@
+import { Sale as SaleGql } from '../src/gql/generated/graphql';
+import { ToPrimitive } from './utils';
+
 /**
  * The Basta sale object.
  */
-export interface Sale {
-  id: string;
-}
+export type Sale = ToPrimitive<SaleGql>;
 
 /**
  * Represents the different strategies for closing Basta sales sequentially.
