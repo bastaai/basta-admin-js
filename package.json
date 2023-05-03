@@ -9,12 +9,12 @@
   "homepage": "https://docs.basta.ai",
   "license": "UNLICENSED",
   "scripts": {
+    "build": "tsc",
     "test": "npm lint && npm test:unit && npm typecheck",
     "test:unit": "jest",
     "lint": "eslint '{src,types}/**/*.{ts,js}' && npm prettier-check",
-    "typecheck": "tsc",
-    "build": "tsc",
     "clean": "rm -rf dist",
+    "typecheck": "tsc",
     "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
     "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts --verbose"
