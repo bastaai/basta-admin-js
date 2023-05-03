@@ -10,13 +10,12 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "tsc",
+    "clean": "rm -rf dist",
     "test": "npm lint && npm test:unit && npm typecheck",
     "test:unit": "jest",
-    "lint": "eslint '{src,types}/**/*.{ts,js}' && npm prettier-check",
-    "clean": "rm -rf dist",
     "typecheck": "tsc",
-    "prettier": "prettier './**/*.{js,ts,md,html,css}' --write",
-    "prettier-check": "prettier './**/*.{js,ts,md,html,css}' --check",
+    "lint": "eslint '{src,types}/**/*.ts' && prettier './**/*.{ts,md,html,css}' --check",
+    "lint:fix": "eslint '{src,types}/**/*.ts' --fix && prettier './**/*.{ts,md,html,css}' --write",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts --verbose"
   },
   "keywords": [

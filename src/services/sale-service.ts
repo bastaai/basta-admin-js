@@ -20,6 +20,7 @@ export class SaleService implements ISaleService {
   create(): Promise<Sale> {
     throw new Error('Method not implemented.');
   }
+
   async get(): Promise<Sale> {
     const query = print(GetSaleDocument);
     const variables: GetSaleQueryVariables = {

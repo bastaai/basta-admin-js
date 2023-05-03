@@ -2,9 +2,15 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -107,7 +113,7 @@ export enum ActionHookStatus {
   /** Action Hook request is queued to be sent. */
   Pending = 'PENDING',
   /** Action Hook request was successfully sent. */
-  Success = 'SUCCESS'
+  Success = 'SUCCESS',
 }
 
 /**
@@ -146,7 +152,7 @@ export enum ActionType {
   /** Event: When 1 or more item in a sale change associated with your account. */
   ItemsUpdated = 'ITEMS_UPDATED',
   /** Event: When a sale status change associated with your account occurs in the system. */
-  SaleStatusChanged = 'SALE_STATUS_CHANGED'
+  SaleStatusChanged = 'SALE_STATUS_CHANGED',
 }
 
 /** Add a current item to a sale. */
@@ -221,7 +227,7 @@ export enum ApiTokenRole {
   /** ADMIN HAS UNRESTRICTED ACCESS */
   Admin = 'ADMIN',
   /** READ HAS READ ONLY ACCESS */
-  Read = 'READ'
+  Read = 'READ',
 }
 
 export type ApiTokensEdge = {
@@ -255,6 +261,21 @@ export type Bid = {
   userId: Scalars['String'];
 };
 
+/** Error code when failing to place a bid on an item */
+export enum BidErrorCode {
+  AlreadyHigherMaxBid = 'ALREADY_HIGHER_MAX_BID',
+  BidAmountUpperLimitReached = 'BID_AMOUNT_UPPER_LIMIT_REACHED',
+  BidLowerThanCurrentBid = 'BID_LOWER_THAN_CURRENT_BID',
+  BidLowerThanCurrentMax = 'BID_LOWER_THAN_CURRENT_MAX',
+  InternalError = 'INTERNAL_ERROR',
+  ItemClosingPeriodPassed = 'ITEM_CLOSING_PERIOD_PASSED',
+  MaxBidLowerThanCurrentMax = 'MAX_BID_LOWER_THAN_CURRENT_MAX',
+  NotOpenForBidding = 'NOT_OPEN_FOR_BIDDING',
+  NoError = 'NO_ERROR',
+  OffIncrement = 'OFF_INCREMENT',
+  StartingBidHigher = 'STARTING_BID_HIGHER',
+}
+
 /**
  * Bid increment table represent how increments behave for a
  * specific item or a sale.
@@ -284,6 +305,56 @@ export type BidOnBehalfInput = {
   userId: Scalars['String'];
 };
 
+/** BidOnItemInput. A bid can be NormalBid, MaxBid or Offer */
+export type BidOnItemInput = {
+  /**
+   * Amount should be given in minor currency unit for the currency selected for the sale.
+   * In USD that would be cents. A bid of $100 should have the amount set as the integer 10_000
+   */
+  amount: Scalars['Int'];
+  /** The type of bid being placed. Must be part of item's allowedBids property. */
+  bidType: BidType;
+  /** ItemId */
+  itemId: Scalars['String'];
+  /** SaleId for the item */
+  saleId: Scalars['String'];
+  /**
+   * UserId of the bid owner.
+   * Important that this is the unique userId of the user who is performing the bid in your system.
+   */
+  userId: Scalars['String'];
+};
+
+/** A bid is either succesful or there was an error */
+export type BidPlaced = BidPlacedError | BidPlacedSuccess;
+
+/** Error response for bidOnItem */
+export type BidPlacedError = {
+  __typename?: 'BidPlacedError';
+  /** Error description. */
+  error: Scalars['String'];
+  /** Error code if an error occured. */
+  errorCode: BidErrorCode;
+};
+
+/** Bid was successfully placed */
+export type BidPlacedSuccess = {
+  __typename?: 'BidPlacedSuccess';
+  /** Amount of placed bid. Minor currency units. */
+  amount: Scalars['Int'];
+  /** Bid Status of the bid */
+  bidStatus: BidStatus;
+  /** BidType */
+  bidType: BidType;
+  /** Server time of when the bid was recorded. */
+  date: Scalars['String'];
+  /**
+   * MaxAmount, only set if bid was of type MaxBid.
+   * Should be kept secret and never rendered to clients.
+   */
+  maxAmount: Scalars['Int'];
+};
+
 /** Bid statuses that calculates in what status the bid is. */
 export enum BidStatus {
   /** User is losing the item. */
@@ -299,7 +370,7 @@ export enum BidStatus {
   /** User's bid has been withdrawn */
   Withdrawn = 'WITHDRAWN',
   /** User has won the item. */
-  Won = 'WON'
+  Won = 'WON',
 }
 
 /** Bid Type represent what kind of bid is being placed on an item. */
@@ -313,7 +384,7 @@ export enum BidType {
   /** Bid is a normal bid. */
   Normal = 'NORMAL',
   /** Bid is an offer that the user commits to buying the item for. */
-  Offer = 'OFFER'
+  Offer = 'OFFER',
 }
 
 /**
@@ -387,7 +458,7 @@ export enum ClosingMethod {
    * Each item has a precalculated closing time.
    * Default if ClosingMethod is not specified.
    */
-  Overlapping = 'OVERLAPPING'
+  Overlapping = 'OVERLAPPING',
 }
 
 export type CreateAccountInput = {
@@ -531,7 +602,7 @@ export enum ItemStatus {
   ItemNotOpen = 'ITEM_NOT_OPEN',
   ItemOpen = 'ITEM_OPEN',
   ItemPaused = 'ITEM_PAUSED',
-  ItemProcessing = 'ITEM_PROCESSING'
+  ItemProcessing = 'ITEM_PROCESSING',
 }
 
 export type ItemsConnection = {
@@ -570,7 +641,7 @@ export enum LinkType {
   Instagram = 'INSTAGRAM',
   Tiktok = 'TIKTOK',
   Website = 'WEBSITE',
-  Youtube = 'YOUTUBE'
+  Youtube = 'YOUTUBE',
 }
 
 /** Max bid on behalf of a user in a sale. */
@@ -593,10 +664,17 @@ export type Mutation = {
   addItemToSale: SaleItem;
   /** Bid on behalf of a user */
   bidOnBehalf: Bid;
+  /**
+   * Endpoint only available to SDK users.
+   * Place bid on an item for some amount. Can be of type NORMAL, MAX and OFFER.
+   * Amount will be the MaxAmount when bid is of type MAX and OfferAmount for bids of type OFFER.
+   */
+  bidOnItemV2: BidPlaced;
   /** Cancel the latest bid on item (including reactive bids that were placed as a side-effect) */
   cancelLatestBidOnItem: CanceledLatestBidOnItem;
   /** Close a sale, non forcefully. */
   closeSale: Sale;
+  /** Create Account */
   createAccount: Account;
   /** Create an API key, that can access all functions in the API on behalf of the logged in customer. */
   createApiToken: ApiTokenCreated;
@@ -608,6 +686,11 @@ export type Mutation = {
   createItemForSale: SaleItem;
   /** Create a sale */
   createSale: Sale;
+  /**
+   * Will replace createBidderToken(accountId: String!, input: BidderTokenInput!): BidderToken!
+   * Only accessible for SDK users at the moment
+   */
+  createUserTokenV2: UserToken;
   /** Delete action hook subscription */
   deleteActionHookSubscription: Scalars['Boolean'];
   /** Close a sale, forcefully. */
@@ -649,155 +732,139 @@ export type Mutation = {
   updateSale: Sale;
 };
 
-
 export type MutationAddActionHookSubscriptionArgs = {
   accountId: Scalars['String'];
   input: ActionHookSubscriptionInput;
 };
-
 
 export type MutationAddItemToSaleArgs = {
   accountId: Scalars['String'];
   input: AddItemToSaleInput;
 };
 
-
 export type MutationBidOnBehalfArgs = {
   accountId: Scalars['String'];
   input: BidOnBehalfInput;
 };
 
+export type MutationBidOnItemV2Args = {
+  accountId: Scalars['String'];
+  input: BidOnItemInput;
+};
 
 export type MutationCancelLatestBidOnItemArgs = {
   accountId: Scalars['String'];
   input: CancelLatestBidOnItemInput;
 };
 
-
 export type MutationCloseSaleArgs = {
   accountId: Scalars['String'];
   input: CloseSaleInput;
 };
 
-
 export type MutationCreateAccountArgs = {
   input: CreateAccountInput;
 };
-
 
 export type MutationCreateApiTokenArgs = {
   accountId: Scalars['String'];
   input: ApiTokenInput;
 };
 
-
 export type MutationCreateBidderTokenArgs = {
   accountId: Scalars['String'];
   input: BidderTokenInput;
 };
-
 
 export type MutationCreateItemArgs = {
   accountId: Scalars['String'];
   input: CreateItemInput;
 };
 
-
 export type MutationCreateItemForSaleArgs = {
   accountId: Scalars['String'];
   input: SaleItemInput;
 };
-
 
 export type MutationCreateSaleArgs = {
   accountId: Scalars['String'];
   input: CreateSaleInput;
 };
 
+export type MutationCreateUserTokenV2Args = {
+  accountId: Scalars['String'];
+  input: UserTokenInput;
+};
 
 export type MutationDeleteActionHookSubscriptionArgs = {
   accountId: Scalars['String'];
   input: DeleteActionHookSubscriptionInput;
 };
 
-
 export type MutationForceCloseSaleArgs = {
   accountId: Scalars['String'];
   input: CloseSaleInput;
 };
-
 
 export type MutationForceOpenSaleArgs = {
   accountId: Scalars['String'];
   input: OpenSaleInput;
 };
 
-
 export type MutationForceStartClosingSaleArgs = {
   accountId: Scalars['String'];
   input: StartClosingSaleInput;
 };
-
 
 export type MutationMaxBidOnBehalfArgs = {
   accountId: Scalars['String'];
   input: MaxBidOnBehalfInput;
 };
 
-
 export type MutationOpenSaleArgs = {
   accountId: Scalars['String'];
   input: OpenSaleInput;
 };
-
 
 export type MutationPublishSaleArgs = {
   accountId: Scalars['String'];
   input: PublishSaleInput;
 };
 
-
 export type MutationRemoveItemFromSaleArgs = {
   accountId: Scalars['String'];
   input: RemoveSaleItemInput;
 };
-
 
 export type MutationRevokeApiTokenArgs = {
   accountId: Scalars['String'];
   input: RevokeApiTokenInput;
 };
 
-
 export type MutationSetItemWinnerArgs = {
   accountId: Scalars['String'];
   input: SetItemWinnerInput;
 };
-
 
 export type MutationSetSaleItemStatusArgs = {
   accountId: Scalars['String'];
   input: SetSaleItemStatusInput;
 };
 
-
 export type MutationStartClosingSaleArgs = {
   accountId: Scalars['String'];
   input: StartClosingSaleInput;
 };
-
 
 export type MutationTestActionHookArgs = {
   accountId: Scalars['String'];
   input: ActionHookSubscriptionInput;
 };
 
-
 export type MutationUpdateActionHookSubscriptionArgs = {
   accountId: Scalars['String'];
   input: UpdateActionHookSubscriptionInput;
 };
-
 
 export type MutationUpdateItemArgs = {
   accountId: Scalars['String'];
@@ -805,19 +872,16 @@ export type MutationUpdateItemArgs = {
   itemId: Scalars['String'];
 };
 
-
 export type MutationUpdateItemForSaleArgs = {
   accountId: Scalars['String'];
   input: UpdateSaleItemInput;
   itemId: Scalars['String'];
 };
 
-
 export type MutationUpdateItemNumbersArgs = {
   accountId: Scalars['String'];
   input: UpdateItemNumbersInput;
 };
-
 
 export type MutationUpdateSaleArgs = {
   accountId: Scalars['String'];
@@ -849,7 +913,7 @@ export type PageInfo = {
 /** Direction of pagination */
 export enum PaginationDirection {
   Backwards = 'BACKWARDS',
-  Forward = 'FORWARD'
+  Forward = 'FORWARD',
 }
 
 /**
@@ -887,7 +951,7 @@ export enum Permission {
   WriteBidderToken = 'WRITE_BIDDER_TOKEN',
   WriteCancelBid = 'WRITE_CANCEL_BID',
   WriteItem = 'WRITE_ITEM',
-  WriteSale = 'WRITE_SALE'
+  WriteSale = 'WRITE_SALE',
 }
 
 /** Input object for when forcing sale to published. */
@@ -922,11 +986,9 @@ export type Query = {
   salesAggregate: SalesAggregate;
 };
 
-
 export type QueryAccountArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type QueryActionHookLogsArgs = {
   accountId: Scalars['String'];
@@ -935,11 +997,9 @@ export type QueryActionHookLogsArgs = {
   first?: InputMaybe<Scalars['Int']>;
 };
 
-
 export type QueryActionHookSubscriptionsArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type QueryApiTokensArgs = {
   accountId: Scalars['String'];
@@ -947,12 +1007,10 @@ export type QueryApiTokensArgs = {
   first?: InputMaybe<Scalars['Int']>;
 };
 
-
 export type QueryItemArgs = {
   accountId: Scalars['String'];
   itemId: Scalars['String'];
 };
-
 
 export type QueryItemsArgs = {
   accountId: Scalars['String'];
@@ -961,12 +1019,10 @@ export type QueryItemsArgs = {
   itemsFilter: ItemsFilter;
 };
 
-
 export type QuerySaleArgs = {
   accountId: Scalars['String'];
   id: Scalars['ID'];
 };
-
 
 export type QuerySalesArgs = {
   accountId: Scalars['String'];
@@ -974,7 +1030,6 @@ export type QuerySalesArgs = {
   filter?: InputMaybe<SaleFilter>;
   first?: InputMaybe<Scalars['Int']>;
 };
-
 
 export type QuerySalesAggregateArgs = {
   accountId: Scalars['String'];
@@ -1065,13 +1120,11 @@ export type Sale = Node & {
   title?: Maybe<Scalars['String']>;
 };
 
-
 /** Sale */
 export type SaleItemsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 };
-
 
 /** Sale */
 export type SaleParticipantsArgs = {
@@ -1217,7 +1270,7 @@ export enum SaleStatus {
   /** Sale has been published but is not opened for bidding. */
   Published = 'PUBLISHED',
   /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
-  Unpublished = 'UNPUBLISHED'
+  Unpublished = 'UNPUBLISHED',
 }
 
 export type SalesAggregate = {
@@ -1359,6 +1412,25 @@ export type UpdateSaleItemInput = {
   valuationCurrency?: InputMaybe<Scalars['String']>;
 };
 
+/**
+ * A signed jwt token from Basta that is inteded to authenticate a
+ * single user for a websocket connection to get updates based on user context.
+ */
+export type UserToken = {
+  __typename?: 'UserToken';
+  /** Expiration date as string. */
+  expirationDate: Scalars['String'];
+  /** Signed JWT token that can be used for websocket authentication */
+  token: Scalars['String'];
+};
+
+export type UserTokenInput = {
+  /** Time to live for the user token, represented as minutes */
+  ttlMinutes: Scalars['Int'];
+  /** Unique UserID that represents a user in your system. */
+  userID: Scalars['String'];
+};
+
 export type GetSaleQueryVariables = Exact<{
   accountId: Scalars['String'];
   id: Scalars['ID'];
@@ -1367,8 +1439,525 @@ export type GetSaleQueryVariables = Exact<{
   direction?: InputMaybe<PaginationDirection>;
 }>;
 
+export type GetSaleQuery = {
+  __typename?: 'Query';
+  sale: {
+    __typename?: 'Sale';
+    id: string;
+    accountId: string;
+    title?: string | null;
+    description?: string | null;
+    currency?: string | null;
+    status: SaleStatus;
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    items: {
+      __typename?: 'SaleItemsConnection';
+      edges: Array<{
+        __typename?: 'SaleItemsEdge';
+        cursor: string;
+        node: {
+          __typename?: 'SaleItem';
+          id: string;
+          title?: string | null;
+          totalBids: number;
+          description?: string | null;
+          currentBid?: number | null;
+          leaderId?: string | null;
+          saleId: string;
+          reserve?: number | null;
+          startingBid?: number | null;
+          lowEstimate: number;
+          highEstimate: number;
+          itemNumber: number;
+          allowedBidTypes?: Array<BidType> | null;
+          bids: Array<{
+            __typename?: 'Bid';
+            bidId: string;
+            amount: number;
+            userId: string;
+            date: string;
+            bidStatus?: BidStatus | null;
+            maxAmount: number;
+            bidSequenceNumber: number;
+          }>;
+          dates: {
+            __typename?: 'ItemDates';
+            closingStart?: string | null;
+            closingEnd?: string | null;
+          };
+        };
+      }>;
+      pageInfo: {
+        __typename?: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+    incrementTable?: {
+      __typename?: 'BidIncrementTable';
+      rules: Array<{
+        __typename?: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename?: 'SaleDates';
+      closingDate?: string | null;
+      openDate?: string | null;
+    };
+    participants: {
+      __typename?: 'ParticipantsConnection';
+      totalCount: number;
+      edges: Array<{
+        __typename?: 'ParticipantsEdge';
+        cursor: string;
+        node: { __typename?: 'Participant'; userId: string };
+      }>;
+      pageInfo: {
+        __typename?: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+  };
+};
 
-export type GetSaleQuery = { __typename?: 'Query', sale: { __typename?: 'Sale', id: string, accountId: string, title?: string | null, description?: string | null, currency?: string | null, status: SaleStatus, closingMethod?: ClosingMethod | null, closingTimeCountdown: number, items: { __typename?: 'SaleItemsConnection', edges: Array<{ __typename?: 'SaleItemsEdge', cursor: string, node: { __typename?: 'SaleItem', id: string, title?: string | null, totalBids: number, description?: string | null, currentBid?: number | null, leaderId?: string | null, saleId: string, reserve?: number | null, startingBid?: number | null, lowEstimate: number, highEstimate: number, itemNumber: number, allowedBidTypes?: Array<BidType> | null, bids: Array<{ __typename?: 'Bid', bidId: string, amount: number, userId: string, date: string, bidStatus?: BidStatus | null, maxAmount: number, bidSequenceNumber: number }>, dates: { __typename?: 'ItemDates', closingStart?: string | null, closingEnd?: string | null } } }>, pageInfo: { __typename?: 'PageInfo', startCursor: string, endCursor: string, hasNextPage: boolean } }, incrementTable?: { __typename?: 'BidIncrementTable', rules: Array<{ __typename?: 'RangeRule', highRange: number, lowRange: number, step: number }> } | null, dates: { __typename?: 'SaleDates', closingDate?: string | null, openDate?: string | null }, participants: { __typename?: 'ParticipantsConnection', totalCount: number, edges: Array<{ __typename?: 'ParticipantsEdge', cursor: string, node: { __typename?: 'Participant', userId: string } }>, pageInfo: { __typename?: 'PageInfo', startCursor: string, endCursor: string, hasNextPage: boolean } } } };
-
-
-export const GetSaleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSale"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"accountId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"direction"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationDirection"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sale"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"accountId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"accountId"}}},{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"accountId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"closingMethod"}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"totalBids"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"currentBid"}},{"kind":"Field","name":{"kind":"Name","value":"leaderId"}},{"kind":"Field","name":{"kind":"Name","value":"saleId"}},{"kind":"Field","name":{"kind":"Name","value":"reserve"}},{"kind":"Field","name":{"kind":"Name","value":"startingBid"}},{"kind":"Field","name":{"kind":"Name","value":"lowEstimate"}},{"kind":"Field","name":{"kind":"Name","value":"highEstimate"}},{"kind":"Field","name":{"kind":"Name","value":"itemNumber"}},{"kind":"Field","name":{"kind":"Name","value":"bids"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bidId"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"bidStatus"}},{"kind":"Field","name":{"kind":"Name","value":"maxAmount"}},{"kind":"Field","name":{"kind":"Name","value":"bidSequenceNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"closingStart"}},{"kind":"Field","name":{"kind":"Name","value":"closingEnd"}}]}},{"kind":"Field","name":{"kind":"Name","value":"allowedBidTypes"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"incrementTable"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rules"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"highRange"}},{"kind":"Field","name":{"kind":"Name","value":"lowRange"}},{"kind":"Field","name":{"kind":"Name","value":"step"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"dates"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"closingDate"}},{"kind":"Field","name":{"kind":"Name","value":"openDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"closingTimeCountdown"}},{"kind":"Field","name":{"kind":"Name","value":"participants"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursor"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursor"}}},{"kind":"Argument","name":{"kind":"Name","value":"direction"},"value":{"kind":"Variable","name":{"kind":"Name","value":"direction"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cursor"}},{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startCursor"}},{"kind":"Field","name":{"kind":"Name","value":"endCursor"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetSaleQuery, GetSaleQueryVariables>;
+export const GetSaleDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSale' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'take' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'cursor' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'direction' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'PaginationDirection' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'sale' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accountId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'closingMethod' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'title' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'totalBids' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'description',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'currentBid' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'leaderId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'saleId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'reserve' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'startingBid',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'lowEstimate',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'highEstimate',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'itemNumber' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bids' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bidId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'amount',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'userId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'date' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bidStatus',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'maxAmount',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'bidSequenceNumber',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'dates' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'closingStart',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'closingEnd',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'allowedBidTypes',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageInfo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'startCursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'endCursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'hasNextPage' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'incrementTable' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'rules' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'highRange' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lowRange' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'step' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'dates' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'closingDate' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'openDate' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'closingTimeCountdown' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'participants' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'take' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'take' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'cursor' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'cursor' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'direction' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'direction' },
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'edges' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'node' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'userId' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageInfo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'startCursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'endCursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'hasNextPage' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetSaleQuery, GetSaleQueryVariables>;

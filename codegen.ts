@@ -20,6 +20,7 @@ const config: CodegenConfig = {
       overwrite: true,
       documents: 'src/gql/**/*.graphql',
       preset: 'client',
+      hooks: { afterOneFileWrite: ['prettier --write'] },
     },
   },
 };

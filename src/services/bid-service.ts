@@ -13,6 +13,7 @@ export class BidService implements IBidService {
   placeBid(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
+
   placeOffer(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
