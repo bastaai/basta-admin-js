@@ -1,13 +1,12 @@
 import { Sale } from '../../types';
 import { ISaleService } from '../../types/sdk';
+import { BastaReqHeaders } from '../../types/req-headers';
+import { GET_SALE } from '../gql/generated/operations';
 import {
-  Get_Sale,
   Get_SaleQueryVariables,
   Get_SaleQuery,
   SaleStatus,
-} from '../gql/generated';
-import { print } from 'graphql';
-import { BastaReqHeaders } from '../../types/req-headers';
+} from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
   protected readonly _url: string;
@@ -23,7 +22,6 @@ export class SaleService implements ISaleService {
   }
 
   async get(): Promise<Sale> {
-    const query = print(Get_Sale);
     const variables: Get_SaleQueryVariables = {
       accountId: '69',
       id: '420',
@@ -33,7 +31,7 @@ export class SaleService implements ISaleService {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        query: query,
+        query: GET_SALE,
         variables: variables,
       }),
     });
