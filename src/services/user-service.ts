@@ -1,4 +1,4 @@
-import { BastaReqHeaders } from '../../types/req-headers';
+import { BastaFetchReq } from '../../types/request';
 import { IUserService } from '../../types/sdk';
 import { UserToken } from '../../types/user';
 import { CREATE_USER_TOKEN } from '../gql/generated/operations';
@@ -8,12 +8,10 @@ import {
 } from '../gql/generated/types';
 
 export class UserService implements IUserService {
-  protected readonly _url: string;
-  protected readonly _headers: BastaReqHeaders;
+  protected readonly _fetchReq: BastaFetchReq;
 
-  constructor(url: string, headers: BastaReqHeaders) {
-    this._url = url;
-    this._headers = headers;
+  constructor(fetchReq: BastaFetchReq) {
+    this._fetchReq = fetchReq;
   }
 
   async refreshUserToken(): Promise<UserToken> {
@@ -25,9 +23,9 @@ export class UserService implements IUserService {
       },
     };
 
-    const res = await fetch(this._url, {
+    const res = await fetch(this._fetchReq.url, {
       method: 'POST',
-      headers: this._headers,
+      headers: this._fetchReq.headers,
       body: JSON.stringify({
         query: CREATE_USER_TOKEN,
         variables: variables,

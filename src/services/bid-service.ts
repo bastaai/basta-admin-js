@@ -1,13 +1,11 @@
-import { BastaReqHeaders } from '../../types/req-headers';
+import { BastaFetchReq } from '../../types/request';
 import { IBidService } from '../../types/sdk';
 
 export class BidService implements IBidService {
-  protected readonly _url: string;
-  protected readonly _headers: BastaReqHeaders;
+  protected readonly _fetchReq: BastaFetchReq;
 
-  constructor(url: string, headers: BastaReqHeaders) {
-    this._url = url;
-    this._headers = headers;
+  constructor(fetchReq: BastaFetchReq) {
+    this._fetchReq = fetchReq;
   }
 
   placeBid(): Promise<boolean> {

@@ -1,6 +1,6 @@
 import { Sale } from '../../types';
 import { ISaleService } from '../../types/sdk';
-import { BastaReqHeaders } from '../../types/req-headers';
+import { BastaFetchReq } from '../../types/request';
 import { GET_SALE } from '../gql/generated/operations';
 import {
   Get_SaleQueryVariables,
@@ -9,12 +9,10 @@ import {
 } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
-  protected readonly _url: string;
-  protected readonly _headers: BastaReqHeaders;
+  protected readonly _fetchReq: BastaFetchReq;
 
-  constructor(url: string, headers: BastaReqHeaders) {
-    this._url = url;
-    this._headers = headers;
+  constructor(fetchReq: BastaFetchReq) {
+    this._fetchReq = fetchReq;
   }
 
   create(): Promise<Sale> {
@@ -27,9 +25,9 @@ export class SaleService implements ISaleService {
       id: '420',
     };
 
-    const res = await fetch(this._url, {
+    const res = await fetch(this._fetchReq.url, {
       method: 'POST',
-      headers: this._headers,
+      headers: this._fetchReq.headers,
       body: JSON.stringify({
         query: GET_SALE,
         variables: variables,
