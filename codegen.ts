@@ -19,7 +19,7 @@ const config: CodegenConfig = {
     // Generate types for schema and operations
     './src/gql/generated/types.ts': {
       overwrite: true,
-      documents: 'src/gql/**/*.graphql',
+      documents: 'gql/**/*.graphql',
       plugins: ['typescript', 'typescript-operations'],
       config: {
         preResolveTypes: true,
@@ -29,7 +29,7 @@ const config: CodegenConfig = {
     // Generate raw operations to strings
     './src/gql/generated/operations.ts': {
       overwrite: true,
-      documents: 'src/gql/**/*.graphql',
+      documents: 'gql/**/*.graphql',
       plugins: ['codegen-operations-plugin.js'],
       hooks: { afterOneFileWrite: ['prettier --write'] },
     },

@@ -1,4 +1,4 @@
-import { Maybe, Scalars } from '../src/gql/generated';
+import { Maybe, Scalars } from '../src/gql/generated/types';
 
 export type ToPrimitive<T> = Omit<
   ReplaceScalars<ReplaceMaybe<T>>,
