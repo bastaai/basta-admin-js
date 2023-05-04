@@ -31,8 +31,4 @@ export class BastaAdmin implements IBastaAdmin {
     this.bid = new BidService(this._url, this._headers);
     this.user = new UserService(this._url, this._headers);
   }
-
-  refreshUserToken(): Promise<'string' | null> {
-    throw new Error('Method not implemented.');
-  }
 }

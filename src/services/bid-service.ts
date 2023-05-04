@@ -9,9 +9,11 @@ export class BidService implements IBidService {
     this._url = url;
     this._headers = headers;
   }
+
   placeBid(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
+
   placeOffer(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }

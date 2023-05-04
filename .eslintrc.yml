@@ -11,6 +11,10 @@ env:
   node: true
   jest: true
 rules:
+  lines-between-class-members:
+    - 1
+    - always
+    - exceptAfterSingleLine: true
   no-console: 0
   func-style: 2
   prefer-spread: 0
