@@ -1,4 +1,4 @@
-import { Sale as SaleGql } from '../src/gql/generated/graphql';
+import { Sale as SaleGql } from '../src/gql/generated';
 import { ToPrimitive } from './utils';
 
 /**

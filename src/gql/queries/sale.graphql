@@ -1,4 +1,4 @@
-query GetSale(
+query GET_SALE(
   $accountId: String!
   $id: ID!
   $take: Int

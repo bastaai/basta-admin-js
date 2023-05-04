@@ -1,4 +1,4 @@
-import { Maybe, Scalars } from '../src/gql/generated/graphql';
+import { Maybe, Scalars } from '../src/gql/generated';
 
 export type ToPrimitive<T> = Omit<
   ReplaceScalars<ReplaceMaybe<T>>,

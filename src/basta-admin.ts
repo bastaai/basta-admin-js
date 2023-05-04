@@ -1,6 +1,5 @@
 import { IBastaAdmin, IBidService, ISaleService } from '../types/sdk';
 import { BidService } from './services/bid-service';
-
 import { SaleService } from './services/sale-service';
 
 export class BastaAdmin implements IBastaAdmin {

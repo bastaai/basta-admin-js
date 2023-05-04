@@ -1,11 +1,11 @@
 import { Sale } from '../../types';
 import { ISaleService } from '../../types/sdk';
 import {
-  GetSaleDocument,
-  GetSaleQueryVariables,
-  GetSaleQuery,
+  Get_Sale,
+  Get_SaleQueryVariables,
+  Get_SaleQuery,
   SaleStatus,
-} from '../gql/generated/graphql';
+} from '../gql/generated';
 import { print } from 'graphql';
 import { BastaReqHeaders } from '../../types/req-headers';
 
@@ -23,8 +23,8 @@ export class SaleService implements ISaleService {
   }
 
   async get(): Promise<Sale> {
-    const query = print(GetSaleDocument);
-    const variables: GetSaleQueryVariables = {
+    const query = print(Get_Sale);
+    const variables: Get_SaleQueryVariables = {
       accountId: '69',
       id: '420',
     };
@@ -38,7 +38,7 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const data: GetSaleQuery = await res.json();
+    const data: Get_SaleQuery = await res.json();
 
     const sale: Sale = {
       id: data.sale.id,

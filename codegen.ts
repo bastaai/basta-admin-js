@@ -16,10 +16,17 @@ const config: CodegenConfig = {
     },
   ],
   generates: {
-    './src/gql/generated/': {
+    './src/gql/generated.ts': {
       overwrite: true,
       documents: 'src/gql/**/*.graphql',
-      preset: 'client',
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-document-nodes',
+      ],
+      config: {
+        preResolveTypes: true,
+      },
       hooks: { afterOneFileWrite: ['prettier --write'] },
     },
   },
