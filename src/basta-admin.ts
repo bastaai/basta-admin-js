@@ -1,10 +1,17 @@
-import { IBastaAdmin, IBidService, ISaleService } from '../types/sdk';
+import {
+  IBastaAdmin,
+  IBidService,
+  ISaleService,
+  IUserService,
+} from '../types/sdk';
 import { BidService } from './services/bid-service';
 import { SaleService } from './services/sale-service';
+import { UserService } from './services/user-service';
 
 export class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
   readonly bid: IBidService;
+  readonly user: IUserService;
 
   protected readonly _url: string;
   protected readonly _headers: {
@@ -22,6 +29,7 @@ export class BastaAdmin implements IBastaAdmin {
 
     this.sale = new SaleService(this._url, this._headers);
     this.bid = new BidService(this._url, this._headers);
+    this.user = new UserService(this._url, this._headers);
   }
 
   refreshUserToken(): Promise<'string' | null> {

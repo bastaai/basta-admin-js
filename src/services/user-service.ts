@@ -1,7 +1,7 @@
 import { BastaReqHeaders } from '../../types/req-headers';
-import { IBidService } from '../../types/sdk';
+import { IUserService } from '../../types/sdk';
 
-export class BidService implements IBidService {
+export class UserService implements IUserService {
   protected readonly _url: string;
   protected readonly _headers: BastaReqHeaders;
 
@@ -9,10 +9,8 @@ export class BidService implements IBidService {
     this._url = url;
     this._headers = headers;
   }
-  placeBid(): Promise<boolean> {
-    throw new Error('Method not implemented.');
-  }
-  placeOffer(): Promise<boolean> {
+
+  refreshUserToken(): Promise<'string' | null> {
     throw new Error('Method not implemented.');
   }
 }
