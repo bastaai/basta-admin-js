@@ -1,8 +1,8 @@
 import { BastaRequest } from '../types/request';
 import {
   IBastaAdmin,
-  IBidService,
   ISaleService,
+  IBidService,
   IUserService,
 } from '../types/sdk';
 import { BidService } from './services/bid-service';
@@ -19,8 +19,7 @@ export class BastaAdmin implements IBastaAdmin {
   constructor(secretKey: string, accountId: string) {
     this._bastaReq = {
       accountId: accountId,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      url: process.env.BASTA_MANAGEMENT_API_URL!,
+      url: 'https://management.api.stage.basta.ai/graphql',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,

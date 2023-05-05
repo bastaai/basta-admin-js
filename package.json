@@ -3,11 +3,12 @@
   "version": "0.1.0-beta.2",
   "description": "A private SDK for managing Basta auctions and performing advanced operations with ease. Designed for secure server-side use with private key authentication.",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
-  "typings": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "author": "Basta (https://www.basta.ai)",
   "homepage": "https://docs.basta.ai",
   "license": "UNLICENSED",
+  "keywords": ["Basta", "Basta.ai", "Basta Admin SDK", "basta-admin-js"],
+  "files": ["dist"],
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rm -rf dist",
@@ -18,16 +19,6 @@
     "lint:fix": "eslint '{src,types}/**/*.ts' --fix && prettier './**/*.{ts,md,html,css}' --write",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.ts --verbose"
   },
-  "keywords": [
-    "Basta",
-    "Basta.ai",
-    "Basta Admin SDK",
-    "basta-admin-js"
-  ],
-  "files": [
-    "dist",
-    "types"
-  ],
   "devDependencies": {
     "@graphql-codegen/cli": "^3.3.1",
     "@graphql-codegen/client-preset": "^3.0.1",

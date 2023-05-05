@@ -1,2 +1,4 @@
-export * from './basta-admin';
-export * from '../types/sale';
+import { BastaAdmin } from './basta-admin';
+
+export { Sale } from '../types/sale';
+export default BastaAdmin;

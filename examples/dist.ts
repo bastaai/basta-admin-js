@@ -1,5 +1,5 @@
-import { BastaAdmin, Sale } from '../dist';
+import BastaAdmin, { Sale } from '../dist';
 
-const bastaAdmin: BastaAdmin = new BastaAdmin('sk');
+const bastaAdmin: BastaAdmin = new BastaAdmin('sk', 'accid');
 
 const sale: Sale = await bastaAdmin.sale.create();

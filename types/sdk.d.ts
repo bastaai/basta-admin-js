@@ -1,7 +1,7 @@
 import { Sale } from './sale';
 import { UserToken } from './user';
 
-export interface IBastaAdmin {
+interface IBastaAdmin {
   sale: ISaleService;
   bid: IBidService;
   user: IUserService;
