@@ -1,4 +1,4 @@
-import BastaAdmin, { Sale } from '../dist';
+import BastaAdmin, { Sale } from '../dist/src';
 
 const bastaAdmin: BastaAdmin = new BastaAdmin('sk', 'accid');
 

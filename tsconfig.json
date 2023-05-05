@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "rootDir": "src",
-    "outDir": "dist",
-    "declarationDir": "dist",
-    "declaration": true,
-    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "ES2019",
+    "module": "ES2020",
     "moduleResolution": "node",
+    "declaration": false,
+    "esModuleInterop": true,
     "strict": true,
     "allowJs": false,
-    "esModuleInterop": true,
-    "removeComments": false,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+  "include": ["src/**/*"]
 }

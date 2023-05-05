@@ -1,10 +1,10 @@
-import { BastaRequest } from '../types/request';
-import { IUserService } from '../types/sdk';
-import { UserToken } from '../types/user';
+import { BastaRequest } from '../../types/request';
+import { IUserService } from '../../types/sdk';
 import { CREATE_USER_TOKEN } from '../gql/generated/operations';
 import {
   Create_User_TokenMutation,
   Create_User_TokenMutationVariables,
+  UserToken,
 } from '../gql/generated/types';
 
 export class UserService implements IUserService {
