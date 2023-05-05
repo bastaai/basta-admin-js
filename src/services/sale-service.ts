@@ -1,12 +1,12 @@
-import { ISaleService } from '../../types/sdk';
+import { ISaleService } from '../types/sdk';
 import { GET_SALE } from '../gql/generated/operations';
 import {
   Get_SaleQueryVariables,
   Get_SaleQuery,
   SaleStatus,
 } from '../gql/generated/types';
-import { Sale } from '../../types/sale';
-import { BastaRequest } from '../../types/request';
+import { Sale } from '../types/sale';
+import { BastaRequest } from '../types/request';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;

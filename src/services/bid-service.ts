@@ -1,5 +1,5 @@
-import { BastaRequest } from '../../types/request';
-import { IBidService } from '../../types/sdk';
+import { BastaRequest } from '../types/request';
+import { IBidService } from '../types/sdk';
 
 export class BidService implements IBidService {
   protected readonly _bastaReq: BastaRequest;

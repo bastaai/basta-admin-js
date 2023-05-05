@@ -1,10 +1,10 @@
-import { BastaRequest } from '../types/request';
+import { BastaRequest } from './types/request';
 import {
   IBastaAdmin,
   ISaleService,
   IBidService,
   IUserService,
-} from '../types/sdk';
+} from './types/sdk';
 import { BidService } from './services/bid-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
@@ -32,5 +32,5 @@ class BastaAdmin implements IBastaAdmin {
   }
 }
 
-export { Sale } from '../types/sale';
+export { Sale } from './types/sale';
 export default BastaAdmin;
