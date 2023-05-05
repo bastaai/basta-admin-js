@@ -14,7 +14,7 @@ class BastaAdmin implements IBastaAdmin {
   readonly bid: IBidService;
   readonly user: IUserService;
 
-  protected readonly _bastaReq: BastaRequest;
+  private readonly _bastaReq: BastaRequest;
 
   constructor(secretKey: string, accountId: string) {
     this._bastaReq = {
@@ -33,4 +33,5 @@ class BastaAdmin implements IBastaAdmin {
 }
 
 export { Sale } from '../types/sale';
+export * from '../types/sdk';
 export default BastaAdmin;
