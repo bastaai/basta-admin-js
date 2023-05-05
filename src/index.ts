@@ -33,10 +33,8 @@ class BastaAdmin implements IBastaAdmin {
 }
 
 export { Sale } from '../types/sale';
-export {
-  IBastaAdmin,
-  IBidService,
-  ISaleService,
-  IUserService,
-} from '../types/sdk';
+export { BidService } from './services/bid-service';
+export { SaleService } from './services/sale-service';
+export { UserService } from './services/user-service';
+
 export default BastaAdmin;
