@@ -1,7 +1,53 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "A private SDK for managing Basta auctions and performing advanced operations with ease. Designed for secure server-side use with private key authentication.",
-  "main": "index.js",
-  "license": "UNLICENSED"
+  "main": "dist/basta-admin.js",
+  "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
+  "author": "Basta (https://www.basta.ai)",
+  "homepage": "https://docs.basta.ai",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "test": "npm lint && npm test:unit && npm typecheck",
+    "test:unit": "jest",
+    "typecheck": "tsc",
+    "lint": "eslint '{src,types}/**/*.ts' && prettier './**/*.{ts,md,html,css}' --check",
+    "lint:fix": "eslint '{src,types}/**/*.ts' --fix && prettier './**/*.{ts,md,html,css}' --write",
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts --verbose"
+  },
+  "keywords": [
+    "Basta",
+    "Basta.ai",
+    "Basta Admin SDK",
+    "basta-admin-js"
+  ],
+  "files": [
+    "dist",
+    "types"
+  ],
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.1",
+    "@graphql-codegen/client-preset": "^3.0.1",
+    "@graphql-codegen/typescript": "^3.0.4",
+    "@graphql-codegen/typescript-document-nodes": "^3.0.4",
+    "@graphql-codegen/typescript-operations": "^3.0.4",
+    "@graphql-eslint/eslint-plugin": "^3.18.0",
+    "@types/jest": "^29.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "graphql": "^16.6.0",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  }
 }

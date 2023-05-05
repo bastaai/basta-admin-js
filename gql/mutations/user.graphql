@@ -1,0 +1,7 @@
+mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
+  createUserTokenV2(accountId: $accountId, input: $input) {
+    __typename
+    token
+    expirationDate
+  }
+}
