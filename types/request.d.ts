@@ -1,4 +1,4 @@
-export type BastaFetchReq = {
+export type BastaRequest = {
   url: string;
   headers: {
     'Content-Type': string;

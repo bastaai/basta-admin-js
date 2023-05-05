@@ -1,4 +1,4 @@
-import { BastaFetchReq } from '../types/request';
+import { BastaRequest } from '../types/request';
 import {
   IBastaAdmin,
   IBidService,
@@ -14,11 +14,11 @@ export class BastaAdmin implements IBastaAdmin {
   readonly bid: IBidService;
   readonly user: IUserService;
 
-  protected readonly _fetchReq: BastaFetchReq;
+  protected readonly _bastaReq: BastaRequest;
 
-  constructor(secretKey: string) {
-    this._fetchReq = {
-      accountId: '69',
+  constructor(secretKey: string, accountId: string) {
+    this._bastaReq = {
+      accountId: accountId,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       url: process.env.BASTA_MANAGEMENT_API_URL!,
       headers: {
@@ -27,8 +27,8 @@ export class BastaAdmin implements IBastaAdmin {
       },
     };
 
-    this.sale = new SaleService(this._fetchReq);
-    this.bid = new BidService(this._fetchReq);
-    this.user = new UserService(this._fetchReq);
+    this.sale = new SaleService(this._bastaReq);
+    this.bid = new BidService(this._bastaReq);
+    this.user = new UserService(this._bastaReq);
   }
 }
