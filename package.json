@@ -1,6 +1,6 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "A private SDK for managing Basta auctions and performing advanced operations with ease. Designed for secure server-side use with private key authentication.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
