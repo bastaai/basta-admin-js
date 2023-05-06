@@ -9,6 +9,10 @@ import { BidService } from './services/bid-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
 
+export const initBasta = (secretKey: string, accountId: string) => {
+  return new BastaAdmin(secretKey, accountId);
+};
+
 class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
   readonly bid: IBidService;
@@ -31,5 +35,3 @@ class BastaAdmin implements IBastaAdmin {
     this.user = new UserService(this._bastaReq);
   }
 }
-
-export default BastaAdmin;

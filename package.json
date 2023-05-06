@@ -8,10 +8,8 @@
   "homepage": "https://docs.basta.ai",
   "license": "UNLICENSED",
   "keywords": [
-    "Basta",
     "Basta.ai",
-    "Basta Admin SDK",
-    "basta-admin-js"
+    "Basta Admin SDK"
   ],
   "files": [
     "dist",
