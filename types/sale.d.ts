@@ -1,6 +1,10 @@
-import { Sale as SaleGql } from '../src/gql/generated/types';
+import {
+  Sale as SaleGql,
+  SaleStatus as SaleStatusGql,
+} from '../src/gql/generated/types';
 import { ToPrimitive } from './utils';
-/**
- * The Basta sale object.
- */
+
+// Sale
 export type Sale = ToPrimitive<SaleGql>;
+// Sale status
+export { SaleStatusGql as SaleStatus };
