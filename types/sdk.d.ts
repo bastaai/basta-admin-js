@@ -6,23 +6,15 @@ export interface IBastaAdmin {
   user: IUserService;
 }
 export interface IBidService {
-  /**
-   * Places a bid on a Basta item.
-   */
+  /** Places a bid on a Basta item. */
   placeBid(): Promise<boolean>;
-  /**
-   * Places an offer on a Basta item.
-   */
+  /** Places an offer on a Basta item. */
   placeOffer(): Promise<boolean>;
 }
 export interface ISaleService {
-  /**
-   * Creates a Basta sale.
-   */
+  /** Creates a Basta sale. */
   create(): Promise<Sale>;
-  /**
-   * Gets a Basta sale.
-   */
+  /** Gets a Basta sale. */
   get(): Promise<Sale>;
 }
 export interface IUserService {

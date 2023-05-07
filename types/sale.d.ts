@@ -1,10 +1,4 @@
-import {
-  Sale as SaleGql,
-  SaleStatus as SaleStatusGql,
-} from '../src/gql/generated/types';
-import { ToPrimitive } from './utils';
+import { Sale, SaleStatus } from '../src/gql/generated/types';
 
-// Sale
-export type Sale = ToPrimitive<SaleGql>;
-// Sale status
-export { SaleStatusGql as SaleStatus };
+export { Sale };
+export { SaleStatus };
