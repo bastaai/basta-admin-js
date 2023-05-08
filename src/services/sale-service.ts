@@ -2,11 +2,7 @@ import { BastaRequest } from '../../types/request';
 import { Sale } from '../../types/sale';
 import { ISaleService } from '../../types/sdk';
 import { GET_SALE } from '../gql/generated/operations';
-import {
-  Get_SaleQueryVariables,
-  Get_SaleQuery,
-  SaleStatus,
-} from '../gql/generated/types';
+import { Get_SaleQueryVariables, Get_SaleQuery } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;
@@ -19,10 +15,10 @@ export class SaleService implements ISaleService {
     throw new Error('Method not implemented.');
   }
 
-  async get(): Promise<Sale> {
+  async get(saleId: string): Promise<Sale> {
     const variables: Get_SaleQueryVariables = {
-      accountId: '69',
-      id: '420',
+      id: saleId,
+      accountId: this._bastaReq.accountId,
     };
 
     const res = await fetch(this._bastaReq.url, {
@@ -36,6 +32,13 @@ export class SaleService implements ISaleService {
 
     const data: Get_SaleQuery = await res.json();
 
-    throw new Error('Not implemented.');
+    const sale: Sale = {
+      id: data.sale.id,
+      accountId: data.sale.accountId,
+      closingTimeCountdown: data.sale.closingTimeCountdown,
+      dates: data.sale.dates,
+    };
+
+    return sale;
   }
 }

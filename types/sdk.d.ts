@@ -27,7 +27,7 @@ export interface ISaleService {
   /** Creates a Basta sale. */
   create(): Promise<Sale>;
   /** Gets a Basta sale. */
-  get(): Promise<Sale>;
+  get(saleId: string): Promise<Sale>;
 }
 export interface IUserService {
   /**
