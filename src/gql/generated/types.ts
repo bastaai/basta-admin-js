@@ -1429,6 +1429,18 @@ export type UserTokenInput = {
   userID: Scalars['String'];
 };
 
+export type Bid_On_ItemMutationVariables = Exact<{
+  accountId: Scalars['String'];
+  input: BidOnItemInput;
+}>;
+
+export type Bid_On_ItemMutation = {
+  __typename?: 'Mutation';
+  bidOnItemV2:
+    | { __typename: 'BidPlacedError' }
+    | { __typename: 'BidPlacedSuccess' };
+};
+
 export type Create_User_TokenMutationVariables = Exact<{
   accountId: Scalars['String'];
   input: UserTokenInput;

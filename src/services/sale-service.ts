@@ -36,41 +36,6 @@ export class SaleService implements ISaleService {
 
     const data: Get_SaleQuery = await res.json();
 
-    const sale: Sale = {
-      id: data.sale.id,
-      accountId: '',
-      closingTimeCountdown: 0,
-      dates: {
-        __typename: undefined,
-        closingDate: undefined,
-        openDate: undefined,
-      },
-      images: [],
-      items: {
-        __typename: undefined,
-        edges: [],
-        pageInfo: {
-          __typename: undefined,
-          endCursor: '',
-          hasNextPage: false,
-          startCursor: '',
-        },
-      },
-      participants: {
-        __typename: undefined,
-        edges: [],
-        pageInfo: {
-          __typename: undefined,
-          endCursor: '',
-          hasNextPage: false,
-          startCursor: '',
-        },
-        totalCount: 0,
-      },
-      sequenceNumber: 0,
-      status: SaleStatus.Closed,
-    };
-
-    return sale;
+    throw new Error('Not implemented.');
   }
 }

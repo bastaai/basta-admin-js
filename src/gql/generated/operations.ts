@@ -1,3 +1,9 @@
+export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
+  bidOnItemV2(accountId: $accountId, input: $input) {
+    __typename
+  }
+}`;
+
 export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
   createUserTokenV2(accountId: $accountId, input: $input) {
     __typename
