@@ -1,7 +1,7 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.22",
-  "description": "A private SDK for managing Basta auctions and performing advanced operations with ease. Designed for secure server-side use with private key authentication.",
+  "version": "0.1.0-beta.23",
+  "description": "Basta Admin SDK is a specialized toolkit, designed with the purpose of facilitating the management and execution of Basta auctions.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "author": "Basta (https://www.basta.ai)",
