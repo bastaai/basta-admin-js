@@ -4,6 +4,7 @@ export type BastaRequest = {
   headers: {
     'Content-Type': string;
     'x-api-key': string;
+    'x-account-id': string;
   };
   accountId: string;
 };

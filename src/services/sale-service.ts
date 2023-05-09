@@ -1,6 +1,6 @@
 import { BastaRequest } from '../../types/request';
 import { Sale } from '../../types/sale';
-import { ISaleService } from '../../types/sdk';
+import { BastaResponse, ISaleService } from '../../types/sdk';
 import { GET_SALE } from '../gql/generated/operations';
 import { Get_SaleQueryVariables, Get_SaleQuery } from '../gql/generated/types';
 
@@ -26,8 +26,12 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const data: Get_SaleQuery = await res.json();
+    const json: BastaResponse<{
+      sale: Get_SaleQuery;
+    }> = await res.json();
 
-    return data.sale;
+    const sanitized = JSON.parse(JSON.stringify(json.data.sale));
+
+    return sanitized;
   }
 }

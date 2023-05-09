@@ -23,10 +23,11 @@ class BastaAdmin implements IBastaAdmin {
   constructor(secretKey: string, accountId: string) {
     this._bastaReq = {
       accountId: accountId,
-      url: 'https://management.api.stage.basta.ai/graphql',
+      url: 'https://management.api.basta.ai/graphql',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,
+        'x-account-id': accountId,
       },
     };
 

@@ -2,7 +2,11 @@ import { Sale } from './sale';
 import { UserToken } from './user';
 import { BidType } from './bid';
 
-type BidArgs = {
+export type BastaResponse<T> = {
+  data: T;
+};
+
+export type BidArgs = {
   amount: number;
   bidType: BidType;
   itemId: string;
