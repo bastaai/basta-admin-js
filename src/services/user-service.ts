@@ -1,5 +1,5 @@
 import { BastaRequest } from '../../types/request';
-import { IUserService } from '../../types/sdk';
+import { BastaResponse, IUserService } from '../../types/sdk';
 import { CREATE_USER_TOKEN } from '../gql/generated/operations';
 import {
   Create_User_TokenMutation,
@@ -38,11 +38,14 @@ export class UserService implements IUserService {
       }),
     });
 
-    const data: Create_User_TokenMutation = await res.json();
+    const json: BastaResponse<{
+      createUserTokenV2: Create_User_TokenMutation;
+    }> = await res.json();
+    const sanitized = JSON.parse(JSON.stringify(json.data.createUserTokenV2));
 
     return {
-      expirationDate: data.createUserTokenV2.expirationDate,
-      token: data.createUserTokenV2.token,
+      expirationDate: sanitized.createUserTokenV2.expirationDate,
+      token: sanitized.createUserTokenV2.token,
     };
   }
 }

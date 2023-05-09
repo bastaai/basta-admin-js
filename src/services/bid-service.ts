@@ -1,5 +1,5 @@
 import { BastaRequest } from '../../types/request';
-import { BidArgs, IBidService } from '../../types/sdk';
+import { BastaResponse, BidArgs, IBidService } from '../../types/sdk';
 import { BID_ON_ITEM } from '../gql/generated/operations';
 import {
   BidPlaced,
@@ -92,8 +92,9 @@ export class BidService implements IBidService {
       }),
     });
 
-    const data: BidPlaced = await res.json();
+    const json: BastaResponse<{ bidOnItemV2: BidPlaced }> = await res.json();
+    const sanitized = JSON.parse(JSON.stringify(json.data.bidOnItemV2));
 
-    return data.__typename === 'BidPlacedSuccess';
+    return sanitized.__typename === 'BidPlacedSuccess';
   }
 }
