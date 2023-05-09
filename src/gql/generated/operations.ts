@@ -1,3 +1,9 @@
+export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
+  bidOnItemV2(accountId: $accountId, input: $input) {
+    __typename
+  }
+}`;
+
 export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
   createUserTokenV2(accountId: $accountId, input: $input) {
     __typename
@@ -15,6 +21,13 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
     currency
     status
     closingMethod
+    closingTimeCountdown
+    sequenceNumber
+    images {
+      id
+      url
+      order
+    }
     items {
       edges {
         cursor
@@ -31,6 +44,13 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           lowEstimate
           highEstimate
           itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
           bids {
             bidId
             amount
@@ -44,7 +64,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
             closingStart
             closingEnd
           }
-          allowedBidTypes
         }
       }
       pageInfo {
@@ -64,7 +83,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
       closingDate
       openDate
     }
-    closingTimeCountdown
     participants(take: $take, cursor: $cursor, direction: $direction) {
       edges {
         cursor
