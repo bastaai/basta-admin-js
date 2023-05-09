@@ -1,7 +1,5 @@
 module.exports = {
-  /**
-   * Custom plugin that outputs raw operations strings so we can achieve zero dependency.
-   */
+  /** Custom plugin that outputs raw operations strings so we can achieve zero dependency. */
   plugin(_, documents) {
     return documents
       .map((doc) => {
