@@ -21,6 +21,13 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
     currency
     status
     closingMethod
+    closingTimeCountdown
+    sequenceNumber
+    images {
+      id
+      url
+      order
+    }
     items {
       edges {
         cursor
@@ -37,6 +44,13 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           lowEstimate
           highEstimate
           itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
           bids {
             bidId
             amount
@@ -50,7 +64,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
             closingStart
             closingEnd
           }
-          allowedBidTypes
         }
       }
       pageInfo {
@@ -70,7 +83,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
       closingDate
       openDate
     }
-    closingTimeCountdown
     participants(take: $take, cursor: $cursor, direction: $direction) {
       edges {
         cursor

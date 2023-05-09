@@ -11,10 +11,6 @@ export class SaleService implements ISaleService {
     this._bastaReq = bastaReq;
   }
 
-  create(): Promise<Sale> {
-    throw new Error('Method not implemented.');
-  }
-
   async get(saleId: string): Promise<Sale> {
     const variables: Get_SaleQueryVariables = {
       id: saleId,
@@ -32,15 +28,6 @@ export class SaleService implements ISaleService {
 
     const data: Get_SaleQuery = await res.json();
 
-    const sale: Sale = {
-      id: data.sale.id,
-      accountId: data.sale.accountId,
-      closingTimeCountdown: data.sale.closingTimeCountdown,
-      dates: data.sale.dates,
-      images: [],
-      items: [],
-    };
-
-    return sale;
+    return data.sale;
   }
 }

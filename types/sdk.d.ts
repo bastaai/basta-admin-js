@@ -24,8 +24,6 @@ export interface IBidService {
   placeOffer(params: BidArgs): Promise<boolean>;
 }
 export interface ISaleService {
-  /** Creates a Basta sale. */
-  create(): Promise<Sale>;
   /** Gets a Basta sale. */
   get(saleId: string): Promise<Sale>;
 }
@@ -34,5 +32,8 @@ export interface IUserService {
    * Generates a signed JWT token that can be used to access web sockets containing sensitive user data.
    * Returns a Promise that resolves with the token string, or null if the token could not be generated.
    */
-  refreshUserToken(): Promise<UserToken | null>;
+  refreshUserToken(params: {
+    uniqueUserId: string;
+    ttlMinutes: number;
+  }): Promise<UserToken | null>;
 }

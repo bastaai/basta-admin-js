@@ -1475,6 +1475,13 @@ export type Get_SaleQuery = {
     status: SaleStatus;
     closingMethod?: ClosingMethod | null;
     closingTimeCountdown: number;
+    sequenceNumber: number;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
     items: {
       __typename?: 'SaleItemsConnection';
       edges: Array<{
@@ -1495,6 +1502,13 @@ export type Get_SaleQuery = {
           highEstimate: number;
           itemNumber: number;
           allowedBidTypes?: Array<BidType> | null;
+          status: ItemStatus;
+          images: Array<{
+            __typename?: 'Image';
+            id: string;
+            url: string;
+            order: number;
+          }>;
           bids: Array<{
             __typename?: 'Bid';
             bidId: string;

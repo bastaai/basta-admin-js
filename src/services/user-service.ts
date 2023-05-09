@@ -14,12 +14,18 @@ export class UserService implements IUserService {
     this._bastaReq = bastaReq;
   }
 
-  async refreshUserToken(): Promise<UserToken> {
+  async refreshUserToken({
+    uniqueUserId,
+    ttlMinutes,
+  }: {
+    uniqueUserId: string;
+    ttlMinutes: number;
+  }): Promise<UserToken> {
     const variables: Create_User_TokenMutationVariables = {
       accountId: this._bastaReq.accountId,
       input: {
-        ttlMinutes: 420,
-        userID: '69420',
+        ttlMinutes: ttlMinutes,
+        userID: uniqueUserId,
       },
     };
 

@@ -13,6 +13,13 @@ query GET_SALE(
     currency
     status
     closingMethod
+    closingTimeCountdown
+    sequenceNumber
+    images {
+      id
+      url
+      order
+    }
     items {
       edges {
         cursor
@@ -29,6 +36,13 @@ query GET_SALE(
           lowEstimate
           highEstimate
           itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
           bids {
             bidId
             amount
@@ -42,7 +56,6 @@ query GET_SALE(
             closingStart
             closingEnd
           }
-          allowedBidTypes
         }
       }
       pageInfo {
@@ -62,7 +75,6 @@ query GET_SALE(
       closingDate
       openDate
     }
-    closingTimeCountdown
     participants(take: $take, cursor: $cursor, direction: $direction) {
       edges {
         cursor
