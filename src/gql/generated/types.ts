@@ -9,40 +9,32 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-/** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-};
 
 /** Account Information */
 export type Account = {
   __typename?: 'Account';
   /** created */
-  created: Scalars['String'];
+  created: string;
   /** createdByUser */
-  createdByUserID: Scalars['String'];
+  createdByUserID: string;
   /** description */
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<string>;
   /** Contact email address */
-  email: Scalars['String'];
+  email: string;
   /** account handle, identifier for the account */
-  handle?: Maybe<Scalars['String']>;
+  handle?: Maybe<string>;
   /** ID of the account */
-  id: Scalars['ID'];
+  id: string;
   /** account image url */
-  imageUrl?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<string>;
   /** account description (bio) */
   links: Array<Link>;
   /** modified */
-  modified?: Maybe<Scalars['String']>;
+  modified?: Maybe<string>;
   /** modifiedByUserID */
-  modifiedByUserID?: Maybe<Scalars['String']>;
+  modifiedByUserID?: Maybe<string>;
   /** Name of the account */
-  name: Scalars['String'];
+  name: string;
 };
 
 /** Filter for the Action Hook log. */
@@ -57,30 +49,30 @@ export type ActionHookFilter = {
  * Action Hook Log represents a recorded Action Hook HTTP request to a customers web servers.
  * Log entry may contain information about a pending, successful or failed request.
  */
-export type ActionHookLog = Node & {
+export type ActionHookLog = {
   __typename?: 'ActionHookLog';
   /** Account identifier. */
-  accountId: Scalars['String'];
+  accountId: string;
   /** Action triggering the Action Hook. */
   action: ActionType;
   /** Log creation timestamp. */
-  createdAt?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<string>;
   /** Error message returned by receiver. */
-  error?: Maybe<Scalars['String']>;
+  error?: Maybe<string>;
   /** Latest request execution timestamp. */
-  executedAt?: Maybe<Scalars['String']>;
+  executedAt?: Maybe<string>;
   /** Headers sent with the Action Hook request. */
   headers?: Maybe<Array<Maybe<HttpHeader>>>;
   /** Action Hook log entry identifier. */
-  id: Scalars['ID'];
+  id: string;
   /** Response from Action Hook receiver. */
-  response?: Maybe<Scalars['String']>;
+  response?: Maybe<string>;
   /** Number of HTTP request retries. */
-  retries?: Maybe<Scalars['Int']>;
+  retries?: Maybe<number>;
   /** Status of the Action Hook request. */
   status?: Maybe<ActionHookStatus>;
   /** Action Hook receiver endpoint. */
-  url: Scalars['String'];
+  url: string;
 };
 
 /**
@@ -99,7 +91,7 @@ export type ActionHookLogConnection = {
 export type ActionHookLogEdge = {
   __typename?: 'ActionHookLogEdge';
   /** Current Action Hook log cursor */
-  cursor: Scalars['String'];
+  cursor: string;
   /** Action Hook log node */
   node: ActionHookLog;
 };
@@ -122,13 +114,13 @@ export enum ActionHookStatus {
 export type ActionHookSubscription = {
   __typename?: 'ActionHookSubscription';
   /** Account identifier. */
-  accountId: Scalars['String'];
+  accountId: string;
   /** Name of the basta action that is being subscribed to. */
   action: ActionType;
   /** Custom HTTP header values sent with the action Action Hook. */
   headers?: Maybe<Array<Maybe<HttpHeader>>>;
   /** Action Hook receiver endpoint. */
-  url: Scalars['String'];
+  url: string;
 };
 
 /** Input to create an Action Hook subscription. */
@@ -138,7 +130,7 @@ export type ActionHookSubscriptionInput = {
   /** Custom HTTP header values sent with the action. */
   headers?: InputMaybe<Array<InputMaybe<HttpHeaderInput>>>;
   /** Webhook URL that is called when Action Hook is triggered. */
-  url: Scalars['String'];
+  url: string;
 };
 
 /** Action types (events) that can trigger Action Hooks. */
@@ -156,7 +148,7 @@ export enum ActionType {
 /** Add a current item to a sale. */
 export type AddItemToSaleInput = {
   /** Item number is used to order items (optional) */
-  ItemNumber?: InputMaybe<Scalars['Int']>;
+  ItemNumber?: InputMaybe<number>;
   /**
    * Allowed BidTypes on the item.
    * Currently only a single BidType is allowed per item.
@@ -166,28 +158,28 @@ export type AddItemToSaleInput = {
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
   /** High estimate of the item (optional) in minor currency unit. */
-  highEstimate?: InputMaybe<Scalars['Int']>;
+  highEstimate?: InputMaybe<number>;
   /** Item id of the item that you are adding to the sale. */
-  itemId: Scalars['String'];
+  itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
-  lowEstimate?: InputMaybe<Scalars['Int']>;
+  lowEstimate?: InputMaybe<number>;
   /** Reserve of the item in minor currency unit. */
-  reserve?: InputMaybe<Scalars['Int']>;
+  reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
-  saleId: Scalars['String'];
+  saleId: string;
   /** Starting bid of the item in minor currency unit. */
-  startingBid?: InputMaybe<Scalars['Int']>;
+  startingBid?: InputMaybe<number>;
 };
 
 /**
  * API token represent a token that allows
  * customers to access the API in machine and machine manner.
  */
-export type ApiToken = Node & {
+export type ApiToken = {
   __typename?: 'ApiToken';
-  accountId: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  accountId: string;
+  id: string;
+  name: string;
   roles: Array<ApiTokenRole>;
 };
 
@@ -206,16 +198,16 @@ export type ApiTokenConnection = {
  */
 export type ApiTokenCreated = {
   __typename?: 'ApiTokenCreated';
-  generatedApiKey: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  generatedApiKey: string;
+  id: string;
+  name: string;
   roles: Array<ApiTokenRole>;
 };
 
 /** Input object for when creating a API token */
 export type ApiTokenInput = {
   /** Name of the API token */
-  name: Scalars['String'];
+  name: string;
   /** Role associated to API token */
   role: Array<ApiTokenRole>;
 };
@@ -231,7 +223,7 @@ export enum ApiTokenRole {
 export type ApiTokensEdge = {
   __typename?: 'ApiTokensEdge';
   /** Current cursor */
-  cursor: Scalars['String'];
+  cursor: string;
   /** Current node */
   node: ApiToken;
 };
@@ -240,23 +232,23 @@ export type ApiTokensEdge = {
 export type Bid = {
   __typename?: 'Bid';
   /** Amount of the bid in minor currency unit. */
-  amount: Scalars['Int'];
+  amount: number;
   /** BidId UUID string */
-  bidId: Scalars['String'];
+  bidId: string;
   /**
    * Bids sequence number tells us how bids are connected.
    * Bids with the same bid sequence number happend during the same Bid/Max-bid request.
    * Mainly used for cancelling bids.
    */
-  bidSequenceNumber: Scalars['Int'];
+  bidSequenceNumber: number;
   /** Bid status of currently logged in user for this item */
   bidStatus?: Maybe<BidStatus>;
   /** Date of when the bid was placed. */
-  date: Scalars['String'];
+  date: string;
   /** Max amount of the bid in minor currency unit. */
-  maxAmount: Scalars['Int'];
+  maxAmount: number;
   /** Users id that placed the bid */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 /** Error code when failing to place a bid on an item */
@@ -292,15 +284,15 @@ export type BidIncrementTableInput = {
 /** Bid on behalf of a user in a sale. */
 export type BidOnBehalfInput = {
   /** bid amount of the bid in minor currency unit. */
-  amount: Scalars['Int'];
+  amount: number;
   /** item id of the item */
-  itemId: Scalars['String'];
+  itemId: string;
   /** The sale id which the item belongs that is being bidded on */
-  saleId: Scalars['String'];
+  saleId: string;
   /** The type represent what kind of bid is being placed on an item. */
   type: BidType;
   /** user id of the user that bid is being placed for. */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 /** BidOnItemInput. A bid can be NormalBid, MaxBid or Offer */
@@ -309,18 +301,18 @@ export type BidOnItemInput = {
    * Amount should be given in minor currency unit for the currency selected for the sale.
    * In USD that would be cents. A bid of $100 should have the amount set as the integer 10_000
    */
-  amount: Scalars['Int'];
+  amount: number;
   /** The type of bid being placed. Must be part of item's allowedBids property. */
   bidType: BidType;
   /** ItemId */
-  itemId: Scalars['String'];
+  itemId: string;
   /** SaleId for the item */
-  saleId: Scalars['String'];
+  saleId: string;
   /**
    * UserId of the bid owner.
    * Important that this is the unique userId of the user who is performing the bid in your system.
    */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 /** A bid is either succesful or there was an error */
@@ -330,7 +322,7 @@ export type BidPlaced = BidPlacedError | BidPlacedSuccess;
 export type BidPlacedError = {
   __typename?: 'BidPlacedError';
   /** Error description. */
-  error: Scalars['String'];
+  error: string;
   /** Error code if an error occured. */
   errorCode: BidErrorCode;
 };
@@ -339,18 +331,18 @@ export type BidPlacedError = {
 export type BidPlacedSuccess = {
   __typename?: 'BidPlacedSuccess';
   /** Amount of placed bid. Minor currency units. */
-  amount: Scalars['Int'];
+  amount: number;
   /** Bid Status of the bid */
   bidStatus: BidStatus;
   /** BidType */
   bidType: BidType;
   /** Server time of when the bid was recorded. */
-  date: Scalars['String'];
+  date: string;
   /**
    * MaxAmount, only set if bid was of type MaxBid.
    * Should be kept secret and never rendered to clients.
    */
-  maxAmount: Scalars['Int'];
+  maxAmount: number;
 };
 
 /** Bid statuses that calculates in what status the bid is. */
@@ -391,8 +383,8 @@ export enum BidType {
  */
 export type BidderToken = {
   __typename?: 'BidderToken';
-  expiration: Scalars['String'];
-  token: Scalars['String'];
+  expiration: string;
+  token: string;
 };
 
 /** Bidder token input, when generating a bidder token. */
@@ -409,7 +401,7 @@ export type BidsConnection = {
 
 export type BidsEdge = {
   __typename?: 'BidsEdge';
-  cursor: Scalars['String'];
+  cursor: string;
   node: Bid;
 };
 
@@ -422,11 +414,11 @@ export type BidsEdge = {
  */
 export type CancelLatestBidOnItemInput = {
   /** Item ID of the item */
-  itemId: Scalars['String'];
+  itemId: string;
   /** Sale ID of the sale that includes the item in scope. */
-  saleId: Scalars['String'];
+  saleId: string;
   /** Bid sequence number of the latest bid. */
-  sequenceNumber: Scalars['Int'];
+  sequenceNumber: number;
 };
 
 /** Response when canceling latest bid on item */
@@ -437,7 +429,7 @@ export type CanceledLatestBidOnItem = {
 
 /** Input object for when forcing sale to close. */
 export type CloseSaleInput = {
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 /** ClosingMethod represents how SaleItems are moved into CLOSING status and when they are CLOSED */
@@ -461,9 +453,9 @@ export enum ClosingMethod {
 
 export type CreateAccountInput = {
   /** description to be displayed on account profile as bio */
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
   /** email */
-  email: Scalars['String'];
+  email: string;
   /**
    * identifier for the account
    * If provided then it has to between 3-20 charachters long.
@@ -473,34 +465,34 @@ export type CreateAccountInput = {
    *   * numbers 0-9
    *   * special charachter _ (underscore)
    */
-  handle?: InputMaybe<Scalars['String']>;
+  handle?: InputMaybe<string>;
   /** links associated with the account */
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
   /** name */
-  name: Scalars['String'];
+  name: string;
 };
 
 /** Item input when creating an item */
 export type CreateItemInput = {
   /** Description for describing the item */
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
   /** Title for describing the item */
-  title: Scalars['String'];
+  title: string;
   /** Valuation of the item in minor currency unit. */
-  valuationAmount?: InputMaybe<Scalars['Int']>;
+  valuationAmount?: InputMaybe<number>;
   /** Valuation currency */
-  valuationCurrency?: InputMaybe<Scalars['String']>;
+  valuationCurrency?: InputMaybe<string>;
 };
 
 /** Input for creating or modifying sales. */
 export type CreateSaleInput = {
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
   closingMethod?: InputMaybe<ClosingMethod>;
-  closingTimeCountdown?: InputMaybe<Scalars['Int']>;
-  currency?: InputMaybe<Scalars['String']>;
+  closingTimeCountdown?: InputMaybe<number>;
+  currency?: InputMaybe<string>;
   dates?: InputMaybe<SaleDatesInput>;
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
+  title?: InputMaybe<string>;
 };
 
 /** Input to delete an Action Hook subscription. */
@@ -511,24 +503,24 @@ export type DeleteActionHookSubscriptionInput = {
 
 /** Input object for when deleting a item (including unassociating from a sale) */
 export type DeleteItemInput = {
-  itemId: Scalars['String'];
+  itemId: string;
 };
 
 /** Input object for when deleting a sale. */
 export type DeleteSaleInput = {
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 export type GetItemInput = {
   __typename?: 'GetItemInput';
-  itemId?: Maybe<Scalars['String']>;
+  itemId?: Maybe<string>;
 };
 
 export type GetItemsInput = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<string>;
+  first?: InputMaybe<number>;
   itemsFilter: ItemsFilter;
-  userId?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<string>;
 };
 
 /**
@@ -537,60 +529,60 @@ export type GetItemsInput = {
  */
 export type HttpHeader = {
   __typename?: 'HttpHeader';
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: string;
+  value: string;
 };
 
 /** Input to include custom header key-value pairs with Action Hook requests. */
 export type HttpHeaderInput = {
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: string;
+  value: string;
 };
 
 /** Image object */
 export type Image = {
   __typename?: 'Image';
   /** ID of the image, UUID string */
-  id: Scalars['String'];
+  id: string;
   /** DisplayOrder for image */
-  order: Scalars['Int'];
+  order: number;
   /** Image URL */
-  url: Scalars['String'];
+  url: string;
 };
 
-export type Item = Node & {
+export type Item = {
   __typename?: 'Item';
   /** Item description */
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<string>;
   /** Id of an item. */
-  id: Scalars['ID'];
+  id: string;
   /** Images attached to item */
   images: Array<Image>;
   /** Sale Id, if the item is linked to a sale */
-  saleId?: Maybe<Scalars['String']>;
+  saleId?: Maybe<string>;
   /** Item title */
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<string>;
   /** Valuation of the item in minor currency units. */
-  valuationAmount?: Maybe<Scalars['Int']>;
+  valuationAmount?: Maybe<number>;
   /** Valuation currency */
-  valuationCurrency?: Maybe<Scalars['String']>;
+  valuationCurrency?: Maybe<string>;
 };
 
 export type ItemDates = {
   __typename?: 'ItemDates';
-  closingEnd?: Maybe<Scalars['String']>;
-  closingStart?: Maybe<Scalars['String']>;
+  closingEnd?: Maybe<string>;
+  closingStart?: Maybe<string>;
 };
 
 /** Item filter */
 export type ItemFilter = {
   /** Filter by item title */
-  title?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<string>;
 };
 
 export type ItemNumberChangeInput = {
-  itemId: Scalars['String'];
-  itemNumber: Scalars['Int'];
+  itemId: string;
+  itemNumber: number;
 };
 
 /** Item statuses for items in a sale */
@@ -614,25 +606,25 @@ export type ItemsConnection = {
 export type ItemsEdge = {
   __typename?: 'ItemsEdge';
   /** Current item cursor */
-  cursor: Scalars['String'];
+  cursor: string;
   /** Item node */
   node: Item;
 };
 
 export type ItemsFilter = {
-  onlyMyItems: Scalars['Boolean'];
-  title?: InputMaybe<Scalars['String']>;
+  onlyMyItems: boolean;
+  title?: InputMaybe<string>;
 };
 
 export type Link = {
   __typename?: 'Link';
   type: LinkType;
-  url: Scalars['String'];
+  url: string;
 };
 
 export type LinkInput = {
   type: LinkType;
-  url: Scalars['String'];
+  url: string;
 };
 
 export enum LinkType {
@@ -645,13 +637,13 @@ export enum LinkType {
 /** Max bid on behalf of a user in a sale. */
 export type MaxBidOnBehalfInput = {
   /** item id of the item */
-  itemId: Scalars['String'];
+  itemId: string;
   /** max bid amount of the bid in minor currency unit. */
-  maxAmount: Scalars['Int'];
+  maxAmount: number;
   /** The sale id which the item belongs that is being bidded on */
-  saleId: Scalars['String'];
+  saleId: string;
   /** user id of the user that bid is being placed for. */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 export type Mutation = {
@@ -690,7 +682,7 @@ export type Mutation = {
    */
   createUserTokenV2: UserToken;
   /** Delete action hook subscription */
-  deleteActionHookSubscription: Scalars['Boolean'];
+  deleteActionHookSubscription: boolean;
   /** Close a sale, forcefully. */
   forceCloseSale: Sale;
   /** Open a sale, forcefully. */
@@ -709,7 +701,7 @@ export type Mutation = {
   /** Remove an item from the sale. This will not delete the item completely. */
   removeItemFromSale: Sale;
   /** Revoke the API key by id. */
-  revokeApiToken: Scalars['Boolean'];
+  revokeApiToken: boolean;
   /** Sets sale item winner. Marks bid as won and closes item. Used in offer model. */
   setItemWinner: SaleItem;
   /** Sets sale item status. Used in offer model to close item with no winner. */
@@ -731,32 +723,32 @@ export type Mutation = {
 };
 
 export type MutationAddActionHookSubscriptionArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: ActionHookSubscriptionInput;
 };
 
 export type MutationAddItemToSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: AddItemToSaleInput;
 };
 
 export type MutationBidOnBehalfArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: BidOnBehalfInput;
 };
 
 export type MutationBidOnItemV2Args = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: BidOnItemInput;
 };
 
 export type MutationCancelLatestBidOnItemArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: CancelLatestBidOnItemInput;
 };
 
 export type MutationCloseSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: CloseSaleInput;
 };
 
@@ -765,147 +757,147 @@ export type MutationCreateAccountArgs = {
 };
 
 export type MutationCreateApiTokenArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: ApiTokenInput;
 };
 
 export type MutationCreateBidderTokenArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: BidderTokenInput;
 };
 
 export type MutationCreateItemArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: CreateItemInput;
 };
 
 export type MutationCreateItemForSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: SaleItemInput;
 };
 
 export type MutationCreateSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: CreateSaleInput;
 };
 
 export type MutationCreateUserTokenV2Args = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UserTokenInput;
 };
 
 export type MutationDeleteActionHookSubscriptionArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: DeleteActionHookSubscriptionInput;
 };
 
 export type MutationForceCloseSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: CloseSaleInput;
 };
 
 export type MutationForceOpenSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: OpenSaleInput;
 };
 
 export type MutationForceStartClosingSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: StartClosingSaleInput;
 };
 
 export type MutationMaxBidOnBehalfArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: MaxBidOnBehalfInput;
 };
 
 export type MutationOpenSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: OpenSaleInput;
 };
 
 export type MutationPublishSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: PublishSaleInput;
 };
 
 export type MutationRemoveItemFromSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: RemoveSaleItemInput;
 };
 
 export type MutationRevokeApiTokenArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: RevokeApiTokenInput;
 };
 
 export type MutationSetItemWinnerArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: SetItemWinnerInput;
 };
 
 export type MutationSetSaleItemStatusArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: SetSaleItemStatusInput;
 };
 
 export type MutationStartClosingSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: StartClosingSaleInput;
 };
 
 export type MutationTestActionHookArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: ActionHookSubscriptionInput;
 };
 
 export type MutationUpdateActionHookSubscriptionArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UpdateActionHookSubscriptionInput;
 };
 
 export type MutationUpdateItemArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UpdateItemInput;
-  itemId: Scalars['String'];
+  itemId: string;
 };
 
 export type MutationUpdateItemForSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UpdateSaleItemInput;
-  itemId: Scalars['String'];
+  itemId: string;
 };
 
 export type MutationUpdateItemNumbersArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UpdateItemNumbersInput;
 };
 
 export type MutationUpdateSaleArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
   input: UpdateSaleInput;
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 export type Node = {
   /** Identification of the node. */
-  id: Scalars['ID'];
+  id: string;
 };
 
 /** Input object for when forcing sale to open. */
 export type OpenSaleInput = {
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 /** Page info for pagination */
 export type PageInfo = {
   __typename?: 'PageInfo';
   /** Ending cursor */
-  endCursor: Scalars['ID'];
+  endCursor: string;
   /** Has next page */
-  hasNextPage: Scalars['Boolean'];
+  hasNextPage: boolean;
   /** Starting cursor */
-  startCursor: Scalars['ID'];
+  startCursor: string;
 };
 
 /** Direction of pagination */
@@ -921,19 +913,19 @@ export enum PaginationDirection {
 export type Participant = {
   __typename?: 'Participant';
   /** User Id */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 export type ParticipantsConnection = {
   __typename?: 'ParticipantsConnection';
   edges: Array<ParticipantsEdge>;
   pageInfo: PageInfo;
-  totalCount: Scalars['Int'];
+  totalCount: number;
 };
 
 export type ParticipantsEdge = {
   __typename?: 'ParticipantsEdge';
-  cursor: Scalars['String'];
+  cursor: string;
   node: Participant;
 };
 
@@ -954,7 +946,7 @@ export enum Permission {
 
 /** Input object for when forcing sale to published. */
 export type PublishSaleInput = {
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 export type Query = {
@@ -985,52 +977,52 @@ export type Query = {
 };
 
 export type QueryAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
 };
 
 export type QueryActionHookLogsArgs = {
-  accountId: Scalars['String'];
-  after?: InputMaybe<Scalars['String']>;
+  accountId: string;
+  after?: InputMaybe<string>;
   filter?: InputMaybe<ActionHookFilter>;
-  first?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<number>;
 };
 
 export type QueryActionHookSubscriptionsArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
 };
 
 export type QueryApiTokensArgs = {
-  accountId: Scalars['String'];
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  accountId: string;
+  after?: InputMaybe<string>;
+  first?: InputMaybe<number>;
 };
 
 export type QueryItemArgs = {
-  accountId: Scalars['String'];
-  itemId: Scalars['String'];
+  accountId: string;
+  itemId: string;
 };
 
 export type QueryItemsArgs = {
-  accountId: Scalars['String'];
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  accountId: string;
+  after?: InputMaybe<string>;
+  first?: InputMaybe<number>;
   itemsFilter: ItemsFilter;
 };
 
 export type QuerySaleArgs = {
-  accountId: Scalars['String'];
-  id: Scalars['ID'];
+  accountId: string;
+  id: string;
 };
 
 export type QuerySalesArgs = {
-  accountId: Scalars['String'];
-  after?: InputMaybe<Scalars['String']>;
+  accountId: string;
+  after?: InputMaybe<string>;
   filter?: InputMaybe<SaleFilter>;
-  first?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<number>;
 };
 
 export type QuerySalesAggregateArgs = {
-  accountId: Scalars['String'];
+  accountId: string;
 };
 
 /**
@@ -1040,11 +1032,11 @@ export type QuerySalesAggregateArgs = {
 export type RangeRule = {
   __typename?: 'RangeRule';
   /** High range of the rule */
-  highRange: Scalars['Int'];
+  highRange: number;
   /** Low range of the rule */
-  lowRange: Scalars['Int'];
+  lowRange: number;
   /** Step of the rule */
-  step: Scalars['Int'];
+  step: number;
 };
 
 /**
@@ -1056,32 +1048,32 @@ export type RangeRule = {
  */
 export type RangeRuleInput = {
   /** High range of the rule in minor currency units. */
-  highRange: Scalars['Int'];
+  highRange: number;
   /** Low range of the rule in minor currency units. */
-  lowRange: Scalars['Int'];
+  lowRange: number;
   /** Step of the rule in minor currency units. */
-  step: Scalars['Int'];
+  step: number;
 };
 
 /** Input to remove an item from a sale */
 export type RemoveSaleItemInput = {
   /** Item id of the item that you are removing from the sale. */
-  itemId: Scalars['String'];
+  itemId: string;
   /** Id of the sale that is associated with the item. */
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 /** Input object for when revoking a API token */
 export type RevokeApiTokenInput = {
   /** API token Id that needs to be revoked */
-  apiTokenId: Scalars['String'];
+  apiTokenId: string;
 };
 
 /** Sale */
-export type Sale = Node & {
+export type Sale = {
   __typename?: 'Sale';
   /** Account ID associated with the sale */
-  accountId: Scalars['String'];
+  accountId: string;
   /** Chosen ClosingMethod */
   closingMethod?: Maybe<ClosingMethod>;
   /**
@@ -1089,15 +1081,15 @@ export type Sale = Node & {
    * If not provided it defaults to 120000 (2 minutes).
    * If a sale has an OVERLAPPING closing method it also assigns the item's closing time in asceding order.
    */
-  closingTimeCountdown: Scalars['Int'];
+  closingTimeCountdown: number;
   /** Currency of the sale (capital letters: EUR, USD, etc.) */
-  currency?: Maybe<Scalars['String']>;
+  currency?: Maybe<string>;
   /** Sale Dates */
   dates: SaleDates;
   /** Sale Description */
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<string>;
   /** Id of a sale. */
-  id: Scalars['ID'];
+  id: string;
   /** Images attached to sale */
   images: Array<Image>;
   /**
@@ -1111,24 +1103,24 @@ export type Sale = Node & {
   /** Get list of participants for this sale */
   participants: ParticipantsConnection;
   /** Sequence number of this sale. */
-  sequenceNumber: Scalars['Int'];
+  sequenceNumber: number;
   /** Sale status */
   status: SaleStatus;
   /** Sale Title */
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<string>;
 };
 
 /** Sale */
 export type SaleItemsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<string>;
+  first?: InputMaybe<number>;
 };
 
 /** Sale */
 export type SaleParticipantsArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
+  cursor?: InputMaybe<string>;
   direction?: InputMaybe<PaginationDirection>;
-  take?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<number>;
 };
 
 export type SaleConnection = {
@@ -1143,17 +1135,17 @@ export type SaleConnection = {
 export type SaleDates = {
   __typename?: 'SaleDates';
   /** Date of when the sale is supposed to be automatically closed. */
-  closingDate?: Maybe<Scalars['String']>;
+  closingDate?: Maybe<string>;
   /** Date of when the sale is supposed to be automatically opened. */
-  openDate?: Maybe<Scalars['String']>;
+  openDate?: Maybe<string>;
 };
 
 /** Input arguments for when creating or modifying a sale. */
 export type SaleDatesInput = {
   /** Closing Date */
-  closingDate?: InputMaybe<Scalars['String']>;
+  closingDate?: InputMaybe<string>;
   /** Opening Date */
-  openDate?: InputMaybe<Scalars['String']>;
+  openDate?: InputMaybe<string>;
 };
 
 /** Sale filter for sales. */
@@ -1174,41 +1166,41 @@ export type SaleItem = {
   /** Get list of bids for this item */
   bids: Array<Bid>;
   /** Current bid amount for the item as minor currency unit. */
-  currentBid?: Maybe<Scalars['Int']>;
+  currentBid?: Maybe<number>;
   /** Scheduled closing timestamp for the item. */
   dates: ItemDates;
   /** Item description */
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<string>;
   /** High Estimate of item in minor currency unit. */
-  highEstimate: Scalars['Int'];
+  highEstimate: number;
   /** Id of an item. */
-  id: Scalars['ID'];
+  id: string;
   /** Images attached to saleItem */
   images: Array<Image>;
   /** Item number */
-  itemNumber: Scalars['Int'];
+  itemNumber: number;
   /** Current leader (user id) for the item */
-  leaderId?: Maybe<Scalars['String']>;
+  leaderId?: Maybe<string>;
   /** Low Estimate of item in minor currency unit. */
-  lowEstimate: Scalars['Int'];
+  lowEstimate: number;
   /** Reserve on the item in minor currency unit. */
-  reserve?: Maybe<Scalars['Int']>;
+  reserve?: Maybe<number>;
   /** Sale id, as items can be created without having to be associated to a sale. */
-  saleId: Scalars['String'];
+  saleId: string;
   /** Starting bid for the item in minor currency unit. */
-  startingBid?: Maybe<Scalars['Int']>;
+  startingBid?: Maybe<number>;
   /** Status of the item */
   status: ItemStatus;
   /** Item title */
-  title?: Maybe<Scalars['String']>;
+  title?: Maybe<string>;
   /** Number of bids that have been placed on the item */
-  totalBids: Scalars['Int'];
+  totalBids: number;
 };
 
 /** Item input when creating an item */
 export type SaleItemInput = {
   /** Item number is used to order items (optional) */
-  ItemNumber?: InputMaybe<Scalars['Int']>;
+  ItemNumber?: InputMaybe<number>;
   /**
    * Allowed BidTypes on the item.
    * Currently only a single BidType is allowed per item.
@@ -1218,23 +1210,23 @@ export type SaleItemInput = {
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
   /** Description for describing the item */
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
-  highEstimate?: InputMaybe<Scalars['Int']>;
+  highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
-  lowEstimate?: InputMaybe<Scalars['Int']>;
+  lowEstimate?: InputMaybe<number>;
   /** Reserve of the item in minor currency unit. */
-  reserve?: InputMaybe<Scalars['Int']>;
+  reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
-  saleId: Scalars['String'];
+  saleId: string;
   /** Starting bid of the item in minor currency unit. */
-  startingBid?: InputMaybe<Scalars['Int']>;
+  startingBid?: InputMaybe<number>;
   /** Title for describing the item */
-  title: Scalars['String'];
+  title: string;
   /** Valuation of the item in minor currency unit. */
-  valuationAmount?: InputMaybe<Scalars['Int']>;
+  valuationAmount?: InputMaybe<number>;
   /** Valuationo currency */
-  valuationCurrency?: InputMaybe<Scalars['String']>;
+  valuationCurrency?: InputMaybe<string>;
 };
 
 export type SaleItemsConnection = {
@@ -1248,7 +1240,7 @@ export type SaleItemsConnection = {
 export type SaleItemsEdge = {
   __typename?: 'SaleItemsEdge';
   /** Current item cursor */
-  cursor: Scalars['String'];
+  cursor: string;
   /** Sale Item node */
   node: SaleItem;
 };
@@ -1274,47 +1266,47 @@ export enum SaleStatus {
 export type SalesAggregate = {
   __typename?: 'SalesAggregate';
   /** Number of closed sales */
-  closed: Scalars['Int'];
+  closed: number;
   /** Number of sales in a closing state */
-  closing: Scalars['Int'];
+  closing: number;
   /** Number of open sales */
-  open: Scalars['Int'];
+  open: number;
   /** Number of published sales */
-  published: Scalars['Int'];
+  published: number;
   /** Number of unpublished sales */
-  unpublished: Scalars['Int'];
+  unpublished: number;
 };
 
 export type SalesAggregateInput = {
   /** Account ID the sales belong to */
-  accountId: Scalars['String'];
+  accountId: string;
 };
 
 export type SalesEdge = {
   __typename?: 'SalesEdge';
   /** Current sale cursor */
-  cursor: Scalars['String'];
+  cursor: string;
   /** Sale node */
   node: Sale;
 };
 
 /** Input to set an item winner and close the item. */
 export type SetItemWinnerInput = {
-  bidId: Scalars['String'];
-  itemId: Scalars['String'];
-  saleId: Scalars['String'];
+  bidId: string;
+  itemId: string;
+  saleId: string;
 };
 
 /** Input to change the status of an item. */
 export type SetSaleItemStatusInput = {
-  itemId: Scalars['String'];
-  saleId: Scalars['String'];
+  itemId: string;
+  saleId: string;
   status: ItemStatus;
 };
 
 /** Input object for when starting to close a sale. */
 export type StartClosingSaleInput = {
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 /**
@@ -1324,11 +1316,11 @@ export type StartClosingSaleInput = {
 export type TestActionHookResponse = {
   __typename?: 'TestActionHookResponse';
   requestHeaders: Array<Maybe<HttpHeader>>;
-  requestMethod: Scalars['String'];
-  requestPayload: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
+  requestMethod: string;
+  requestPayload: string;
+  responseBody?: Maybe<string>;
   responseHeaders?: Maybe<Array<Maybe<HttpHeader>>>;
-  statusCode: Scalars['Int'];
+  statusCode: number;
 };
 
 /**
@@ -1337,9 +1329,9 @@ export type TestActionHookResponse = {
  */
 export type TokenMetadata = {
   /** Time to live of the bidders token, represented minutes. */
-  ttl: Scalars['Int'];
+  ttl: number;
   /** Unique User ID that represents a user in customer's user database. */
-  userId: Scalars['String'];
+  userId: string;
 };
 
 /** Input to update an Action Hook subscription. */
@@ -1349,20 +1341,20 @@ export type UpdateActionHookSubscriptionInput = {
   /** Custom HTTP header values sent with the action. */
   headers?: InputMaybe<Array<InputMaybe<HttpHeaderInput>>>;
   /** Webhook URL that is called when Action Hook is triggered. */
-  url: Scalars['String'];
+  url: string;
 };
 
 /** Item input when modifying an item */
 export type UpdateItemInput = {
-  description?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  valuationAmount?: InputMaybe<Scalars['Int']>;
-  valuationCurrency?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
+  title?: InputMaybe<string>;
+  valuationAmount?: InputMaybe<number>;
+  valuationCurrency?: InputMaybe<string>;
 };
 
 export type UpdateItemNumbersInput = {
   itemNumberChanges: Array<ItemNumberChangeInput>;
-  saleId: Scalars['String'];
+  saleId: string;
 };
 
 /**
@@ -1373,11 +1365,11 @@ export type UpdateItemNumbersInput = {
 export type UpdateSaleInput = {
   bidIncrementTable: BidIncrementTableInput;
   closingMethod: ClosingMethod;
-  closingTimeCountdown: Scalars['Int'];
-  currency: Scalars['String'];
+  closingTimeCountdown: number;
+  currency: string;
   dates: SaleDatesInput;
-  description: Scalars['String'];
-  title: Scalars['String'];
+  description: string;
+  title: string;
 };
 
 /** Update SaleItem input when modifying an item */
@@ -1391,23 +1383,23 @@ export type UpdateSaleItemInput = {
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
   /** Description for describing the item */
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
-  highEstimate?: InputMaybe<Scalars['Int']>;
+  highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
-  lowEstimate?: InputMaybe<Scalars['Int']>;
+  lowEstimate?: InputMaybe<number>;
   /** Reserve of the item in minor currency unit. */
-  reserve?: InputMaybe<Scalars['Int']>;
+  reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
-  saleId: Scalars['String'];
+  saleId: string;
   /** Starting bid of the item in minor currency unit. */
-  startingBid?: InputMaybe<Scalars['Int']>;
+  startingBid?: InputMaybe<number>;
   /** Title for describing the item */
-  title: Scalars['String'];
+  title: string;
   /** Valuation of the item in minor currency unit. */
-  valuationAmount?: InputMaybe<Scalars['Int']>;
+  valuationAmount?: InputMaybe<number>;
   /** Valuation currency in minor currency unit. */
-  valuationCurrency?: InputMaybe<Scalars['String']>;
+  valuationCurrency?: InputMaybe<string>;
 };
 
 /**
@@ -1417,20 +1409,20 @@ export type UpdateSaleItemInput = {
 export type UserToken = {
   __typename?: 'UserToken';
   /** Expiration date as string. */
-  expirationDate: Scalars['String'];
+  expirationDate: string;
   /** Signed JWT token that can be used for websocket authentication */
-  token: Scalars['String'];
+  token: string;
 };
 
 export type UserTokenInput = {
   /** Time to live for the user token, represented as minutes */
-  ttlMinutes: Scalars['Int'];
+  ttlMinutes: number;
   /** Unique UserID that represents a user in your system. */
-  userID: Scalars['String'];
+  userID: string;
 };
 
 export type Bid_On_ItemMutationVariables = Exact<{
-  accountId: Scalars['String'];
+  accountId: string;
   input: BidOnItemInput;
 }>;
 
@@ -1442,7 +1434,7 @@ export type Bid_On_ItemMutation = {
 };
 
 export type Create_User_TokenMutationVariables = Exact<{
-  accountId: Scalars['String'];
+  accountId: string;
   input: UserTokenInput;
 }>;
 
@@ -1456,10 +1448,10 @@ export type Create_User_TokenMutation = {
 };
 
 export type Get_SaleQueryVariables = Exact<{
-  accountId: Scalars['String'];
-  id: Scalars['ID'];
-  take?: InputMaybe<Scalars['Int']>;
-  cursor?: InputMaybe<Scalars['String']>;
+  accountId: string;
+  id: string;
+  take?: InputMaybe<number>;
+  cursor?: InputMaybe<string>;
   direction?: InputMaybe<PaginationDirection>;
 }>;
 

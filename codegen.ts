@@ -20,9 +20,6 @@ const config: CodegenConfig = {
       overwrite: true,
       documents: 'gql/**/*.graphql',
       plugins: ['typescript', 'typescript-operations'],
-      config: {
-        preResolveTypes: true,
-      },
       hooks: { afterOneFileWrite: ['prettier --write'] },
     },
     // Generate raw operations to strings
