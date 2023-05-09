@@ -37,6 +37,8 @@ export class SaleService implements ISaleService {
       accountId: data.sale.accountId,
       closingTimeCountdown: data.sale.closingTimeCountdown,
       dates: data.sale.dates,
+      images: [],
+      items: [],
     };
 
     return sale;

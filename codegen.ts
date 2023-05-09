@@ -32,13 +32,6 @@ const config: CodegenConfig = {
       plugins: ['codegen-operations-plugin.js'],
       hooks: { afterOneFileWrite: ['prettier --write'] },
     },
-    // Generate raw types with primitive values
-    './src/gql/generated/raw-types.ts': {
-      overwrite: true,
-      documents: 'gql/**/*.graphql',
-      plugins: ['codegen-raw-types-plugin.js'],
-      hooks: { afterOneFileWrite: ['prettier --write'] },
-    },
   },
 };
 
