@@ -27,7 +27,8 @@ export class SaleService implements ISaleService {
     });
 
     const data: Get_SaleQuery = await res.json();
+    const sanitized = JSON.parse(JSON.stringify(data));
 
-    return data.sale;
+    return sanitized;
   }
 }
