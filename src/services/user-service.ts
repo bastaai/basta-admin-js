@@ -41,7 +41,10 @@ export class UserService implements IUserService {
     const json: BastaResponse<{
       createUserTokenV2: Create_User_TokenMutation;
     }> = await res.json();
-    const sanitized = JSON.parse(JSON.stringify(json.data.createUserTokenV2));
+
+    const sanitized: Create_User_TokenMutation = JSON.parse(
+      JSON.stringify(json.data.createUserTokenV2)
+    );
 
     return {
       expirationDate: sanitized.createUserTokenV2.expirationDate,

@@ -59,7 +59,7 @@ export class BidService implements IBidService {
     });
   }
 
-  async _doBid({
+  private async _doBid({
     bidType,
     amount,
     itemId,
@@ -93,7 +93,9 @@ export class BidService implements IBidService {
     });
 
     const json: BastaResponse<{ bidOnItemV2: BidPlaced }> = await res.json();
-    const sanitized = JSON.parse(JSON.stringify(json.data.bidOnItemV2));
+    const sanitized: BidPlaced = JSON.parse(
+      JSON.stringify(json.data.bidOnItemV2)
+    );
 
     return sanitized.__typename === 'BidPlacedSuccess';
   }
