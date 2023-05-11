@@ -1,6 +1,6 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.25",
+  "version": "0.1.0-beta.26",
   "description": "Basta Admin SDK is a specialized toolkit, designed with the purpose of facilitating the management and execution of Basta auctions.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
