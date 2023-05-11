@@ -1,3 +1,10 @@
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <img src="https://gist.githubusercontent.com/viktorbasta/fd54dee2e192bb6bc235d1c4b47ae2e6/raw/5eedf97d9bcf1711cf2f90b2ad5f54f4bc6d253d/basta-labs-logo.svg" width="250" />
+    <br/>
+    <div>Basta Labs</div>
+    <br/>
+</div>
+
 # basta-admin-js
 
 ![npm version](https://img.shields.io/npm/v/@bastaai/basta-admin-js?color=%233E69B0)
