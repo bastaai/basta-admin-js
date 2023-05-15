@@ -1433,6 +1433,24 @@ export type Bid_On_ItemMutation = {
     | { __typename: 'BidPlacedSuccess' };
 };
 
+export type Bid_On_BehalfMutationVariables = Exact<{
+  accountID: string;
+  input: BidOnBehalfInput;
+}>;
+
+export type Bid_On_BehalfMutation = {
+  __typename?: 'Mutation';
+  bidOnBehalf: {
+    __typename?: 'Bid';
+    bidId: string;
+    amount: number;
+    maxAmount: number;
+    userId: string;
+    date: string;
+    bidStatus?: BidStatus | null;
+  };
+};
+
 export type Create_User_TokenMutationVariables = Exact<{
   accountId: string;
   input: UserTokenInput;
