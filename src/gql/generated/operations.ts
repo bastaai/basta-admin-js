@@ -1,6 +1,17 @@
 export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
+    ... on BidPlacedSuccess {
+      amount
+      maxAmount
+      date
+      bidStatus
+      bidType
+    }
+    ... on BidPlacedError {
+      errorCode
+      error
+    }
   }
 }
 

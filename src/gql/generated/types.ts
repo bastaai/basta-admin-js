@@ -1429,8 +1429,15 @@ export type Bid_On_ItemMutationVariables = Exact<{
 export type Bid_On_ItemMutation = {
   __typename?: 'Mutation';
   bidOnItemV2:
-    | { __typename: 'BidPlacedError' }
-    | { __typename: 'BidPlacedSuccess' };
+    | { __typename: 'BidPlacedError'; errorCode: BidErrorCode; error: string }
+    | {
+        __typename: 'BidPlacedSuccess';
+        amount: number;
+        maxAmount: number;
+        date: string;
+        bidStatus: BidStatus;
+        bidType: BidType;
+      };
 };
 
 export type Bid_On_BehalfMutationVariables = Exact<{
