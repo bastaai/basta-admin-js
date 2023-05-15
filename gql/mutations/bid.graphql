@@ -3,3 +3,13 @@ mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
     __typename
   }
 }
+
+mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountID, input: $input) {
+    amount
+    maxAmount
+    userId
+    date
+    bidStatus
+  }
+}

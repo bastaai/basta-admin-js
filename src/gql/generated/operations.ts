@@ -2,6 +2,16 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
   }
+}
+
+mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountID, input: $input) {
+    amount
+    maxAmount
+    userId
+    date
+    bidStatus
+  }
 }`;
 
 export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
