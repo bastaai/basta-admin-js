@@ -6,7 +6,6 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
 
 mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
   bidOnBehalf(accountId: $accountID, input: $input) {
-    bidId
     amount
     maxAmount
     userId

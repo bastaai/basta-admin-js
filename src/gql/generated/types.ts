@@ -1442,7 +1442,6 @@ export type Bid_On_BehalfMutation = {
   __typename?: 'Mutation';
   bidOnBehalf: {
     __typename?: 'Bid';
-    bidId: string;
     amount: number;
     maxAmount: number;
     userId: string;
