@@ -14,48 +14,45 @@ export class BidService implements IBidService {
     this._bastaReq = bastaReq;
   }
 
-  async placeBid({
-    amount,
-    itemId,
-    saleId,
-    userId,
-  }: BidArgs): Promise<boolean> {
+  async placeBid(
+    { amount, itemId, saleId, userId }: BidArgs,
+    executedByUserId?: string
+  ): Promise<boolean> {
     return await this._doBid({
       bidType: BidType.Normal,
       amount: amount,
       itemId: itemId,
       saleId: saleId,
       userId: userId,
+      executedByUserId: executedByUserId,
     });
   }
 
-  async placeMaxBid({
-    amount,
-    itemId,
-    saleId,
-    userId,
-  }: BidArgs): Promise<boolean> {
+  async placeMaxBid(
+    { amount, itemId, saleId, userId }: BidArgs,
+    executedByUserId?: string
+  ): Promise<boolean> {
     return await this._doBid({
       bidType: BidType.Max,
       amount: amount,
       itemId: itemId,
       saleId: saleId,
       userId: userId,
+      executedByUserId: executedByUserId,
     });
   }
 
-  async placeOffer({
-    amount,
-    itemId,
-    saleId,
-    userId,
-  }: BidArgs): Promise<boolean> {
+  async placeOffer(
+    { amount, itemId, saleId, userId }: BidArgs,
+    executedByUserId?: string
+  ): Promise<boolean> {
     return await this._doBid({
       bidType: BidType.Offer,
       amount: amount,
       itemId: itemId,
       saleId: saleId,
       userId: userId,
+      executedByUserId: executedByUserId,
     });
   }
 
@@ -71,6 +68,7 @@ export class BidService implements IBidService {
     itemId: string;
     saleId: string;
     userId: string;
+    executedByUserId?: string;
   }) {
     const variables: MutationBidOnItemV2Args = {
       accountId: this._bastaReq.accountId,
@@ -80,6 +78,7 @@ export class BidService implements IBidService {
         itemId: itemId,
         saleId: saleId,
         userId: userId,
+        executedByUserId: executedByUserId ?? userId,
       },
     };
 

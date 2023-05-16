@@ -1,6 +1,5 @@
 import { Sale } from './sale';
 import { UserToken } from './user';
-import { BidType } from './bid';
 
 export type BastaResponse<T> = {
   data: T;
@@ -8,7 +7,6 @@ export type BastaResponse<T> = {
 
 export type BidArgs = {
   amount: number;
-  bidType: BidType;
   itemId: string;
   saleId: string;
   userId: string;
@@ -20,12 +18,24 @@ export interface IBastaAdmin {
   user: IUserService;
 }
 export interface IBidService {
-  /** Places a bid on a Basta item. */
-  placeBid(params: BidArgs): Promise<boolean>;
-  /** Places a max bid on a Basta item. */
-  placeMaxBid(params: BidArgs): Promise<boolean>;
-  /** Places an offer on a Basta item. */
-  placeOffer(params: BidArgs): Promise<boolean>;
+  /**
+   * Places a bid on a Basta item.
+   * @param bid Info about the bid itself.
+   * @param executedByUserId Should **only** be used when placing a bid *on behalf of* another user. Defaults to `userId` value if not specified.
+   */
+  placeBid(bid: BidArgs, executedByUserId?: string): Promise<boolean>;
+  /**
+   * Places a max bid on a Basta item.
+   * @param bid Info about the bid itself.
+   * @param executedByUserId Should **only** be used when placing a bid *on behalf of* another user. Defaults to `userId` value if not specified.
+   */
+  placeMaxBid(bid: BidArgs, executedByUserId?: string): Promise<boolean>;
+  /**
+   * Places an offer on a Basta item.
+   * @param bid Info about the bid itself.
+   * @param executedByUserId Should **only** be used when placing a bid *on behalf of* another user. Defaults to `userId` value if not specified.
+   */
+  placeOffer(bid: BidArgs, executedByUserId?: string): Promise<boolean>;
 }
 export interface ISaleService {
   /** Gets a Basta sale. */
