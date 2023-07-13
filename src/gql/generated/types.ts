@@ -1580,3 +1580,114 @@ export type Get_SaleQuery = {
     };
   };
 };
+
+
+export type Get_AllSalesQueryVariables = Exact<{
+  accountId: string;
+  take?: InputMaybe<number>;
+  cursor?: InputMaybe<string>;
+  direction?: InputMaybe<PaginationDirection>;
+}>;
+
+
+export type Get_AllSalesQuery = {
+  __typename?: 'Query';
+  sales: Array<{
+    __typename?: 'Sale';
+    id: string;
+    accountId: string;
+    title?: string | null;
+    description?: string | null;
+    currency?: string | null;
+    status: SaleStatus;
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    sequenceNumber: number;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+    items: {
+      __typename?: 'SaleItemsConnection';
+      edges: Array<{
+        __typename?: 'SaleItemsEdge';
+        cursor: string;
+        node: {
+          __typename?: 'SaleItem';
+          id: string;
+          title?: string | null;
+          totalBids: number;
+          description?: string | null;
+          currentBid?: number | null;
+          leaderId?: string | null;
+          saleId: string;
+          reserve?: number | null;
+          startingBid?: number | null;
+          lowEstimate: number;
+          highEstimate: number;
+          itemNumber: number;
+          allowedBidTypes?: Array<BidType> | null;
+          status: ItemStatus;
+          images: Array<{
+            __typename?: 'Image';
+            id: string;
+            url: string;
+            order: number;
+          }>;
+          bids: Array<{
+            __typename?: 'Bid';
+            bidId: string;
+            amount: number;
+            userId: string;
+            date: string;
+            bidStatus?: BidStatus | null;
+            maxAmount: number;
+            bidSequenceNumber: number;
+          }>;
+          dates: {
+            __typename?: 'ItemDates';
+            closingStart?: string | null;
+            closingEnd?: string | null;
+          };
+        };
+      }>;
+      pageInfo: {
+        __typename?: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+    incrementTable?: {
+      __typename?: 'BidIncrementTable';
+      rules: Array<{
+        __typename?: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename?: 'SaleDates';
+      closingDate?: string | null;
+      openDate?: string | null;
+    };
+    participants: {
+      __typename?: 'ParticipantsConnection';
+      totalCount: number;
+      edges: Array<{
+        __typename?: 'ParticipantsEdge';
+        cursor: string;
+        node: { __typename?: 'Participant'; userId: string };
+      }>;
+      pageInfo: {
+        __typename?: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+  }>;
+};

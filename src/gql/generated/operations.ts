@@ -120,3 +120,92 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
     }
   }
 }`;
+
+
+export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $take: Int, $cursor: String, $direction: PaginationDirection) {
+  sales(accountId: $accountId) {
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    closingMethod
+    closingTimeCountdown
+    sequenceNumber
+    images {
+      id
+      url
+      order
+    }
+    items {
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          lowEstimate
+          highEstimate
+          itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
+          bids {
+            bidId
+            amount
+            userId
+            date
+            bidStatus
+            maxAmount
+            bidSequenceNumber
+          }
+          dates {
+            closingStart
+            closingEnd
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      closingDate
+      openDate
+    }
+    participants(take: $take, cursor: $cursor, direction: $direction) {
+      edges {
+        cursor
+        node {
+          userId
+        }
+      }
+      totalCount
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}`;
