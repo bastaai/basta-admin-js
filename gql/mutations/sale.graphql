@@ -1,0 +1,20 @@
+mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
+  createSale(accountId: $accountId, input: $input) {
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    closingMethod
+    closingTimeCountdown
+    currency
+    dates {
+      openDate
+      closingDate
+    }
+    description
+    title
+  }
+}

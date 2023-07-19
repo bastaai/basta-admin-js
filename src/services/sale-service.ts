@@ -1,12 +1,19 @@
 import { BastaRequest } from '../../types/request';
 import { Sale } from '../../types/sale';
 import { BastaResponse, ISaleService } from '../../types/sdk';
-import { GET_SALE, GET_ALL_SALES } from '../gql/generated/operations';
+import {
+  GET_SALE,
+  GET_ALL_SALES,
+  CREATE_SALE,
+} from '../gql/generated/operations';
 import {
   Get_SaleQueryVariables,
   Get_SaleQuery,
   Get_All_SalesQueryVariables,
   Get_All_SalesQuery,
+  CreateSaleInput,
+  Create_SaleMutation,
+  Create_SaleMutationVariables,
 } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
@@ -59,6 +66,30 @@ export class SaleService implements ISaleService {
     }> = await res.json();
 
     const sanitized: Sale[] = JSON.parse(JSON.stringify(json.data.sales));
+
+    return sanitized;
+  }
+
+  async create(accountId: string, input: CreateSaleInput): Promise<Sale> {
+    const variables: Create_SaleMutationVariables = {
+      accountId: accountId,
+      input: input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: CREATE_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{
+      createSale: Create_SaleMutation;
+    }> = await res.json();
+
+    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.createSale));
 
     return sanitized;
   }

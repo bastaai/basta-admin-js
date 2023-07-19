@@ -80,6 +80,7 @@ export class BidService implements IBidService {
         itemId: itemId,
         saleId: saleId,
         userId: userId,
+        appliedByUserId: userId,
       },
     };
 

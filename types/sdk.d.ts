@@ -1,6 +1,7 @@
 import { Sale } from './sale';
 import { UserToken } from './user';
 import { BidType } from './bid';
+import { CreateSaleInput } from '../src/gql/generated/types';
 
 export type BastaResponse<T> = {
   data: T;
@@ -30,6 +31,10 @@ export interface IBidService {
 export interface ISaleService {
   /** Gets a Basta sale. */
   get(saleId: string): Promise<Sale>;
+  /** Gets all Basta sales from a user. */
+  getAll(): Promise<Sale[]>;
+  /** Creates a Basta sale. */
+  create(accountId: string, input: CreateSaleInput): Promise<Sale>;
 }
 export interface IUserService {
   /**

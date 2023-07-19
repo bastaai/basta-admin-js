@@ -139,8 +139,6 @@ export enum ActionType {
   BidOnItem = 'BID_ON_ITEM',
   /** Event: When an item status change associated with your account occurs in the system. */
   ItemsStatusChanged = 'ITEMS_STATUS_CHANGED',
-  /** Event: When 1 or more item in a sale change associated with your account. */
-  ItemsUpdated = 'ITEMS_UPDATED',
   /** Event: When a sale status change associated with your account occurs in the system. */
   SaleStatusChanged = 'SALE_STATUS_CHANGED',
 }
@@ -1461,6 +1459,37 @@ export type Bid_On_BehalfMutation = {
     userId: string;
     date: string;
     bidStatus?: BidStatus | null;
+  };
+};
+
+export type Create_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: CreateSaleInput;
+}>;
+
+export type Create_SaleMutation = {
+  __typename?: 'Mutation';
+  createSale: {
+    __typename?: 'Sale';
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    currency?: string | null;
+    description?: string | null;
+    title?: string | null;
+    incrementTable?: {
+      __typename?: 'BidIncrementTable';
+      rules: Array<{
+        __typename?: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename?: 'SaleDates';
+      openDate?: string | null;
+      closingDate?: string | null;
+    };
   };
 };
 
