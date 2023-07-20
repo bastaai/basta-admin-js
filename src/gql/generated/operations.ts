@@ -25,6 +25,22 @@ mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
   }
 }`;
 
+export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
+  createItem(accountId: $accountId, input: $input) {
+    id
+    saleId
+    images {
+      id
+      url
+      order
+    }
+    description
+    title
+    valuationAmount
+    valuationCurrency
+  }
+}`;
+
 export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
   createSale(accountId: $accountId, input: $input) {
     incrementTable {
@@ -51,6 +67,15 @@ export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!
     __typename
     token
     expirationDate
+  }
+}`;
+
+export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
+  item(accountId: $accountId, itemId: $itemId) {
+    description
+    title
+    valuationAmount
+    valuationCurrency
   }
 }`;
 

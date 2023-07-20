@@ -1462,6 +1462,30 @@ export type Bid_On_BehalfMutation = {
   };
 };
 
+export type Create_ItemMutationVariables = Exact<{
+  accountId: string;
+  input: CreateItemInput;
+}>;
+
+export type Create_ItemMutation = {
+  __typename?: 'Mutation';
+  createItem: {
+    __typename?: 'Item';
+    id: string;
+    saleId?: string | null;
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
 export type Create_SaleMutationVariables = Exact<{
   accountId: string;
   input: CreateSaleInput;
@@ -1504,6 +1528,22 @@ export type Create_User_TokenMutation = {
     __typename: 'UserToken';
     token: string;
     expirationDate: string;
+  };
+};
+
+export type Get_ItemQueryVariables = Exact<{
+  accountId: string;
+  itemId: string;
+}>;
+
+export type Get_ItemQuery = {
+  __typename?: 'Query';
+  item: {
+    __typename?: 'Item';
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
   };
 };
 
