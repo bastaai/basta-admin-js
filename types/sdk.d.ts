@@ -5,6 +5,9 @@ import {
   CreateItemInput,
   CreateSaleInput,
   Item,
+  ItemsConnection,
+  ItemsFilter,
+  SaleConnection,
 } from '../src/gql/generated/types';
 
 export type BastaResponse<T> = {
@@ -36,16 +39,22 @@ export interface ISaleService {
   /** Gets a Basta sale. */
   get(saleId: string): Promise<Sale>;
   /** Gets all Basta sales from a user. */
-  getAll(): Promise<Sale[]>;
+  getAll(): Promise<SaleConnection>;
   /** Creates a Basta sale. */
-  create(accountId: string, input: CreateSaleInput): Promise<Sale>;
+  create(input: CreateSaleInput): Promise<Sale>;
 }
 
 export interface IItemService {
   /** Gets a Basta item. */
-  get(accountId: string, itemId: string): Promise<Item>;
+  get(itemId: string): Promise<Item>;
+  /** Gets all Basta items from a user. */
+  getAll(
+    itemsFilter: ItemsFilter,
+    first: number,
+    after?: string
+  ): Promise<ItemsConnection>;
   /** Creates a Basta item. */
-  create(accountId: string, input: CreateItemInput): Promise<Item>;
+  create(input: CreateItemInput): Promise<Item>;
 }
 export interface IUserService {
   /**

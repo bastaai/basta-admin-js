@@ -79,6 +79,36 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
   }
 }`;
 
+export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFilter: ItemsFilter!, $first: Int, $after: String) {
+  items(
+    accountId: $accountId
+    itemsFilter: $itemsFilter
+    first: $first
+    after: $after
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        title
+        description
+        valuationAmount
+        valuationCurrency
+        saleId
+        images {
+          id
+          url
+          order
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}`;
+
 export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: Int = 20, $after: String, $filter: SaleFilter) {
   sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
     edges {

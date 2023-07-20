@@ -1547,6 +1547,44 @@ export type Get_ItemQuery = {
   };
 };
 
+export type Get_All_ItemsQueryVariables = Exact<{
+  accountId: string;
+  itemsFilter: ItemsFilter;
+  first?: InputMaybe<number>;
+  after?: InputMaybe<string>;
+}>;
+
+export type Get_All_ItemsQuery = {
+  __typename?: 'Query';
+  items: {
+    __typename?: 'ItemsConnection';
+    edges: Array<{
+      __typename?: 'ItemsEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Item';
+        id: string;
+        title?: string | null;
+        description?: string | null;
+        valuationAmount?: number | null;
+        valuationCurrency?: string | null;
+        saleId?: string | null;
+        images: Array<{
+          __typename?: 'Image';
+          id: string;
+          url: string;
+          order: number;
+        }>;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      endCursor: string;
+      hasNextPage: boolean;
+    };
+  };
+};
+
 export type Get_All_SalesQueryVariables = Exact<{
   accountId: string;
   first?: InputMaybe<number>;
