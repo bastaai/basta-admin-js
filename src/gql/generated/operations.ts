@@ -1,3 +1,13 @@
+export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountID, input: $input) {
+    amount
+    maxAmount
+    userId
+    date
+    bidStatus
+  }
+}`;
+
 export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
@@ -70,15 +80,6 @@ export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!
   }
 }`;
 
-export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
-  item(accountId: $accountId, itemId: $itemId) {
-    description
-    title
-    valuationAmount
-    valuationCurrency
-  }
-}`;
-
 export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFilter: ItemsFilter!, $first: Int, $after: String) {
   items(
     accountId: $accountId
@@ -102,10 +103,15 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
         }
       }
     }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
+  }
+}`;
+
+export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
+  item(accountId: $accountId, itemId: $itemId) {
+    description
+    title
+    valuationAmount
+    valuationCurrency
   }
 }`;
 
@@ -166,11 +172,6 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
               }
             }
           }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-          }
         }
         incrementTable {
           rules {
@@ -191,18 +192,8 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
             }
           }
           totalCount
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-          }
         }
       }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasNextPage
     }
   }
 }`;
@@ -261,11 +252,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           }
         }
       }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-      }
     }
     incrementTable {
       rules {
@@ -286,11 +272,6 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
         }
       }
       totalCount
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-      }
     }
   }
 }`;

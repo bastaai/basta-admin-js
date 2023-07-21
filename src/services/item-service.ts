@@ -5,9 +5,7 @@ import {
   Item,
   Get_ItemQuery,
   Get_ItemQueryVariables,
-  ItemsConnection,
   Get_All_ItemsQueryVariables,
-  ItemsFilter,
   Get_All_ItemsQuery,
 } from '../gql/generated/types';
 import {
@@ -43,24 +41,18 @@ export class ItemService implements IItemService {
     });
 
     const json: BastaResponse<{
-      item: Get_ItemQuery;
+      response: Get_ItemQuery;
     }> = await res.json();
 
-    const sanitized: Item = JSON.parse(JSON.stringify(json.data.item));
+    const sanitized: Item = JSON.parse(JSON.stringify(json.data.response.item));
 
     return sanitized;
   }
 
-  async getAll(
-    itemsFilter: ItemsFilter,
-    first = 20,
-    after?: string
-  ): Promise<ItemsConnection> {
+  async getAll(): Promise<Item[]> {
     const variables: Get_All_ItemsQueryVariables = {
       accountId: this._bastaReq.accountId,
-      itemsFilter: itemsFilter,
-      first: first,
-      after: after,
+      itemsFilter: { onlyMyItems: false },
     };
 
     const res = await fetch(this._bastaReq.url, {
@@ -73,13 +65,12 @@ export class ItemService implements IItemService {
     });
 
     const json: BastaResponse<{
-      items: Get_All_ItemsQuery;
+      response: Get_All_ItemsQuery;
     }> = await res.json();
 
-    const sanitized: ItemsConnection = JSON.parse(
-      JSON.stringify(json.data.items)
+    const sanitized: Item[] = JSON.parse(
+      JSON.stringify(json.data.response.items.edges)
     );
-
     return sanitized;
   }
 
@@ -99,10 +90,12 @@ export class ItemService implements IItemService {
     });
 
     const json: BastaResponse<{
-      createItem: Create_ItemMutation;
+      response: Create_ItemMutation;
     }> = await res.json();
 
-    const sanitized: Item = JSON.parse(JSON.stringify(json.data.createItem));
+    const sanitized: Item = JSON.parse(
+      JSON.stringify(json.data.response.createItem)
+    );
 
     return sanitized;
   }

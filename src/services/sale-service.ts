@@ -39,10 +39,10 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      sale: Get_SaleQuery;
+      response: Get_SaleQuery;
     }> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.sale));
+    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.response.sale));
 
     return sanitized;
   }
@@ -62,17 +62,19 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      sales: Get_All_SalesQuery;
+      response: Get_All_SalesQuery;
     }> = await res.json();
 
-    const sanitized: Sale[] = JSON.parse(JSON.stringify(json.data.sales));
+    const sanitized: Sale[] = JSON.parse(
+      JSON.stringify(json.data.response.sales.edges)
+    );
 
     return sanitized;
   }
 
-  async create(accountId: string, input: CreateSaleInput): Promise<Sale> {
+  async create(input: CreateSaleInput): Promise<Sale> {
     const variables: Create_SaleMutationVariables = {
-      accountId: accountId,
+      accountId: this._bastaReq.accountId,
       input: input,
     };
 
@@ -86,10 +88,12 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      createSale: Create_SaleMutation;
+      response: Create_SaleMutation;
     }> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.createSale));
+    const sanitized: Sale = JSON.parse(
+      JSON.stringify(json.data.response.createSale)
+    );
 
     return sanitized;
   }

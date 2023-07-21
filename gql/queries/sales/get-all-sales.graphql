@@ -60,11 +60,6 @@ query GET_ALL_SALES(
               }
             }
           }
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-          }
         }
         incrementTable {
           rules {
@@ -85,18 +80,8 @@ query GET_ALL_SALES(
             }
           }
           totalCount
-          pageInfo {
-            startCursor
-            endCursor
-            hasNextPage
-          }
         }
       }
-    }
-    pageInfo {
-      startCursor
-      endCursor
-      hasNextPage
     }
   }
 }

@@ -1426,6 +1426,23 @@ export type UserTokenInput = {
   userID: string;
 };
 
+export type Bid_On_BehalfMutationVariables = Exact<{
+  accountID: string;
+  input: BidOnBehalfInput;
+}>;
+
+export type Bid_On_BehalfMutation = {
+  __typename?: 'Mutation';
+  bidOnBehalf: {
+    __typename?: 'Bid';
+    amount: number;
+    maxAmount: number;
+    userId: string;
+    date: string;
+    bidStatus?: BidStatus | null;
+  };
+};
+
 export type Bid_On_ItemMutationVariables = Exact<{
   accountId: string;
   input: BidOnItemInput;
@@ -1443,23 +1460,6 @@ export type Bid_On_ItemMutation = {
         bidStatus: BidStatus;
         bidType: BidType;
       };
-};
-
-export type Bid_On_BehalfMutationVariables = Exact<{
-  accountID: string;
-  input: BidOnBehalfInput;
-}>;
-
-export type Bid_On_BehalfMutation = {
-  __typename?: 'Mutation';
-  bidOnBehalf: {
-    __typename?: 'Bid';
-    amount: number;
-    maxAmount: number;
-    userId: string;
-    date: string;
-    bidStatus?: BidStatus | null;
-  };
 };
 
 export type Create_ItemMutationVariables = Exact<{
@@ -1531,22 +1531,6 @@ export type Create_User_TokenMutation = {
   };
 };
 
-export type Get_ItemQueryVariables = Exact<{
-  accountId: string;
-  itemId: string;
-}>;
-
-export type Get_ItemQuery = {
-  __typename?: 'Query';
-  item: {
-    __typename?: 'Item';
-    description?: string | null;
-    title?: string | null;
-    valuationAmount?: number | null;
-    valuationCurrency?: string | null;
-  };
-};
-
 export type Get_All_ItemsQueryVariables = Exact<{
   accountId: string;
   itemsFilter: ItemsFilter;
@@ -1577,11 +1561,22 @@ export type Get_All_ItemsQuery = {
         }>;
       };
     }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      endCursor: string;
-      hasNextPage: boolean;
-    };
+  };
+};
+
+export type Get_ItemQueryVariables = Exact<{
+  accountId: string;
+  itemId: string;
+}>;
+
+export type Get_ItemQuery = {
+  __typename?: 'Query';
+  item: {
+    __typename?: 'Item';
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
   };
 };
 
@@ -1660,12 +1655,6 @@ export type Get_All_SalesQuery = {
               };
             };
           }>;
-          pageInfo: {
-            __typename?: 'PageInfo';
-            startCursor: string;
-            endCursor: string;
-            hasNextPage: boolean;
-          };
         };
         incrementTable?: {
           __typename?: 'BidIncrementTable';
@@ -1689,21 +1678,9 @@ export type Get_All_SalesQuery = {
             cursor: string;
             node: { __typename?: 'Participant'; userId: string };
           }>;
-          pageInfo: {
-            __typename?: 'PageInfo';
-            startCursor: string;
-            endCursor: string;
-            hasNextPage: boolean;
-          };
         };
       };
     }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      startCursor: string;
-      endCursor: string;
-      hasNextPage: boolean;
-    };
   };
 };
 
@@ -1778,12 +1755,6 @@ export type Get_SaleQuery = {
           };
         };
       }>;
-      pageInfo: {
-        __typename?: 'PageInfo';
-        startCursor: string;
-        endCursor: string;
-        hasNextPage: boolean;
-      };
     };
     incrementTable?: {
       __typename?: 'BidIncrementTable';
@@ -1807,12 +1778,6 @@ export type Get_SaleQuery = {
         cursor: string;
         node: { __typename?: 'Participant'; userId: string };
       }>;
-      pageInfo: {
-        __typename?: 'PageInfo';
-        startCursor: string;
-        endCursor: string;
-        hasNextPage: boolean;
-      };
     };
   };
 };
