@@ -1486,6 +1486,31 @@ export type Create_ItemMutation = {
   };
 };
 
+export type Update_ItemMutationVariables = Exact<{
+  accountId: string;
+  itemId: string;
+  input: UpdateItemInput;
+}>;
+
+export type Update_ItemMutation = {
+  __typename?: 'Mutation';
+  updateItem: {
+    __typename?: 'Item';
+    id: string;
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
+    saleId?: string | null;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
 export type Create_SaleMutationVariables = Exact<{
   accountId: string;
   input: CreateSaleInput;

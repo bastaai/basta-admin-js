@@ -23,16 +23,6 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
       error
     }
   }
-}
-
-mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
-  bidOnBehalf(accountId: $accountID, input: $input) {
-    amount
-    maxAmount
-    userId
-    date
-    bidStatus
-  }
 }`;
 
 export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
@@ -48,6 +38,22 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
     title
     valuationAmount
     valuationCurrency
+  }
+}`;
+
+export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: String!, $input: UpdateItemInput!) {
+  updateItem(accountId: $accountId, itemId: $itemId, input: $input) {
+    id
+    description
+    title
+    valuationAmount
+    valuationCurrency
+    saleId
+    images {
+      id
+      url
+      order
+    }
   }
 }`;
 

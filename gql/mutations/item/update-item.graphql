@@ -1,0 +1,19 @@
+mutation UPDATE_ITEM(
+  $accountId: String!
+  $itemId: String!
+  $input: UpdateItemInput!
+) {
+  updateItem(accountId: $accountId, itemId: $itemId, input: $input) {
+    id
+    description
+    title
+    valuationAmount
+    valuationCurrency
+    saleId
+    images {
+      id
+      url
+      order
+    }
+  }
+}

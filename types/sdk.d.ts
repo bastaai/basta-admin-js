@@ -5,6 +5,7 @@ import {
   CreateItemInput,
   CreateSaleInput,
   Item,
+  UpdateItemInput,
 } from '../src/gql/generated/types';
 
 export type BastaResponse<T> = {
@@ -48,6 +49,8 @@ export interface IItemService {
   getAll(): Promise<Item[]>;
   /** Creates a Basta item. */
   create(input: CreateItemInput): Promise<Item>;
+  /** Updates a Basta item. */
+  update(itemId: string, input: UpdateItemInput): Promise<Item>;
 }
 export interface IUserService {
   /**

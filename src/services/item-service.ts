@@ -7,11 +7,13 @@ import {
   Get_ItemQueryVariables,
   Get_All_ItemsQueryVariables,
   Get_All_ItemsQuery,
+  UpdateItemInput,
 } from '../gql/generated/types';
 import {
   CREATE_ITEM,
   GET_ALL_ITEMS,
   GET_ITEM,
+  UPDATE_ITEM,
 } from '../gql/generated/operations';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
@@ -96,6 +98,31 @@ export class ItemService implements IItemService {
     const sanitized: Item = JSON.parse(
       JSON.stringify(json.data.response.createItem)
     );
+
+    return sanitized;
+  }
+
+  async update(itemId: string, input: UpdateItemInput): Promise<Item> {
+    const variables = {
+      accountId: this._bastaReq.accountId,
+      itemId: itemId,
+      input: input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: UPDATE_ITEM,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{
+      item: Item;
+    }> = await res.json();
+
+    const sanitized: Item = JSON.parse(JSON.stringify(json.data.item));
 
     return sanitized;
   }
