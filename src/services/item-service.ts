@@ -8,9 +8,12 @@ import {
   Get_All_ItemsQueryVariables,
   Get_All_ItemsQuery,
   UpdateItemInput,
+  SaleItemInput,
+  SaleItem,
 } from '../gql/generated/types';
 import {
   CREATE_ITEM,
+  CREATE_ITEM_FOR_SALE,
   GET_ALL_ITEMS,
   GET_ITEM,
   UPDATE_ITEM,
@@ -125,5 +128,29 @@ export class ItemService implements IItemService {
     const sanitized: Item = JSON.parse(JSON.stringify(json.data.item));
 
     return sanitized;
+  }
+
+  async createItemForSale(input: SaleItemInput): Promise<SaleItem> {
+    const variables = {
+      accountId: this._bastaReq.accountId,
+      input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: CREATE_ITEM_FOR_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{
+      saleItem: SaleItem;
+    }> = await res.json();
+
+    const saleItem: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
+
+    return saleItem;
   }
 }

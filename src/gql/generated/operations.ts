@@ -25,6 +25,43 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   }
 }`;
 
+export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: String!, $input: SaleItemInput!) {
+  createItemForSale(accountId: $accountId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
+  }
+}`;
+
 export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
   createItem(accountId: $accountId, input: $input) {
     id

@@ -1462,6 +1462,53 @@ export type Bid_On_ItemMutation = {
       };
 };
 
+export type Create_Item_For_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: SaleItemInput;
+}>;
+
+export type Create_Item_For_SaleMutation = {
+  __typename?: 'Mutation';
+  createItemForSale: {
+    __typename?: 'SaleItem';
+    id: string;
+    title?: string | null;
+    totalBids: number;
+    description?: string | null;
+    currentBid?: number | null;
+    leaderId?: string | null;
+    saleId: string;
+    reserve?: number | null;
+    startingBid?: number | null;
+    status: ItemStatus;
+    lowEstimate: number;
+    highEstimate: number;
+    itemNumber: number;
+    allowedBidTypes?: Array<BidType> | null;
+    bids: Array<{
+      __typename?: 'Bid';
+      bidId: string;
+      amount: number;
+      maxAmount: number;
+      userId: string;
+      date: string;
+      bidStatus?: BidStatus | null;
+      bidSequenceNumber: number;
+    }>;
+    dates: {
+      __typename?: 'ItemDates';
+      closingStart?: string | null;
+      closingEnd?: string | null;
+    };
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
 export type Create_ItemMutationVariables = Exact<{
   accountId: string;
   input: CreateItemInput;

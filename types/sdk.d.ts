@@ -5,6 +5,8 @@ import {
   CreateItemInput,
   CreateSaleInput,
   Item,
+  SaleItem,
+  SaleItemInput,
   UpdateItemInput,
 } from '../src/gql/generated/types';
 
@@ -51,6 +53,8 @@ export interface IItemService {
   create(input: CreateItemInput): Promise<Item>;
   /** Updates a Basta item. */
   update(itemId: string, input: UpdateItemInput): Promise<Item>;
+  /** Create item and add to a sale. This operation will automatically create an item and add it to the sale. */
+  createItemForSale(input: SaleItemInput): Promise<SaleItem>;
 }
 export interface IUserService {
   /**
