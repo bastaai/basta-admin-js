@@ -2,12 +2,15 @@ import { Sale } from './sale';
 import { UserToken } from './user';
 import { BidType } from './bid';
 import {
+  AddItemToSaleInput,
   CreateItemInput,
   CreateSaleInput,
   Item,
+  RemoveSaleItemInput,
   SaleItem,
   SaleItemInput,
   UpdateItemInput,
+  UpdateSaleItemInput,
 } from '../src/gql/generated/types';
 
 export type BastaResponse<T> = {
@@ -51,10 +54,19 @@ export interface IItemService {
   getAll(): Promise<Item[]>;
   /** Creates a Basta item. */
   create(input: CreateItemInput): Promise<Item>;
-  /** Updates a Basta item. */
+  /** Updates a Basta item. This will update information about items for all sales that has not been closed. */
   update(itemId: string, input: UpdateItemInput): Promise<Item>;
   /** Create item and add to a sale. This operation will automatically create an item and add it to the sale. */
   createItemForSale(input: SaleItemInput): Promise<SaleItem>;
+  /** Add a currently existing item to a sale. */
+  addItemToSale(input: AddItemToSaleInput): Promise<SaleItem>;
+  /** Remove an item from the sale. This will not delete the item completely. */
+  removeItemFromSale(input: RemoveSaleItemInput): Promise<Sale>;
+  /** Update item associated with a sale. */
+  updateItemForSale(
+    itemId: string,
+    input: UpdateSaleItemInput
+  ): Promise<SaleItem>;
 }
 export interface IUserService {
   /**

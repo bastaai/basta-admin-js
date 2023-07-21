@@ -1,0 +1,32 @@
+mutation REMOVE_ITEM_FROM_SALE(
+  $accountId: String!
+  $input: RemoveSaleItemInput!
+) {
+  removeItemFromSale(accountId: $accountId, input: $input) {
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      closingDate
+      openDate
+    }
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    images {
+      id
+      url
+      order
+    }
+  }
+}

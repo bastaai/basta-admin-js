@@ -10,13 +10,20 @@ import {
   UpdateItemInput,
   SaleItemInput,
   SaleItem,
+  AddItemToSaleInput,
+  RemoveSaleItemInput,
+  Sale,
+  UpdateSaleItemInput,
 } from '../gql/generated/types';
 import {
+  ADD_ITEM_TO_SALE,
   CREATE_ITEM,
   CREATE_ITEM_FOR_SALE,
   GET_ALL_ITEMS,
   GET_ITEM,
+  REMOVE_ITEM_FROM_SALE,
   UPDATE_ITEM,
+  UPDATE_ITEM_FOR_SALE,
 } from '../gql/generated/operations';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
@@ -152,5 +159,75 @@ export class ItemService implements IItemService {
     const saleItem: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
 
     return saleItem;
+  }
+
+  async addItemToSale(input: AddItemToSaleInput): Promise<SaleItem> {
+    const variables = {
+      accountId: this._bastaReq.accountId,
+      input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: ADD_ITEM_TO_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{ saleItem: SaleItem }> = await res.json();
+
+    const sanitized: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
+
+    return sanitized;
+  }
+
+  async removeItemFromSale(input: RemoveSaleItemInput): Promise<Sale> {
+    const variables = {
+      accountId: this._bastaReq.accountId,
+      input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: REMOVE_ITEM_FROM_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{ sale: Sale }> = await res.json();
+
+    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.sale));
+
+    return sanitized;
+  }
+
+  async updateItemForSale(
+    itemId: string,
+    input: UpdateSaleItemInput
+  ): Promise<SaleItem> {
+    const variables = {
+      accountId: this._bastaReq.accountId,
+      itemId,
+      input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: UPDATE_ITEM_FOR_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{ saleItem: SaleItem }> = await res.json();
+
+    const sanitized: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
+
+    return sanitized;
   }
 }

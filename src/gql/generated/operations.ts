@@ -25,6 +25,43 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   }
 }`;
 
+export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
+  addItemToSale(accountId: $accountId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
+  }
+}`;
+
 export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: String!, $input: SaleItemInput!) {
   createItemForSale(accountId: $accountId, input: $input) {
     id
@@ -75,6 +112,73 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
     title
     valuationAmount
     valuationCurrency
+  }
+}`;
+
+export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId: String!, $input: RemoveSaleItemInput!) {
+  removeItemFromSale(accountId: $accountId, input: $input) {
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      closingDate
+      openDate
+    }
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    images {
+      id
+      url
+      order
+    }
+  }
+}`;
+
+export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: String!, $itemId: String!, $input: UpdateSaleItemInput!) {
+  updateItemForSale(accountId: $accountId, itemId: $itemId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
   }
 }`;
 
