@@ -14,6 +14,8 @@ import {
   CreateSaleInput,
   Create_SaleMutation,
   Create_SaleMutationVariables,
+  SaleConnection,
+  SalesEdge,
 } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
@@ -39,10 +41,10 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      response: Get_SaleQuery;
+      sale: Get_SaleQuery;
     }> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.response.sale));
+    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.sale));
 
     return sanitized;
   }
@@ -62,14 +64,16 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      response: Get_All_SalesQuery;
+      sales: Get_All_SalesQuery;
     }> = await res.json();
 
-    const sanitized: Sale[] = JSON.parse(
-      JSON.stringify(json.data.response.sales.edges)
+    const sanitized: SaleConnection = JSON.parse(
+      JSON.stringify(json.data.sales)
     );
 
-    return sanitized;
+    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => sale.node);
+
+    return sales;
   }
 
   async create(input: CreateSaleInput): Promise<Sale> {

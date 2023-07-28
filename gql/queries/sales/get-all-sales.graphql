@@ -6,7 +6,6 @@ query GET_ALL_SALES(
 ) {
   sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
     edges {
-      cursor
       node {
         id
         accountId
@@ -24,7 +23,6 @@ query GET_ALL_SALES(
         }
         items {
           edges {
-            cursor
             node {
               id
               title
