@@ -5,8 +5,4 @@ export * from './user';
 export * from './item';
 export * from './bid';
 
-export const initBasta: (
-  secretKey: string,
-  accountId: string,
-  cookie?: string
-) => IBastaAdmin;
+export const initBasta: (secretKey: string, accountId: string) => IBastaAdmin;
