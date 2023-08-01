@@ -1,3 +1,4 @@
+import { BidResponse } from '../../types/bid';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, BidArgs, IBidService } from '../../types/sdk';
 import { BID_ON_ITEM } from '../gql/generated/operations';
@@ -19,7 +20,7 @@ export class BidService implements IBidService {
     itemId,
     saleId,
     userId,
-  }: BidArgs): Promise<boolean> {
+  }: BidArgs): Promise<BidResponse> {
     return await this._doBid({
       bidType: BidType.Normal,
       amount: amount,
@@ -34,7 +35,7 @@ export class BidService implements IBidService {
     itemId,
     saleId,
     userId,
-  }: BidArgs): Promise<boolean> {
+  }: BidArgs): Promise<BidResponse> {
     return await this._doBid({
       bidType: BidType.Max,
       amount: amount,
@@ -49,7 +50,7 @@ export class BidService implements IBidService {
     itemId,
     saleId,
     userId,
-  }: BidArgs): Promise<boolean> {
+  }: BidArgs): Promise<BidResponse> {
     return await this._doBid({
       bidType: BidType.Offer,
       amount: amount,
@@ -71,7 +72,7 @@ export class BidService implements IBidService {
     itemId: string;
     saleId: string;
     userId: string;
-  }) {
+  }): Promise<BidResponse> {
     const variables: MutationBidOnItemV2Args = {
       accountId: this._bastaReq.accountId,
       input: {
@@ -98,6 +99,22 @@ export class BidService implements IBidService {
       JSON.stringify(json.data.bidOnItemV2)
     );
 
-    return sanitized.__typename === 'BidPlacedSuccess';
+    if (sanitized.__typename === 'BidPlacedSuccess') {
+      return {
+        bid: {
+          amount: sanitized.amount,
+          bidId: sanitized.bidId,
+          bidStatus: sanitized.bidStatus,
+          bidType: sanitized.bidType,
+          date: sanitized.date,
+          maxAmount: sanitized.maxAmount,
+        },
+        success: true,
+      };
+    }
+    return {
+      success: false,
+      bid: undefined,
+    };
   }
 }

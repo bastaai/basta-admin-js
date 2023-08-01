@@ -41,10 +41,36 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<{
-      sale: Get_SaleQuery;
+      response: Get_SaleQuery;
     }> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.sale));
+    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.response.sale));
+
+    return sanitized;
+  }
+
+  async create(input: CreateSaleInput): Promise<Sale> {
+    const variables: Create_SaleMutationVariables = {
+      accountId: this._bastaReq.accountId,
+      input: input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: CREATE_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{
+      response: Create_SaleMutation;
+    }> = await res.json();
+
+    const sanitized: Sale = JSON.parse(
+      JSON.stringify(json.data.response.createSale)
+    );
 
     return sanitized;
   }
@@ -74,31 +100,5 @@ export class SaleService implements ISaleService {
     const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => sale.node);
 
     return sales;
-  }
-
-  async create(input: CreateSaleInput): Promise<Sale> {
-    const variables: Create_SaleMutationVariables = {
-      accountId: this._bastaReq.accountId,
-      input: input,
-    };
-
-    const res = await fetch(this._bastaReq.url, {
-      method: 'POST',
-      headers: this._bastaReq.headers,
-      body: JSON.stringify({
-        query: CREATE_SALE,
-        variables: variables,
-      }),
-    });
-
-    const json: BastaResponse<{
-      response: Create_SaleMutation;
-    }> = await res.json();
-
-    const sanitized: Sale = JSON.parse(
-      JSON.stringify(json.data.response.createSale)
-    );
-
-    return sanitized;
   }
 }

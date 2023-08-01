@@ -1,6 +1,6 @@
 import { Sale } from './sale';
 import { UserToken } from './user';
-import { BidType } from './bid';
+import { BidResponse, BidType } from './bid';
 import {
   AddItemToSaleInput,
   CreateItemInput,
@@ -33,11 +33,11 @@ export interface IBastaAdmin {
 }
 export interface IBidService {
   /** Places a bid on a Basta item. */
-  placeBid(params: BidArgs): Promise<boolean>;
+  placeBid(params: BidArgs): Promise<BidResponse>;
   /** Places a max bid on a Basta item. */
-  placeMaxBid(params: BidArgs): Promise<boolean>;
+  placeMaxBid(params: BidArgs): Promise<BidResponse>;
   /** Places an offer on a Basta item. */
-  placeOffer(params: BidArgs): Promise<boolean>;
+  placeOffer(params: BidArgs): Promise<BidResponse>;
 }
 export interface ISaleService {
   /** Gets a Basta sale. */

@@ -1801,6 +1801,10 @@ export type Get_All_SalesQuery = {
     __typename?: 'SaleConnection';
     edges: Array<{
       __typename?: 'SalesEdge';
+<<<<<<< HEAD
+=======
+      cursor: string;
+>>>>>>> d404245d370ec473b615549adcec1b549ff30089
       node: {
         __typename?: 'Sale';
         id: string;
@@ -1822,6 +1826,10 @@ export type Get_All_SalesQuery = {
           __typename?: 'SaleItemsConnection';
           edges: Array<{
             __typename?: 'SaleItemsEdge';
+<<<<<<< HEAD
+=======
+            cursor: string;
+>>>>>>> d404245d370ec473b615549adcec1b549ff30089
             node: {
               __typename?: 'SaleItem';
               id: string;

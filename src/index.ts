@@ -32,8 +32,7 @@ class BastaAdmin implements IBastaAdmin {
 
     this._bastaReq = {
       accountId: accountId,
-      url: 'https://management.api.basta.ai/graphql',
-/*       url: 'https://management.api.basta.wtf/graphql', */
+      url: 'https://management.api.basta.wtf/graphql',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,
