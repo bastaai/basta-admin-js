@@ -1,0 +1,8 @@
+query GET_ITEM($accountId: String!, $itemId: String!) {
+  item(accountId: $accountId, itemId: $itemId) {
+    description
+    title
+    valuationAmount
+    valuationCurrency
+  }
+}

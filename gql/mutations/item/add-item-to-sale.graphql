@@ -1,0 +1,36 @@
+mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
+  addItemToSale(accountId: $accountId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
+  }
+}

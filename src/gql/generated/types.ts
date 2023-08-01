@@ -139,8 +139,6 @@ export enum ActionType {
   BidOnItem = 'BID_ON_ITEM',
   /** Event: When an item status change associated with your account occurs in the system. */
   ItemsStatusChanged = 'ITEMS_STATUS_CHANGED',
-  /** Event: When 1 or more item in a sale change associated with your account. */
-  ItemsUpdated = 'ITEMS_UPDATED',
   /** Event: When a sale status change associated with your account occurs in the system. */
   SaleStatusChanged = 'SALE_STATUS_CHANGED',
 }
@@ -302,6 +300,11 @@ export type BidOnItemInput = {
    * In USD that would be cents. A bid of $100 should have the amount set as the integer 10_000
    */
   amount: number;
+  /**
+   * AppliedByUserId indicates who is executing the bid.
+   * If userId and appliedByuserId are not the same then appliedByUserId is bidding on behalf of userId.
+   */
+  appliedByUserId: string;
   /** The type of bid being placed. Must be part of item's allowedBids property. */
   bidType: BidType;
   /** ItemId */
@@ -332,6 +335,8 @@ export type BidPlacedSuccess = {
   __typename?: 'BidPlacedSuccess';
   /** Amount of placed bid. Minor currency units. */
   amount: number;
+  /** BidId */
+  bidId: string;
   /** Bid Status of the bid */
   bidStatus: BidStatus;
   /** BidType */
@@ -1421,6 +1426,23 @@ export type UserTokenInput = {
   userID: string;
 };
 
+export type Bid_On_BehalfMutationVariables = Exact<{
+  accountID: string;
+  input: BidOnBehalfInput;
+}>;
+
+export type Bid_On_BehalfMutation = {
+  __typename?: 'Mutation';
+  bidOnBehalf: {
+    __typename?: 'Bid';
+    amount: number;
+    maxAmount: number;
+    userId: string;
+    date: string;
+    bidStatus?: BidStatus | null;
+  };
+};
+
 export type Bid_On_ItemMutationVariables = Exact<{
   accountId: string;
   input: BidOnItemInput;
@@ -1440,20 +1462,266 @@ export type Bid_On_ItemMutation = {
       };
 };
 
-export type Bid_On_BehalfMutationVariables = Exact<{
-  accountID: string;
-  input: BidOnBehalfInput;
+export type Add_Item_To_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: AddItemToSaleInput;
 }>;
 
-export type Bid_On_BehalfMutation = {
+export type Add_Item_To_SaleMutation = {
   __typename?: 'Mutation';
-  bidOnBehalf: {
-    __typename?: 'Bid';
-    amount: number;
-    maxAmount: number;
-    userId: string;
-    date: string;
-    bidStatus?: BidStatus | null;
+  addItemToSale: {
+    __typename?: 'SaleItem';
+    id: string;
+    title?: string | null;
+    totalBids: number;
+    description?: string | null;
+    currentBid?: number | null;
+    leaderId?: string | null;
+    saleId: string;
+    reserve?: number | null;
+    startingBid?: number | null;
+    status: ItemStatus;
+    lowEstimate: number;
+    highEstimate: number;
+    itemNumber: number;
+    allowedBidTypes?: Array<BidType> | null;
+    bids: Array<{
+      __typename?: 'Bid';
+      bidId: string;
+      amount: number;
+      maxAmount: number;
+      userId: string;
+      date: string;
+      bidStatus?: BidStatus | null;
+      bidSequenceNumber: number;
+    }>;
+    dates: {
+      __typename?: 'ItemDates';
+      closingStart?: string | null;
+      closingEnd?: string | null;
+    };
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Create_Item_For_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: SaleItemInput;
+}>;
+
+export type Create_Item_For_SaleMutation = {
+  __typename?: 'Mutation';
+  createItemForSale: {
+    __typename?: 'SaleItem';
+    id: string;
+    title?: string | null;
+    totalBids: number;
+    description?: string | null;
+    currentBid?: number | null;
+    leaderId?: string | null;
+    saleId: string;
+    reserve?: number | null;
+    startingBid?: number | null;
+    status: ItemStatus;
+    lowEstimate: number;
+    highEstimate: number;
+    itemNumber: number;
+    allowedBidTypes?: Array<BidType> | null;
+    bids: Array<{
+      __typename?: 'Bid';
+      bidId: string;
+      amount: number;
+      maxAmount: number;
+      userId: string;
+      date: string;
+      bidStatus?: BidStatus | null;
+      bidSequenceNumber: number;
+    }>;
+    dates: {
+      __typename?: 'ItemDates';
+      closingStart?: string | null;
+      closingEnd?: string | null;
+    };
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Create_ItemMutationVariables = Exact<{
+  accountId: string;
+  input: CreateItemInput;
+}>;
+
+export type Create_ItemMutation = {
+  __typename?: 'Mutation';
+  createItem: {
+    __typename?: 'Item';
+    id: string;
+    saleId?: string | null;
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Remove_Item_From_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: RemoveSaleItemInput;
+}>;
+
+export type Remove_Item_From_SaleMutation = {
+  __typename?: 'Mutation';
+  removeItemFromSale: {
+    __typename?: 'Sale';
+    id: string;
+    accountId: string;
+    title?: string | null;
+    description?: string | null;
+    currency?: string | null;
+    status: SaleStatus;
+    sequenceNumber: number;
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    incrementTable?: {
+      __typename?: 'BidIncrementTable';
+      rules: Array<{
+        __typename?: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename?: 'SaleDates';
+      closingDate?: string | null;
+      openDate?: string | null;
+    };
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Update_Item_For_SaleMutationVariables = Exact<{
+  accountId: string;
+  itemId: string;
+  input: UpdateSaleItemInput;
+}>;
+
+export type Update_Item_For_SaleMutation = {
+  __typename?: 'Mutation';
+  updateItemForSale: {
+    __typename?: 'SaleItem';
+    id: string;
+    title?: string | null;
+    totalBids: number;
+    description?: string | null;
+    currentBid?: number | null;
+    leaderId?: string | null;
+    saleId: string;
+    reserve?: number | null;
+    startingBid?: number | null;
+    status: ItemStatus;
+    lowEstimate: number;
+    highEstimate: number;
+    itemNumber: number;
+    allowedBidTypes?: Array<BidType> | null;
+    bids: Array<{
+      __typename?: 'Bid';
+      bidId: string;
+      amount: number;
+      maxAmount: number;
+      userId: string;
+      date: string;
+      bidStatus?: BidStatus | null;
+      bidSequenceNumber: number;
+    }>;
+    dates: {
+      __typename?: 'ItemDates';
+      closingStart?: string | null;
+      closingEnd?: string | null;
+    };
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Update_ItemMutationVariables = Exact<{
+  accountId: string;
+  itemId: string;
+  input: UpdateItemInput;
+}>;
+
+export type Update_ItemMutation = {
+  __typename?: 'Mutation';
+  updateItem: {
+    __typename?: 'Item';
+    id: string;
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
+    saleId?: string | null;
+    images: Array<{
+      __typename?: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+  };
+};
+
+export type Create_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: CreateSaleInput;
+}>;
+
+export type Create_SaleMutation = {
+  __typename?: 'Mutation';
+  createSale: {
+    __typename?: 'Sale';
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    currency?: string | null;
+    description?: string | null;
+    title?: string | null;
+    incrementTable?: {
+      __typename?: 'BidIncrementTable';
+      rules: Array<{
+        __typename?: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename?: 'SaleDates';
+      openDate?: string | null;
+      closingDate?: string | null;
+    };
   };
 };
 
@@ -1468,6 +1736,159 @@ export type Create_User_TokenMutation = {
     __typename: 'UserToken';
     token: string;
     expirationDate: string;
+  };
+};
+
+export type Get_All_ItemsQueryVariables = Exact<{
+  accountId: string;
+  itemsFilter: ItemsFilter;
+  first?: InputMaybe<number>;
+  after?: InputMaybe<string>;
+}>;
+
+export type Get_All_ItemsQuery = {
+  __typename?: 'Query';
+  items: {
+    __typename?: 'ItemsConnection';
+    edges: Array<{
+      __typename?: 'ItemsEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Item';
+        id: string;
+        title?: string | null;
+        description?: string | null;
+        valuationAmount?: number | null;
+        valuationCurrency?: string | null;
+        saleId?: string | null;
+        images: Array<{
+          __typename?: 'Image';
+          id: string;
+          url: string;
+          order: number;
+        }>;
+      };
+    }>;
+  };
+};
+
+export type Get_ItemQueryVariables = Exact<{
+  accountId: string;
+  itemId: string;
+}>;
+
+export type Get_ItemQuery = {
+  __typename?: 'Query';
+  item: {
+    __typename?: 'Item';
+    description?: string | null;
+    title?: string | null;
+    valuationAmount?: number | null;
+    valuationCurrency?: string | null;
+  };
+};
+
+export type Get_All_SalesQueryVariables = Exact<{
+  accountId: string;
+  first?: InputMaybe<number>;
+  after?: InputMaybe<string>;
+  filter?: InputMaybe<SaleFilter>;
+}>;
+
+export type Get_All_SalesQuery = {
+  __typename?: 'Query';
+  sales: {
+    __typename?: 'SaleConnection';
+    edges: Array<{
+      __typename?: 'SalesEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Sale';
+        id: string;
+        accountId: string;
+        title?: string | null;
+        description?: string | null;
+        currency?: string | null;
+        status: SaleStatus;
+        closingMethod?: ClosingMethod | null;
+        closingTimeCountdown: number;
+        sequenceNumber: number;
+        images: Array<{
+          __typename?: 'Image';
+          id: string;
+          url: string;
+          order: number;
+        }>;
+        items: {
+          __typename?: 'SaleItemsConnection';
+          edges: Array<{
+            __typename?: 'SaleItemsEdge';
+            cursor: string;
+            node: {
+              __typename?: 'SaleItem';
+              id: string;
+              title?: string | null;
+              totalBids: number;
+              description?: string | null;
+              currentBid?: number | null;
+              leaderId?: string | null;
+              saleId: string;
+              reserve?: number | null;
+              startingBid?: number | null;
+              lowEstimate: number;
+              highEstimate: number;
+              itemNumber: number;
+              allowedBidTypes?: Array<BidType> | null;
+              status: ItemStatus;
+              images: Array<{
+                __typename?: 'Image';
+                id: string;
+                url: string;
+                order: number;
+              }>;
+              bids: Array<{
+                __typename?: 'Bid';
+                bidId: string;
+                amount: number;
+                userId: string;
+                date: string;
+                bidStatus?: BidStatus | null;
+                maxAmount: number;
+                bidSequenceNumber: number;
+              }>;
+              dates: {
+                __typename?: 'ItemDates';
+                closingStart?: string | null;
+                closingEnd?: string | null;
+              };
+            };
+          }>;
+        };
+        incrementTable?: {
+          __typename?: 'BidIncrementTable';
+          rules: Array<{
+            __typename?: 'RangeRule';
+            highRange: number;
+            lowRange: number;
+            step: number;
+          }>;
+        } | null;
+        dates: {
+          __typename?: 'SaleDates';
+          closingDate?: string | null;
+          openDate?: string | null;
+        };
+        participants: {
+          __typename?: 'ParticipantsConnection';
+          totalCount: number;
+          edges: Array<{
+            __typename?: 'ParticipantsEdge';
+            cursor: string;
+            node: { __typename?: 'Participant'; userId: string };
+          }>;
+        };
+      };
+    }>;
   };
 };
 
@@ -1542,12 +1963,6 @@ export type Get_SaleQuery = {
           };
         };
       }>;
-      pageInfo: {
-        __typename?: 'PageInfo';
-        startCursor: string;
-        endCursor: string;
-        hasNextPage: boolean;
-      };
     };
     incrementTable?: {
       __typename?: 'BidIncrementTable';
@@ -1571,12 +1986,6 @@ export type Get_SaleQuery = {
         cursor: string;
         node: { __typename?: 'Participant'; userId: string };
       }>;
-      pageInfo: {
-        __typename?: 'PageInfo';
-        startCursor: string;
-        endCursor: string;
-        hasNextPage: boolean;
-      };
     };
   };
 };

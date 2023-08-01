@@ -58,11 +58,6 @@ query GET_SALE(
           }
         }
       }
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-      }
     }
     incrementTable {
       rules {
@@ -83,11 +78,6 @@ query GET_SALE(
         }
       }
       totalCount
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-      }
     }
   }
 }

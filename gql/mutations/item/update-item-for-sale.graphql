@@ -1,0 +1,40 @@
+mutation UPDATE_ITEM_FOR_SALE(
+  $accountId: String!
+  $itemId: String!
+  $input: UpdateSaleItemInput!
+) {
+  updateItemForSale(accountId: $accountId, itemId: $itemId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
+  }
+}

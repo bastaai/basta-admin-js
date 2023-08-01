@@ -1,0 +1,15 @@
+mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
+  createItem(accountId: $accountId, input: $input) {
+    id
+    saleId
+    images {
+      id
+      url
+      order
+    }
+    description
+    title
+    valuationAmount
+    valuationCurrency
+  }
+}
