@@ -265,10 +265,6 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
 export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: Int = 20, $after: String, $filter: SaleFilter) {
   sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
     edges {
-<<<<<<< HEAD
-=======
-      cursor
->>>>>>> d404245d370ec473b615549adcec1b549ff30089
       node {
         id
         accountId
@@ -286,10 +282,6 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
         }
         items {
           edges {
-<<<<<<< HEAD
-=======
-            cursor
->>>>>>> d404245d370ec473b615549adcec1b549ff30089
             node {
               id
               title
