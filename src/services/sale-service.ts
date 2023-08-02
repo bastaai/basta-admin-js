@@ -14,6 +14,8 @@ import {
   CreateSaleInput,
   Create_SaleMutation,
   Create_SaleMutationVariables,
+  SaleConnection,
+  SalesEdge,
 } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
@@ -47,31 +49,6 @@ export class SaleService implements ISaleService {
     return sanitized;
   }
 
-  async getAll(): Promise<Sale[]> {
-    const variables: Get_All_SalesQueryVariables = {
-      accountId: this._bastaReq.accountId,
-    };
-
-    const res = await fetch(this._bastaReq.url, {
-      method: 'POST',
-      headers: this._bastaReq.headers,
-      body: JSON.stringify({
-        query: GET_ALL_SALES,
-        variables: variables,
-      }),
-    });
-
-    const json: BastaResponse<{
-      response: Get_All_SalesQuery;
-    }> = await res.json();
-
-    const sanitized: Sale[] = JSON.parse(
-      JSON.stringify(json.data.response.sales.edges)
-    );
-
-    return sanitized;
-  }
-
   async create(input: CreateSaleInput): Promise<Sale> {
     const variables: Create_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
@@ -96,5 +73,32 @@ export class SaleService implements ISaleService {
     );
 
     return sanitized;
+  }
+
+  async getAll(): Promise<Sale[]> {
+    const variables: Get_All_SalesQueryVariables = {
+      accountId: this._bastaReq.accountId,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: GET_ALL_SALES,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<{
+      sales: Get_All_SalesQuery;
+    }> = await res.json();
+
+    const sanitized: SaleConnection = JSON.parse(
+      JSON.stringify(json.data.sales)
+    );
+
+    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => sale.node);
+
+    return sales;
   }
 }

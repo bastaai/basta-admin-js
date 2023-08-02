@@ -29,6 +29,7 @@ export interface IBastaAdmin {
   sale: ISaleService;
   bid: IBidService;
   user: IUserService;
+  item: IItemService;
 }
 export interface IBidService {
   /** Places a bid on a Basta item. */

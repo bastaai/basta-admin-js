@@ -4,8 +4,10 @@ import {
   ISaleService,
   IBidService,
   IUserService,
+  IItemService,
 } from '../types/sdk';
 import { BidService } from './services/bid-service';
+import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
 
@@ -17,6 +19,7 @@ class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
   readonly bid: IBidService;
   readonly user: IUserService;
+  readonly item: IItemService;
 
   private readonly _bastaReq: BastaRequest;
 
@@ -29,7 +32,7 @@ class BastaAdmin implements IBastaAdmin {
 
     this._bastaReq = {
       accountId: accountId,
-      url: 'https://management.api.basta.ai/graphql',
+      url: 'https://management.api.basta.wtf/graphql',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,
@@ -40,5 +43,6 @@ class BastaAdmin implements IBastaAdmin {
     this.sale = new SaleService(this._bastaReq);
     this.bid = new BidService(this._bastaReq);
     this.user = new UserService(this._bastaReq);
+    this.item = new ItemService(this._bastaReq);
   }
 }
