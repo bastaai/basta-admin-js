@@ -11,8 +11,8 @@ import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
 
-export const initBasta = (secretKey: string, accountId: string) => {
-  return new BastaAdmin(secretKey, accountId);
+export const initBasta = (accountId: string, secretKey: string) => {
+  return new BastaAdmin(accountId, secretKey);
 };
 
 class BastaAdmin implements IBastaAdmin {
@@ -23,7 +23,7 @@ class BastaAdmin implements IBastaAdmin {
 
   private readonly _bastaReq: BastaRequest;
 
-  constructor(secretKey: string, accountId: string) {
+  constructor(accountId: string, secretKey: string) {
     if (typeof window !== 'undefined') {
       throw new Error(
         'Basta Admin SDK is not designed to be used in a browser environment. Exposing the secret key is a security risk.'
