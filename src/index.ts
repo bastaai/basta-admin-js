@@ -11,8 +11,8 @@ import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
 
-export const initBasta = (accountId: string, secretKey: string) => {
-  return new BastaAdmin(accountId, secretKey);
+export const initBasta = (args: { accountId: string; secretKey: string }) => {
+  return new BastaAdmin(args.accountId, args.secretKey);
 };
 
 class BastaAdmin implements IBastaAdmin {
