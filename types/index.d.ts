@@ -8,4 +8,4 @@ export * from './bid';
 export const initBasta: (args: {
   accountId: string;
   secretKey: string;
-}) => IBastaAdmin;
+}, isStaging?: boolean) => IBastaAdmin;

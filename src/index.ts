@@ -11,8 +11,8 @@ import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
 import { UserService } from './services/user-service';
 
-export const initBasta = (args: { accountId: string; secretKey: string }) => {
-  return new BastaAdmin(args.accountId, args.secretKey);
+export const initBasta = (args: { accountId: string; secretKey: string }, isStaging = false) => {
+  return new BastaAdmin(args.accountId, args.secretKey, isStaging);
 };
 
 class BastaAdmin implements IBastaAdmin {
@@ -23,7 +23,7 @@ class BastaAdmin implements IBastaAdmin {
 
   private readonly _bastaReq: BastaRequest;
 
-  constructor(accountId: string, secretKey: string) {
+  constructor(accountId: string, secretKey: string, isStaging?: boolean) {
     if (typeof window !== 'undefined') {
       throw new Error(
         'Basta Admin SDK is not designed to be used in a browser environment. Exposing the secret key is a security risk.'
@@ -32,7 +32,7 @@ class BastaAdmin implements IBastaAdmin {
 
     this._bastaReq = {
       accountId: accountId,
-      url: 'https://management.api.basta.wtf/graphql',
+      url: `https://management.api.basta.${isStaging ? 'wtf' : 'ai'}/graphql`,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,

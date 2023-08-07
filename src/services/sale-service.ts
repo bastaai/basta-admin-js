@@ -93,6 +93,9 @@ export class SaleService implements ISaleService {
       sales: Get_All_SalesQuery;
     }> = await res.json();
 
+
+    console.log("JSON: ", json)
+
     const sanitized: SaleConnection = JSON.parse(
       JSON.stringify(json.data.sales)
     );
