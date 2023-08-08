@@ -8,13 +8,10 @@ import {
   Get_All_ItemsQueryVariables,
   Get_All_ItemsQuery,
   UpdateItemInput,
-  SaleItemInput,
   SaleItem,
   AddItemToSaleInput,
   RemoveSaleItemInput,
-  Sale,
   UpdateSaleItemInput,
-  BidType,
   Create_Item_For_SaleMutationVariables,
 } from '../gql/generated/types';
 import {
@@ -29,6 +26,7 @@ import {
 } from '../gql/generated/operations';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
+import { Sale } from '../../types/sale';
 
 export class ItemService implements IItemService {
   protected readonly _bastaReq: BastaRequest;
@@ -138,8 +136,8 @@ export class ItemService implements IItemService {
   }
 
   async createItemForSale(
-    saleId: string,
     item: Item,
+    saleId: string,
     options: {
       startingBid?: number | null;
       reserve?: number | null;

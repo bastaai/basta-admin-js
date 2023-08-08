@@ -1,0 +1,18 @@
+mutation CREATE_ACCOUNT($input: CreateAccountInput!) {
+  createAccount(input: $input) {
+    id
+    name
+    email
+    created
+    modified
+    createdByUserID
+    modifiedByUserID
+    handle
+    description
+    imageUrl
+    links {
+      type
+      url
+    }
+  }
+}

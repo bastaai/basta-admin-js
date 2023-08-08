@@ -97,7 +97,19 @@ export class SaleService implements ISaleService {
       JSON.stringify(json.data.sales)
     );
 
-    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => sale.node);
+    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => ({
+      id: sale.node.id,
+      title: sale.node.title ?? '',
+      description: sale.node.description ?? '',
+      accountId: sale.node.accountId,
+      sequenceNumber: sale.node.sequenceNumber,
+      dates: sale.node.dates,
+      images: sale.node.images,
+      items: sale.node.items.edges.map((x) => x.node),
+      participants: sale.node.participants.edges.map((x) => x.node),
+      incrementTable: sale.node.incrementTable,
+      status: sale.node.status,
+    }));
 
     return sales;
   }

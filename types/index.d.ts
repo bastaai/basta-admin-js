@@ -5,7 +5,10 @@ export * from './user';
 export * from './item';
 export * from './bid';
 
-export const initBasta: (args: {
-  accountId: string;
-  secretKey: string;
-}, isStaging?: boolean) => IBastaAdmin;
+export const initBasta: (
+  args: {
+    accountId: string;
+    secretKey: string;
+  },
+  isStaging?: boolean
+) => IBastaAdmin;

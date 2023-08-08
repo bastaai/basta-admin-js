@@ -1,6 +1,7 @@
 import { Sale } from './sale';
 import { UserToken } from './user';
 import { BidResponse, BidType } from './bid';
+import type { Account } from './account';
 import {
   AddItemToSaleInput,
   CreateItemInput,
@@ -8,7 +9,6 @@ import {
   Item,
   RemoveSaleItemInput,
   SaleItem,
-  SaleItemInput,
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
@@ -85,4 +85,8 @@ export interface IUserService {
     uniqueUserId: string;
     ttlMinutes: number;
   }): Promise<UserToken | null>;
+}
+
+export interface IAccountService {
+  create(account: Account): Promise<Account>;
 }

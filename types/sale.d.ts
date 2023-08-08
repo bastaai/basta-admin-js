@@ -1,6 +1,5 @@
-import { SaleStatus } from '../src/gql/generated/types';
+import { SaleItem, SaleStatus } from '../src/gql/generated/types';
 import { Image } from './image';
-import { Item } from './item';
 
 export { SaleStatus };
 
@@ -19,8 +18,8 @@ export type Sale = {
   status: SaleStatus;
   /** Sale Dates */
   dates: {
-    openDate: string;
-    closingDate: string;
+    openDate?: string | null;
+    closingDate?: string | null;
   };
   /** Images attached to sale */
   images: Image[];
@@ -29,11 +28,11 @@ export type Sale = {
    * If an increment table is associated with any items in the sale
    * this will be overidden.
    */
-  incrementTable?: BidIncrementTable;
+  incrementTable?: BidIncrementTable | null;
   /** Items that have been associated with this sale. */
-  items: Item[];
+  items: SaleItem[];
   /** Get list of participants for this sale */
-  participants: Participant;
+  participants: Participant[];
 };
 
 /**

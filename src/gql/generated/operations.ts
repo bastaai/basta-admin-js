@@ -1,3 +1,22 @@
+export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInput!) {
+  createAccount(input: $input) {
+    id
+    name
+    email
+    created
+    modified
+    createdByUserID
+    modifiedByUserID
+    handle
+    description
+    imageUrl
+    links {
+      type
+      url
+    }
+  }
+}`;
+
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
   bidOnBehalf(accountId: $accountID, input: $input) {
     amount
