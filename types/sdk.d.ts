@@ -4,6 +4,7 @@ import { BidResponse, BidType } from './bid';
 import type { Account } from './account';
 import {
   AddItemToSaleInput,
+  CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
   Item,
@@ -12,6 +13,7 @@ import {
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
+import { IncomingHttpHeaders } from 'http';
 
 export type BastaResponse<T> = {
   data: T;
@@ -89,5 +91,8 @@ export interface IUserService {
 }
 
 export interface IAccountService {
-  create(account: Account): Promise<Account>;
+  create(
+    account: CreateAccountInput,
+    headers: IncomingHttpHeaders
+  ): Promise<Account>;
 }

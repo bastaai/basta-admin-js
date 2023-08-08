@@ -3,6 +3,7 @@ import { BastaRequest } from '../../types/request';
 import { BastaResponse, IAccountService } from '../../types/sdk';
 import { CREATE_ACCOUNT } from '../gql/generated/operations';
 import {
+  CreateAccountInput,
   Create_AccountMutationVariables,
   Account as _Account,
 } from '../gql/generated/types';
@@ -14,7 +15,7 @@ export class AccountService implements IAccountService {
     this._bastaReq = bastaReq;
   }
 
-  async create(account: Account): Promise<Account> {
+  async create(account: CreateAccountInput): Promise<Account> {
     const variables: Create_AccountMutationVariables = {
       input: {
         email: account.email,
