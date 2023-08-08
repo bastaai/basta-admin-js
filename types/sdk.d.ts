@@ -58,7 +58,14 @@ export interface IItemService {
   /** Updates a Basta item. This will update information about items for all sales that has not been closed. */
   update(itemId: string, input: UpdateItemInput): Promise<Item>;
   /** Create item and add to a sale. This operation will automatically create an item and add it to the sale. */
-  createItemForSale(input: SaleItemInput): Promise<SaleItem>;
+  createItemForSale(
+    item: Item,
+    saleId: string,
+    options: {
+      startingBid?: number | null;
+      reserve?: number | null;
+    }
+  ): Promise<SaleItem>;
   /** Add a currently existing item to a sale. */
   addItemToSale(input: AddItemToSaleInput): Promise<SaleItem>;
   /** Remove an item from the sale. This will not delete the item completely. */

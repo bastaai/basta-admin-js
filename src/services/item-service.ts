@@ -14,6 +14,8 @@ import {
   RemoveSaleItemInput,
   Sale,
   UpdateSaleItemInput,
+  BidType,
+  Create_Item_For_SaleMutationVariables,
 } from '../gql/generated/types';
 import {
   ADD_ITEM_TO_SALE,
@@ -27,8 +29,6 @@ import {
 } from '../gql/generated/operations';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
-
-// Add this to your ItemService class
 
 export class ItemService implements IItemService {
   protected readonly _bastaReq: BastaRequest;
@@ -137,10 +137,22 @@ export class ItemService implements IItemService {
     return sanitized;
   }
 
-  async createItemForSale(input: SaleItemInput): Promise<SaleItem> {
-    const variables = {
+  async createItemForSale(
+    saleId: string,
+    item: Item,
+    options: {
+      startingBid?: number | null;
+      reserve?: number | null;
+    }
+  ): Promise<SaleItem> {
+    const variables: Create_Item_For_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
-      input,
+      input: {
+        saleId: saleId,
+        title: item.title ?? '',
+        startingBid: options.startingBid,
+        reserve: options.reserve,
+      },
     };
 
     const res = await fetch(this._bastaReq.url, {
