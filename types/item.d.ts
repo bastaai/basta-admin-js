@@ -1,4 +1,7 @@
+import { ItemStatus } from '../src/gql/generated/types';
 import { Image } from './image';
+
+export { ItemStatus };
 
 export type Item = {
   /** Id of an item. */
