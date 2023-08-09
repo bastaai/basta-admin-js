@@ -5,6 +5,7 @@ import {
   GET_SALE,
   GET_ALL_SALES,
   CREATE_SALE,
+  PUBLISH_SALE,
 } from '../gql/generated/operations';
 import {
   Get_SaleQueryVariables,
@@ -14,8 +15,9 @@ import {
   CreateSaleInput,
   Create_SaleMutation,
   Create_SaleMutationVariables,
-  SaleConnection,
-  SalesEdge,
+  PublishSaleInput,
+  Publish_SaleMutationVariables,
+  Publish_SaleMutation,
 } from '../gql/generated/types';
 
 export class SaleService implements ISaleService {
@@ -23,6 +25,39 @@ export class SaleService implements ISaleService {
 
   constructor(bastaReq: BastaRequest) {
     this._bastaReq = bastaReq;
+  }
+
+  async publish(input: PublishSaleInput): Promise<Sale> {
+    const variables: Publish_SaleMutationVariables = {
+      accountId: this._bastaReq.accountId,
+      input: input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: PUBLISH_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<Publish_SaleMutation> = await res.json();
+    const sale = json.data.publishSale;
+
+    return {
+      accountId: sale.accountId,
+      dates: sale.dates,
+      id: sale.id,
+      images: sale.images,
+      items: sale.items.edges.map((x) => x.node),
+      participants: sale.participants.edges.map((x) => x.node),
+      sequenceNumber: sale.sequenceNumber,
+      title: sale.title ?? '',
+      description: sale.description ?? '',
+      incrementTable: sale.incrementTable,
+      status: sale.status,
+    };
   }
 
   async get(saleId: string): Promise<Sale> {
@@ -40,13 +75,21 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      response: Get_SaleQuery;
-    }> = await res.json();
+    const json: BastaResponse<Get_SaleQuery> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.response.sale));
-
-    return sanitized;
+    return {
+      accountId: json.data.sale.accountId,
+      dates: json.data.sale.dates,
+      id: json.data.sale.id,
+      images: json.data.sale.images,
+      items: json.data.sale.items.edges.map((x) => x.node),
+      participants: json.data.sale.participants.edges.map((x) => x.node),
+      sequenceNumber: json.data.sale.sequenceNumber,
+      title: json.data.sale.title ?? '',
+      description: json.data.sale.description ?? '',
+      incrementTable: json.data.sale.incrementTable,
+      status: json.data.sale.status,
+    };
   }
 
   async create(input: CreateSaleInput): Promise<Sale> {
@@ -64,15 +107,21 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      response: Create_SaleMutation;
-    }> = await res.json();
+    const json: BastaResponse<Create_SaleMutation> = await res.json();
 
-    const sanitized: Sale = JSON.parse(
-      JSON.stringify(json.data.response.createSale)
-    );
-
-    return sanitized;
+    return {
+      accountId: json.data.createSale.accountId,
+      dates: json.data.createSale.dates,
+      id: json.data.createSale.id,
+      images: json.data.createSale.images,
+      items: json.data.createSale.items.edges.map((x) => x.node),
+      participants: json.data.createSale.participants.edges.map((x) => x.node),
+      sequenceNumber: json.data.createSale.sequenceNumber,
+      title: json.data.createSale.title ?? '',
+      description: json.data.createSale.description ?? '',
+      incrementTable: json.data.createSale.incrementTable,
+      status: json.data.createSale.status,
+    };
   }
 
   async getAll(): Promise<Sale[]> {
@@ -89,15 +138,9 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      sales: Get_All_SalesQuery;
-    }> = await res.json();
+    const json: BastaResponse<Get_All_SalesQuery> = await res.json();
 
-    const sanitized: SaleConnection = JSON.parse(
-      JSON.stringify(json.data.sales)
-    );
-
-    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => ({
+    const sales: Sale[] = json.data.sales.edges.map((sale) => ({
       id: sale.node.id,
       title: sale.node.title ?? '',
       description: sale.node.description ?? '',

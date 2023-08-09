@@ -219,22 +219,207 @@ export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: S
 
 export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
   createSale(accountId: $accountId, input: $input) {
+    __typename
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    images {
+      __typename
+      id
+      url
+      order
+    }
+    items {
+      __typename
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          status
+          lowEstimate
+          highEstimate
+          itemNumber
+          images {
+            __typename
+            id
+            url
+            order
+          }
+          bids {
+            __typename
+            bidId
+            amount
+            maxAmount
+            userId
+            date
+            bidStatus
+            bidSequenceNumber
+          }
+          dates {
+            __typename
+            closingStart
+            closingEnd
+          }
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
     incrementTable {
+      __typename
       rules {
+        __typename
         highRange
         lowRange
         step
       }
     }
+    dates {
+      __typename
+      closingDate
+      openDate
+    }
+    participants {
+      __typename
+      totalCount
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          userId
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}`;
+
+export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
+  publishSale(accountId: $accountId, input: $input) {
+    __typename
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    sequenceNumber
     closingMethod
     closingTimeCountdown
-    currency
-    dates {
-      openDate
-      closingDate
+    images {
+      __typename
+      id
+      url
+      order
     }
-    description
-    title
+    items {
+      __typename
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          status
+          lowEstimate
+          highEstimate
+          itemNumber
+          images {
+            __typename
+            id
+            url
+            order
+          }
+          bids {
+            __typename
+            bidId
+            amount
+            maxAmount
+            userId
+            date
+            bidStatus
+            bidSequenceNumber
+          }
+          dates {
+            __typename
+            closingStart
+            closingEnd
+          }
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+    incrementTable {
+      __typename
+      rules {
+        __typename
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      __typename
+      closingDate
+      openDate
+    }
+    participants {
+      __typename
+      totalCount
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          userId
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
   }
 }`;
 

@@ -1747,25 +1747,206 @@ export type Create_SaleMutationVariables = Exact<{
 export type Create_SaleMutation = {
   __typename?: 'Mutation';
   createSale: {
-    __typename?: 'Sale';
+    __typename: 'Sale';
+    id: string;
+    accountId: string;
+    title?: string | null;
+    description?: string | null;
+    currency?: string | null;
+    status: SaleStatus;
+    sequenceNumber: number;
     closingMethod?: ClosingMethod | null;
     closingTimeCountdown: number;
-    currency?: string | null;
-    description?: string | null;
-    title?: string | null;
+    images: Array<{
+      __typename: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+    items: {
+      __typename: 'SaleItemsConnection';
+      edges: Array<{
+        __typename: 'SaleItemsEdge';
+        cursor: string;
+        node: {
+          __typename: 'SaleItem';
+          id: string;
+          title?: string | null;
+          totalBids: number;
+          description?: string | null;
+          currentBid?: number | null;
+          leaderId?: string | null;
+          saleId: string;
+          reserve?: number | null;
+          startingBid?: number | null;
+          status: ItemStatus;
+          lowEstimate: number;
+          highEstimate: number;
+          itemNumber: number;
+          images: Array<{
+            __typename: 'Image';
+            id: string;
+            url: string;
+            order: number;
+          }>;
+          bids: Array<{
+            __typename: 'Bid';
+            bidId: string;
+            amount: number;
+            maxAmount: number;
+            userId: string;
+            date: string;
+            bidStatus?: BidStatus | null;
+            bidSequenceNumber: number;
+          }>;
+          dates: {
+            __typename: 'ItemDates';
+            closingStart?: string | null;
+            closingEnd?: string | null;
+          };
+        };
+      }>;
+      pageInfo: {
+        __typename: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
     incrementTable?: {
-      __typename?: 'BidIncrementTable';
+      __typename: 'BidIncrementTable';
       rules: Array<{
-        __typename?: 'RangeRule';
+        __typename: 'RangeRule';
         highRange: number;
         lowRange: number;
         step: number;
       }>;
     } | null;
     dates: {
-      __typename?: 'SaleDates';
-      openDate?: string | null;
+      __typename: 'SaleDates';
       closingDate?: string | null;
+      openDate?: string | null;
+    };
+    participants: {
+      __typename: 'ParticipantsConnection';
+      totalCount: number;
+      edges: Array<{
+        __typename: 'ParticipantsEdge';
+        cursor: string;
+        node: { __typename: 'Participant'; userId: string };
+      }>;
+      pageInfo: {
+        __typename: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+  };
+};
+
+export type Publish_SaleMutationVariables = Exact<{
+  accountId: string;
+  input: PublishSaleInput;
+}>;
+
+export type Publish_SaleMutation = {
+  __typename?: 'Mutation';
+  publishSale: {
+    __typename: 'Sale';
+    id: string;
+    accountId: string;
+    title?: string | null;
+    description?: string | null;
+    currency?: string | null;
+    status: SaleStatus;
+    sequenceNumber: number;
+    closingMethod?: ClosingMethod | null;
+    closingTimeCountdown: number;
+    images: Array<{
+      __typename: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
+    items: {
+      __typename: 'SaleItemsConnection';
+      edges: Array<{
+        __typename: 'SaleItemsEdge';
+        cursor: string;
+        node: {
+          __typename: 'SaleItem';
+          id: string;
+          title?: string | null;
+          totalBids: number;
+          description?: string | null;
+          currentBid?: number | null;
+          leaderId?: string | null;
+          saleId: string;
+          reserve?: number | null;
+          startingBid?: number | null;
+          status: ItemStatus;
+          lowEstimate: number;
+          highEstimate: number;
+          itemNumber: number;
+          images: Array<{
+            __typename: 'Image';
+            id: string;
+            url: string;
+            order: number;
+          }>;
+          bids: Array<{
+            __typename: 'Bid';
+            bidId: string;
+            amount: number;
+            maxAmount: number;
+            userId: string;
+            date: string;
+            bidStatus?: BidStatus | null;
+            bidSequenceNumber: number;
+          }>;
+          dates: {
+            __typename: 'ItemDates';
+            closingStart?: string | null;
+            closingEnd?: string | null;
+          };
+        };
+      }>;
+      pageInfo: {
+        __typename: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
+    };
+    incrementTable?: {
+      __typename: 'BidIncrementTable';
+      rules: Array<{
+        __typename: 'RangeRule';
+        highRange: number;
+        lowRange: number;
+        step: number;
+      }>;
+    } | null;
+    dates: {
+      __typename: 'SaleDates';
+      closingDate?: string | null;
+      openDate?: string | null;
+    };
+    participants: {
+      __typename: 'ParticipantsConnection';
+      totalCount: number;
+      edges: Array<{
+        __typename: 'ParticipantsEdge';
+        cursor: string;
+        node: { __typename: 'Participant'; userId: string };
+      }>;
+      pageInfo: {
+        __typename: 'PageInfo';
+        startCursor: string;
+        endCursor: string;
+        hasNextPage: boolean;
+      };
     };
   };
 };

@@ -15,7 +15,9 @@ export class AccountService implements IAccountService {
     this._bastaReq = bastaReq;
   }
 
-  async create(account: CreateAccountInput): Promise<Account> {
+  async __create(
+    account: CreateAccountInput
+  ): Promise<Account & { apiKey: string }> {
     const variables: Create_AccountMutationVariables = {
       input: {
         email: account.email,
@@ -56,6 +58,7 @@ export class AccountService implements IAccountService {
       modifiedByUserId: sanitized.modifiedByUserID,
       created: sanitized.created,
       createdByUserId: sanitized.createdByUserID,
+      apiKey: 'TODO', // TODO:
     };
   }
 }

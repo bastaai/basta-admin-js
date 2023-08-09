@@ -8,6 +8,7 @@ import {
   CreateItemInput,
   CreateSaleInput,
   Item,
+  PublishSaleInput,
   RemoveSaleItemInput,
   SaleItem,
   UpdateItemInput,
@@ -49,6 +50,8 @@ export interface ISaleService {
   getAll(): Promise<Sale[]>;
   /** Creates a Basta sale. */
   create(input: CreateSaleInput): Promise<Sale>;
+  /** Publishes a sale, forcefully. */
+  publish(input: PublishSaleInput): Promise<Sale>;
 }
 
 export interface IItemService {
@@ -91,8 +94,9 @@ export interface IUserService {
 }
 
 export interface IAccountService {
-  create(
+  /** Creates a Basta account.  */
+  __create(
     account: CreateAccountInput,
     headers: IncomingHttpHeaders
-  ): Promise<Account>;
+  ): Promise<Account & { apiKey: string }>;
 }
