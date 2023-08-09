@@ -7,6 +7,7 @@ import {
   IItemService,
   IAccountService,
 } from '../types/sdk';
+import { ClosingMethod, ItemStatus, SaleStatus } from './gql/generated/types';
 import { AccountService } from './services/account-service';
 import { BidService } from './services/bid-service';
 import { ItemService } from './services/item-service';
@@ -19,6 +20,8 @@ export const initBasta = (
 ) => {
   return new BastaAdmin(args.accountId, args.secretKey, isStaging);
 };
+
+export { ClosingMethod, SaleStatus, ItemStatus };
 
 class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
