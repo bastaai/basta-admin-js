@@ -57,6 +57,8 @@ export class SaleService implements ISaleService {
       description: sale.description ?? '',
       incrementTable: sale.incrementTable,
       status: sale.status,
+      closingMethod: sale.closingMethod,
+      closingTimeCountdown: sale.closingTimeCountdown,
     };
   }
 
@@ -76,19 +78,22 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<Get_SaleQuery> = await res.json();
+    const sale = json.data.sale;
 
     return {
-      accountId: json.data.sale.accountId,
-      dates: json.data.sale.dates,
-      id: json.data.sale.id,
-      images: json.data.sale.images,
-      items: json.data.sale.items.edges.map((x) => x.node),
-      participants: json.data.sale.participants.edges.map((x) => x.node),
-      sequenceNumber: json.data.sale.sequenceNumber,
-      title: json.data.sale.title ?? '',
-      description: json.data.sale.description ?? '',
-      incrementTable: json.data.sale.incrementTable,
-      status: json.data.sale.status,
+      accountId: sale.accountId,
+      dates: sale.dates,
+      id: sale.id,
+      images: sale.images,
+      items: sale.items.edges.map((x) => x.node),
+      participants: sale.participants.edges.map((x) => x.node),
+      sequenceNumber: sale.sequenceNumber,
+      title: sale.title ?? '',
+      description: sale.description ?? '',
+      incrementTable: sale.incrementTable,
+      status: sale.status,
+      closingMethod: sale.closingMethod,
+      closingTimeCountdown: sale.closingTimeCountdown,
     };
   }
 
@@ -108,19 +113,22 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<Create_SaleMutation> = await res.json();
+    const sale = json.data.createSale;
 
     return {
-      accountId: json.data.createSale.accountId,
-      dates: json.data.createSale.dates,
-      id: json.data.createSale.id,
-      images: json.data.createSale.images,
-      items: json.data.createSale.items.edges.map((x) => x.node),
-      participants: json.data.createSale.participants.edges.map((x) => x.node),
-      sequenceNumber: json.data.createSale.sequenceNumber,
-      title: json.data.createSale.title ?? '',
-      description: json.data.createSale.description ?? '',
-      incrementTable: json.data.createSale.incrementTable,
-      status: json.data.createSale.status,
+      accountId: sale.accountId,
+      dates: sale.dates,
+      id: sale.id,
+      images: sale.images,
+      items: sale.items.edges.map((x) => x.node),
+      participants: sale.participants.edges.map((x) => x.node),
+      sequenceNumber: sale.sequenceNumber,
+      title: sale.title ?? '',
+      description: sale.description ?? '',
+      incrementTable: sale.incrementTable,
+      status: sale.status,
+      closingMethod: sale.closingMethod,
+      closingTimeCountdown: sale.closingTimeCountdown,
     };
   }
 
@@ -152,6 +160,8 @@ export class SaleService implements ISaleService {
       participants: sale.node.participants.edges.map((x) => x.node),
       incrementTable: sale.node.incrementTable,
       status: sale.node.status,
+      closingMethod: sale.node.closingMethod,
+      closingTimeCountdown: sale.node.closingTimeCountdown,
     }));
 
     return sales;

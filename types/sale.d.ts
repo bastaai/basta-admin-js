@@ -1,4 +1,8 @@
-import { SaleItem, SaleStatus } from '../src/gql/generated/types';
+import {
+  ClosingMethod,
+  SaleItem,
+  SaleStatus,
+} from '../src/gql/generated/types';
 import { Image } from './image';
 
 export { SaleStatus };
@@ -14,6 +18,14 @@ export type Sale = {
   description?: string;
   /** Sequence number of this sale. */
   sequenceNumber: number;
+  /** Chosen ClosingMethod */
+  closingMethod?: ClosingMethod | null;
+  /**
+   * ClosingTime countdown is the sniping duration in milliseconds.
+   * If not provided it defaults to 120000 (2 minutes).
+   * If a sale has an OVERLAPPING closing method it also assigns the item's closing time in asceding order.
+   */
+  closingTimeCountdown: number;
   /** Sale status */
   status: SaleStatus;
   /** Sale Dates */
