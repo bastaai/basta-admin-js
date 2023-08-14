@@ -4,9 +4,10 @@ import { BastaResponse, IAccountService } from '../../types/sdk';
 import { CREATE_ACCOUNT } from '../gql/generated/operations';
 import {
   CreateAccountInput,
+  Create_AccountMutation,
   Create_AccountMutationVariables,
-  Account as _Account,
 } from '../gql/generated/types';
+import { mapAccountToAccount } from '../utils';
 
 export class AccountService implements IAccountService {
   protected readonly _bastaReq: BastaRequest;
@@ -15,9 +16,7 @@ export class AccountService implements IAccountService {
     this._bastaReq = bastaReq;
   }
 
-  async __create(
-    account: CreateAccountInput
-  ): Promise<Account & { apiKey: string }> {
+  async __create(account: CreateAccountInput): Promise<Account> {
     const variables: Create_AccountMutationVariables = {
       input: {
         email: account.email,
@@ -37,28 +36,8 @@ export class AccountService implements IAccountService {
       }),
     });
 
-    const json: BastaResponse<{ createAccount: _Account }> = await res.json();
-    const sanitized: _Account = JSON.parse(
-      JSON.stringify(json.data.createAccount)
-    );
+    const json: BastaResponse<Create_AccountMutation> = await res.json();
 
-    if (sanitized.__typename !== 'Account') {
-      throw new Error('Account could not be created');
-    }
-
-    return {
-      id: sanitized.id,
-      name: sanitized.name,
-      description: sanitized.description,
-      email: sanitized.email,
-      handle: sanitized.handle,
-      links: sanitized.links,
-      imageUrl: sanitized.imageUrl,
-      modified: sanitized.modified,
-      modifiedByUserId: sanitized.modifiedByUserID,
-      created: sanitized.created,
-      createdByUserId: sanitized.createdByUserID,
-      apiKey: 'TODO', // TODO:
-    };
+    return mapAccountToAccount(json.data.createAccount);
   }
 }

@@ -13,6 +13,9 @@ import {
   RemoveSaleItemInput,
   UpdateSaleItemInput,
   Create_Item_For_SaleMutationVariables,
+  Create_Item_For_SaleMutation,
+  Add_Item_To_SaleMutation,
+  Remove_Item_From_SaleMutation,
 } from '../gql/generated/types';
 import {
   ADD_ITEM_TO_SALE,
@@ -27,6 +30,7 @@ import {
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
 import { Sale } from '../../types/sale';
+import { mapSaleToSale } from '../utils';
 
 export class ItemService implements IItemService {
   protected readonly _bastaReq: BastaRequest;
@@ -162,11 +166,11 @@ export class ItemService implements IItemService {
       }),
     });
 
-    const json: BastaResponse<{
-      saleItem: SaleItem;
-    }> = await res.json();
+    const json: BastaResponse<Create_Item_For_SaleMutation> = await res.json();
 
-    const saleItem: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
+    const saleItem: SaleItem = JSON.parse(
+      JSON.stringify(json.data.createItemForSale)
+    );
 
     return saleItem;
   }
@@ -186,11 +190,9 @@ export class ItemService implements IItemService {
       }),
     });
 
-    const json: BastaResponse<{ saleItem: SaleItem }> = await res.json();
+    const json: BastaResponse<Add_Item_To_SaleMutation> = await res.json();
 
-    const sanitized: SaleItem = JSON.parse(JSON.stringify(json.data.saleItem));
-
-    return sanitized;
+    return json.data.addItemToSale;
   }
 
   async removeItemFromSale(input: RemoveSaleItemInput): Promise<Sale> {
@@ -208,11 +210,9 @@ export class ItemService implements IItemService {
       }),
     });
 
-    const json: BastaResponse<{ sale: Sale }> = await res.json();
+    const json: BastaResponse<Remove_Item_From_SaleMutation> = await res.json();
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.sale));
-
-    return sanitized;
+    return mapSaleToSale(json.data.removeItemFromSale);
   }
 
   async updateItemForSale(

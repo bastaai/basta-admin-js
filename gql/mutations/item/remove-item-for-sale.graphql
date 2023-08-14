@@ -28,5 +28,65 @@ mutation REMOVE_ITEM_FROM_SALE(
       url
       order
     }
+    items {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          lowEstimate
+          highEstimate
+          itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
+          bids {
+            bidId
+            amount
+            userId
+            date
+            bidStatus
+            maxAmount
+            bidSequenceNumber
+          }
+          dates {
+            closingStart
+            closingEnd
+          }
+        }
+      }
+    }
+    participants {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          userId
+        }
+      }
+      totalCount
+    }
   }
 }

@@ -22,7 +22,14 @@ query GET_ALL_SALES(
           order
         }
         items {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
+            cursor
             node {
               id
               title
@@ -71,6 +78,12 @@ query GET_ALL_SALES(
           openDate
         }
         participants {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
             cursor
             node {

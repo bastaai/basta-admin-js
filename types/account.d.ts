@@ -10,8 +10,6 @@ export type Account = {
   email: string;
   /** created */
   created: string;
-  /** createdByUser */
-  createdByUserId: string;
   /** description */
   description?: string | null;
   /** account handle, identifier for the account */
@@ -22,6 +20,4 @@ export type Account = {
   links: Link[];
   /** modified */
   modified?: string | null;
-  /** modifiedByUserID */
-  modifiedByUserId?: string | null;
 };

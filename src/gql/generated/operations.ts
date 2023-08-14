@@ -5,11 +5,10 @@ export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInpu
     email
     created
     modified
-    createdByUserID
-    modifiedByUserID
     handle
     description
     imageUrl
+    platformKey
     links {
       type
       url
@@ -160,6 +159,66 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
       id
       url
       order
+    }
+    items {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          lowEstimate
+          highEstimate
+          itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
+          bids {
+            bidId
+            amount
+            userId
+            date
+            bidStatus
+            maxAmount
+            bidSequenceNumber
+          }
+          dates {
+            closingStart
+            closingEnd
+          }
+        }
+      }
+    }
+    participants {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          userId
+        }
+      }
+      totalCount
     }
   }
 }`;
@@ -485,7 +544,14 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           order
         }
         items {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
+            cursor
             node {
               id
               title
@@ -534,6 +600,12 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           openDate
         }
         participants {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
             cursor
             node {

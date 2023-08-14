@@ -5,11 +5,10 @@ mutation CREATE_ACCOUNT($input: CreateAccountInput!) {
     email
     created
     modified
-    createdByUserID
-    modifiedByUserID
     handle
     description
     imageUrl
+    platformKey
     links {
       type
       url

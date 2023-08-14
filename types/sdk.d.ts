@@ -98,5 +98,5 @@ export interface IAccountService {
   __create(
     account: CreateAccountInput,
     headers: IncomingHttpHeaders
-  ): Promise<Account & { apiKey: string }>;
+  ): Promise<Account>;
 }
