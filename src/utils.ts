@@ -1,6 +1,11 @@
 import { Account } from '../types/account';
+import { Item } from '../types/item';
 import { Sale } from '../types/sale';
-import { Account as _Account, Sale as _Sale } from './gql/generated/types';
+import {
+  Item as _Item,
+  Account as _Account,
+  Sale as _Sale,
+} from './gql/generated/types';
 
 export const mapSaleToSale = (sale: _Sale): Sale => {
   return {
@@ -31,5 +36,17 @@ export const mapAccountToAccount = (account: _Account): Account => {
     handle: account.handle,
     imageUrl: account.imageUrl,
     modified: account.modified,
+  };
+};
+
+export const mapItemToItem = (item: _Item): Item => {
+  return {
+    id: item.id,
+    images: item.images,
+    title: item.title ?? '',
+    description: item.description ?? '',
+    saleId: item.saleId ?? undefined,
+    valuationAmount: item.valuationAmount ?? undefined,
+    valuationCurrency: item.valuationCurrency ?? undefined,
   };
 };

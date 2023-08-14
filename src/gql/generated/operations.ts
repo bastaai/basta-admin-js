@@ -518,10 +518,17 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
 
 export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
   item(accountId: $accountId, itemId: $itemId) {
+    id
     description
     title
     valuationAmount
     valuationCurrency
+    images {
+      __typename
+      id
+      url
+      order
+    }
   }
 }`;
 

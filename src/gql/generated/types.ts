@@ -2073,10 +2073,17 @@ export type Get_ItemQuery = {
   __typename?: 'Query';
   item: {
     __typename?: 'Item';
+    id: string;
     description?: string | null;
     title?: string | null;
     valuationAmount?: number | null;
     valuationCurrency?: string | null;
+    images: Array<{
+      __typename: 'Image';
+      id: string;
+      url: string;
+      order: number;
+    }>;
   };
 };
 
