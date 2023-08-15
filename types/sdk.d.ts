@@ -1,17 +1,19 @@
 import { Sale } from './sale';
-import { UserToken } from './user';
 import { BidResponse, BidType } from './bid';
+import type { Account } from './account';
 import {
   AddItemToSaleInput,
+  CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
   Item,
+  PublishSaleInput,
   RemoveSaleItemInput,
   SaleItem,
-  SaleItemInput,
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
+import { IncomingHttpHeaders } from 'http';
 
 export type BastaResponse<T> = {
   data: T;
@@ -28,8 +30,8 @@ export type BidArgs = {
 export interface IBastaAdmin {
   sale: ISaleService;
   bid: IBidService;
-  user: IUserService;
   item: IItemService;
+  account: IAccountService;
 }
 export interface IBidService {
   /** Places a bid on a Basta item. */
@@ -46,6 +48,8 @@ export interface ISaleService {
   getAll(): Promise<Sale[]>;
   /** Creates a Basta sale. */
   create(input: CreateSaleInput): Promise<Sale>;
+  /** Publishes a sale, forcefully. */
+  publish(input: PublishSaleInput): Promise<Sale>;
 }
 
 export interface IItemService {
@@ -58,7 +62,14 @@ export interface IItemService {
   /** Updates a Basta item. This will update information about items for all sales that has not been closed. */
   update(itemId: string, input: UpdateItemInput): Promise<Item>;
   /** Create item and add to a sale. This operation will automatically create an item and add it to the sale. */
-  createItemForSale(input: SaleItemInput): Promise<SaleItem>;
+  createItemForSale(
+    item: Item,
+    saleId: string,
+    options: {
+      startingBid?: number | null;
+      reserve?: number | null;
+    }
+  ): Promise<SaleItem>;
   /** Add a currently existing item to a sale. */
   addItemToSale(input: AddItemToSaleInput): Promise<SaleItem>;
   /** Remove an item from the sale. This will not delete the item completely. */
@@ -69,13 +80,11 @@ export interface IItemService {
     input: UpdateSaleItemInput
   ): Promise<SaleItem>;
 }
-export interface IUserService {
-  /**
-   * Generates a signed JWT token that can be used to access web sockets containing sensitive user data.
-   * Returns a Promise that resolves with the token string, or null if the token could not be generated.
-   */
-  refreshUserToken(params: {
-    uniqueUserId: string;
-    ttlMinutes: number;
-  }): Promise<UserToken | null>;
+
+export interface IAccountService {
+  /** Creates a Basta account.  */
+  __create(
+    account: CreateAccountInput,
+    headers: IncomingHttpHeaders
+  ): Promise<Account>;
 }

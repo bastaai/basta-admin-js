@@ -1,3 +1,21 @@
+export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInput!) {
+  createAccount(input: $input) {
+    id
+    name
+    email
+    created
+    modified
+    handle
+    description
+    imageUrl
+    platformKey
+    links {
+      type
+      url
+    }
+  }
+}`;
+
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
   bidOnBehalf(accountId: $accountID, input: $input) {
     amount
@@ -12,11 +30,12 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
     ... on BidPlacedSuccess {
-      amount
-      maxAmount
-      date
+      bidId
       bidStatus
       bidType
+      date
+      amount
+      maxAmount
     }
     ... on BidPlacedError {
       errorCode
@@ -142,6 +161,66 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
       url
       order
     }
+    items {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          lowEstimate
+          highEstimate
+          itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
+          bids {
+            bidId
+            amount
+            userId
+            date
+            bidStatus
+            maxAmount
+            bidSequenceNumber
+          }
+          dates {
+            closingStart
+            closingEnd
+          }
+        }
+      }
+    }
+    participants {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          userId
+        }
+      }
+      totalCount
+    }
   }
 }`;
 
@@ -200,30 +279,207 @@ export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: S
 
 export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
   createSale(accountId: $accountId, input: $input) {
+    __typename
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    images {
+      __typename
+      id
+      url
+      order
+    }
+    items {
+      __typename
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          status
+          lowEstimate
+          highEstimate
+          itemNumber
+          images {
+            __typename
+            id
+            url
+            order
+          }
+          bids {
+            __typename
+            bidId
+            amount
+            maxAmount
+            userId
+            date
+            bidStatus
+            bidSequenceNumber
+          }
+          dates {
+            __typename
+            closingStart
+            closingEnd
+          }
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
     incrementTable {
+      __typename
       rules {
+        __typename
         highRange
         lowRange
         step
       }
     }
-    closingMethod
-    closingTimeCountdown
-    currency
     dates {
-      openDate
+      __typename
       closingDate
+      openDate
     }
-    description
-    title
+    participants {
+      __typename
+      totalCount
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          userId
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
   }
 }`;
 
-export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
-  createUserTokenV2(accountId: $accountId, input: $input) {
+export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
+  publishSale(accountId: $accountId, input: $input) {
     __typename
-    token
-    expirationDate
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    images {
+      __typename
+      id
+      url
+      order
+    }
+    items {
+      __typename
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          status
+          lowEstimate
+          highEstimate
+          itemNumber
+          images {
+            __typename
+            id
+            url
+            order
+          }
+          bids {
+            __typename
+            bidId
+            amount
+            maxAmount
+            userId
+            date
+            bidStatus
+            bidSequenceNumber
+          }
+          dates {
+            __typename
+            closingStart
+            closingEnd
+          }
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
+    incrementTable {
+      __typename
+      rules {
+        __typename
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      __typename
+      closingDate
+      openDate
+    }
+    participants {
+      __typename
+      totalCount
+      edges {
+        __typename
+        cursor
+        node {
+          __typename
+          userId
+        }
+      }
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
+    }
   }
 }`;
 
@@ -255,10 +511,17 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
 
 export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
   item(accountId: $accountId, itemId: $itemId) {
+    id
     description
     title
     valuationAmount
     valuationCurrency
+    images {
+      __typename
+      id
+      url
+      order
+    }
   }
 }`;
 
@@ -281,7 +544,14 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           order
         }
         items {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
+            cursor
             node {
               id
               title
@@ -330,6 +600,12 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           openDate
         }
         participants {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
           edges {
             cursor
             node {

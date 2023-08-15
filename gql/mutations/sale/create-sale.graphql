@@ -1,43 +1,28 @@
-mutation REMOVE_ITEM_FROM_SALE(
-  $accountId: String!
-  $input: RemoveSaleItemInput!
-) {
-  removeItemFromSale(accountId: $accountId, input: $input) {
+mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
+  createSale(accountId: $accountId, input: $input) {
+    __typename
     id
     accountId
     title
     description
     currency
     status
-    incrementTable {
-      rules {
-        highRange
-        lowRange
-        step
-      }
-    }
-    dates {
-      closingDate
-      openDate
-    }
     sequenceNumber
     closingMethod
     closingTimeCountdown
     images {
+      __typename
       id
       url
       order
     }
     items {
-      pageInfo {
-        __typename
-        startCursor
-        endCursor
-        hasNextPage
-      }
+      __typename
       edges {
+        __typename
         cursor
         node {
+          __typename
           id
           title
           totalBids
@@ -47,46 +32,71 @@ mutation REMOVE_ITEM_FROM_SALE(
           saleId
           reserve
           startingBid
+          status
           lowEstimate
           highEstimate
           itemNumber
-          allowedBidTypes
-          status
           images {
+            __typename
             id
             url
             order
           }
           bids {
+            __typename
             bidId
             amount
+            maxAmount
             userId
             date
             bidStatus
-            maxAmount
             bidSequenceNumber
           }
           dates {
+            __typename
             closingStart
             closingEnd
           }
         }
       }
-    }
-    participants {
       pageInfo {
         __typename
         startCursor
         endCursor
         hasNextPage
       }
+    }
+    incrementTable {
+      __typename
+      rules {
+        __typename
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      __typename
+      closingDate
+      openDate
+    }
+    participants {
+      __typename
+      totalCount
       edges {
+        __typename
         cursor
         node {
+          __typename
           userId
         }
       }
-      totalCount
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
     }
   }
 }

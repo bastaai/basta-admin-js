@@ -1,6 +1,6 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.27",
+  "version": "0.1.0-beta.30",
   "description": "Basta Admin SDK is a specialized toolkit, designed with the purpose of facilitating the management and execution of Basta auctions.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -31,6 +31,7 @@
     "@graphql-codegen/typescript": "^3.0.4",
     "@graphql-codegen/typescript-operations": "^3.0.4",
     "@graphql-eslint/eslint-plugin": "^3.18.0",
+    "@types/node": "^20.4.2",
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",

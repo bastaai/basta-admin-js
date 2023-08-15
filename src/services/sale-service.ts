@@ -5,6 +5,7 @@ import {
   GET_SALE,
   GET_ALL_SALES,
   CREATE_SALE,
+  PUBLISH_SALE,
 } from '../gql/generated/operations';
 import {
   Get_SaleQueryVariables,
@@ -14,15 +15,52 @@ import {
   CreateSaleInput,
   Create_SaleMutation,
   Create_SaleMutationVariables,
-  SaleConnection,
-  SalesEdge,
+  PublishSaleInput,
+  Publish_SaleMutationVariables,
+  Publish_SaleMutation,
 } from '../gql/generated/types';
+import { mapSaleToSale } from '../utils';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;
 
   constructor(bastaReq: BastaRequest) {
     this._bastaReq = bastaReq;
+  }
+
+  async publish(input: PublishSaleInput): Promise<Sale> {
+    const variables: Publish_SaleMutationVariables = {
+      accountId: this._bastaReq.accountId,
+      input: input,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: PUBLISH_SALE,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<Publish_SaleMutation> = await res.json();
+    const sale = json.data.publishSale;
+
+    return {
+      accountId: sale.accountId,
+      dates: sale.dates,
+      id: sale.id,
+      images: sale.images,
+      items: sale.items.edges.map((x) => x.node),
+      participants: sale.participants.edges.map((x) => x.node),
+      sequenceNumber: sale.sequenceNumber,
+      title: sale.title ?? '',
+      description: sale.description ?? '',
+      incrementTable: sale.incrementTable,
+      status: sale.status,
+      closingMethod: sale.closingMethod,
+      closingTimeCountdown: sale.closingTimeCountdown,
+    };
   }
 
   async get(saleId: string): Promise<Sale> {
@@ -40,13 +78,24 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      response: Get_SaleQuery;
-    }> = await res.json();
+    const json: BastaResponse<Get_SaleQuery> = await res.json();
+    const sale = json.data.sale;
 
-    const sanitized: Sale = JSON.parse(JSON.stringify(json.data.response.sale));
-
-    return sanitized;
+    return {
+      accountId: sale.accountId,
+      dates: sale.dates,
+      id: sale.id,
+      images: sale.images,
+      items: sale.items.edges.map((x) => x.node),
+      participants: sale.participants.edges.map((x) => x.node),
+      sequenceNumber: sale.sequenceNumber,
+      title: sale.title ?? '',
+      description: sale.description ?? '',
+      incrementTable: sale.incrementTable,
+      status: sale.status,
+      closingMethod: sale.closingMethod,
+      closingTimeCountdown: sale.closingTimeCountdown,
+    };
   }
 
   async create(input: CreateSaleInput): Promise<Sale> {
@@ -64,15 +113,9 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      response: Create_SaleMutation;
-    }> = await res.json();
+    const json: BastaResponse<Create_SaleMutation> = await res.json();
 
-    const sanitized: Sale = JSON.parse(
-      JSON.stringify(json.data.response.createSale)
-    );
-
-    return sanitized;
+    return mapSaleToSale(json.data.createSale);
   }
 
   async getAll(): Promise<Sale[]> {
@@ -89,16 +132,8 @@ export class SaleService implements ISaleService {
       }),
     });
 
-    const json: BastaResponse<{
-      sales: Get_All_SalesQuery;
-    }> = await res.json();
+    const json: BastaResponse<Get_All_SalesQuery> = await res.json();
 
-    const sanitized: SaleConnection = JSON.parse(
-      JSON.stringify(json.data.sales)
-    );
-
-    const sales: Sale[] = sanitized.edges.map((sale: SalesEdge) => sale.node);
-
-    return sales;
+    return json.data.sales.edges.map((x) => mapSaleToSale(x.node));
   }
 }
