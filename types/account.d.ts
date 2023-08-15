@@ -20,4 +20,9 @@ export type Account = {
   links: Link[];
   /** modified */
   modified?: string | null;
+  /**
+   * Platform Key.
+   * Only returned on account creation
+   */
+  platformKey?: string;
 };

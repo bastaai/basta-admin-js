@@ -36,6 +36,7 @@ export const mapAccountToAccount = (account: _Account): Account => {
     handle: account.handle,
     imageUrl: account.imageUrl,
     modified: account.modified,
+    platformKey: account.platformKey ?? undefined,
   };
 };
 
