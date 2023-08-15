@@ -5,6 +5,8 @@ import {
 } from '../src/gql/generated/types';
 import { Image } from './image';
 
+export { ClosingMethod, SaleStatus };
+
 export type Sale = {
   /** Id of a sale. */
   id: string;
