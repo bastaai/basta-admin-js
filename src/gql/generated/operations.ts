@@ -30,11 +30,12 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
     ... on BidPlacedSuccess {
-      amount
-      maxAmount
-      date
+      bidId
       bidStatus
       bidType
+      date
+      amount
+      maxAmount
     }
     ... on BidPlacedError {
       errorCode
@@ -479,14 +480,6 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
         hasNextPage
       }
     }
-  }
-}`;
-
-export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
-  createUserTokenV2(accountId: $accountId, input: $input) {
-    __typename
-    token
-    expirationDate
   }
 }`;
 

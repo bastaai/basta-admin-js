@@ -3,7 +3,6 @@ import {
   IBastaAdmin,
   ISaleService,
   IBidService,
-  IUserService,
   IItemService,
   IAccountService,
 } from '../types/sdk';
@@ -12,7 +11,6 @@ import { AccountService } from './services/account-service';
 import { BidService } from './services/bid-service';
 import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
-import { UserService } from './services/user-service';
 
 export const initBasta = (
   args: { accountId: string; secretKey: string },
@@ -26,7 +24,6 @@ export { ClosingMethod, SaleStatus, ItemStatus };
 class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
   readonly bid: IBidService;
-  readonly user: IUserService;
   readonly item: IItemService;
   readonly account: IAccountService;
 
@@ -51,7 +48,6 @@ class BastaAdmin implements IBastaAdmin {
 
     this.sale = new SaleService(this._bastaReq);
     this.bid = new BidService(this._bastaReq);
-    this.user = new UserService(this._bastaReq);
     this.item = new ItemService(this._bastaReq);
     this.account = new AccountService(this._bastaReq);
   }

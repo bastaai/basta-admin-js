@@ -1499,11 +1499,12 @@ export type Bid_On_ItemMutation = {
     | { __typename: 'BidPlacedError'; errorCode: BidErrorCode; error: string }
     | {
         __typename: 'BidPlacedSuccess';
-        amount: number;
-        maxAmount: number;
-        date: string;
+        bidId: string;
         bidStatus: BidStatus;
         bidType: BidType;
+        date: string;
+        amount: number;
+        maxAmount: number;
       };
 };
 
@@ -2014,20 +2015,6 @@ export type Publish_SaleMutation = {
         hasNextPage: boolean;
       };
     };
-  };
-};
-
-export type Create_User_TokenMutationVariables = Exact<{
-  accountId: string;
-  input: UserTokenInput;
-}>;
-
-export type Create_User_TokenMutation = {
-  __typename?: 'Mutation';
-  createUserTokenV2: {
-    __typename: 'UserToken';
-    token: string;
-    expirationDate: string;
   };
 };
 

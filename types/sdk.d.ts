@@ -1,5 +1,4 @@
 import { Sale } from './sale';
-import { UserToken } from './user';
 import { BidResponse, BidType } from './bid';
 import type { Account } from './account';
 import {
@@ -31,7 +30,6 @@ export type BidArgs = {
 export interface IBastaAdmin {
   sale: ISaleService;
   bid: IBidService;
-  user: IUserService;
   item: IItemService;
   account: IAccountService;
 }
@@ -81,16 +79,6 @@ export interface IItemService {
     itemId: string,
     input: UpdateSaleItemInput
   ): Promise<SaleItem>;
-}
-export interface IUserService {
-  /**
-   * Generates a signed JWT token that can be used to access web sockets containing sensitive user data.
-   * Returns a Promise that resolves with the token string, or null if the token could not be generated.
-   */
-  refreshUserToken(params: {
-    uniqueUserId: string;
-    ttlMinutes: number;
-  }): Promise<UserToken | null>;
 }
 
 export interface IAccountService {
