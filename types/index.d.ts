@@ -6,7 +6,7 @@ import {
 } from '../src/gql/generated/types';
 import { IBastaAdmin } from './sdk';
 
-export { BidIncrementTable, Participant, Sale } from './sale';
+export { BidIncrementTable, Participant, Sale, SaleItem } from './sale';
 export { Item } from './item';
 export { BidResponse } from './bid';
 
