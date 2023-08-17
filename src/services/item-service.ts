@@ -135,6 +135,7 @@ export class ItemService implements IItemService {
       input: {
         saleId: saleId,
         title: item.title ?? '',
+        description: item.description ?? '',
         startingBid: options.startingBid,
         reserve: options.reserve,
       },
