@@ -673,7 +673,10 @@ export type Mutation = {
   createAccount: Account;
   /** Create an API key, that can access all functions in the API on behalf of the logged in customer. */
   createApiToken: ApiTokenCreated;
-  /** Create and sign a token that can be used to bid on behalf of a user (unique user id needs to be provided) */
+  /**
+   * Create and sign a token that can be used to bid on behalf of a user (unique user id needs to be provided)
+   * @deprecated No longer supported
+   */
   createBidderToken: BidderToken;
   /** Create item. This operation will create a standalone item that is not part of a sale. */
   createItem: Item;
