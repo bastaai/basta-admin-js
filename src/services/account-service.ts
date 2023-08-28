@@ -18,6 +18,7 @@ export class AccountService implements IAccountService {
     this._bastaReq = bastaReq;
   }
 
+  /** ⚠️ Not publicly available... yet! ⚠️ */
   async __create(account: CreateAccountInput): Promise<Account> {
     const variables: Create_AccountMutationVariables = {
       input: {
