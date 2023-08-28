@@ -87,4 +87,9 @@ export interface IAccountService {
     account: CreateAccountInput,
     headers: IncomingHttpHeaders
   ): Promise<Account>;
+  /** Creates a user token that enables a user to subscribe to personal bidding data. */
+  createUserToken(
+    userId: string,
+    ttlMinutes: number
+  ): Promise<{ token: string; expirationDate: string }>;
 }
