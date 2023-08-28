@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    // Let Babel deal with transpiling new language features
+    "target": "esnext",
+
+    // These are overridden by the Rollup plugin, but are left here in case you
+    // run `tsc` directly for typechecking or debugging purposes
     "outDir": "./dist",
-    "target": "ES2020",
-    "module": "CommonJS",
+    "rootDir": "./src",
+
+    "module": "esnext",
     "moduleResolution": "node",
-    "declaration": false,
-    "esModuleInterop": true,
-    "strict": true,
-    "strictNullChecks": true,
+    "noEmit": true,
     "allowJs": false,
-    "noImplicitAny": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "declaration": false,
+    "removeComments": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"]
+  "include": ["src", "types"]
 }
