@@ -18,5 +18,5 @@ export const initBasta: (
     accountId: string;
     secretKey: string;
   },
-  isStaging?: boolean
+  isStaging: boolean
 ) => IBastaAdmin;

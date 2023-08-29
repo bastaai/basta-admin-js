@@ -1474,6 +1474,20 @@ export type Create_AccountMutation = {
   };
 };
 
+export type Create_User_TokenMutationVariables = Exact<{
+  accountId: string;
+  input: UserTokenInput;
+}>;
+
+export type Create_User_TokenMutation = {
+  __typename?: 'Mutation';
+  createUserTokenV2: {
+    __typename?: 'UserToken';
+    token: string;
+    expirationDate: string;
+  };
+};
+
 export type Bid_On_BehalfMutationVariables = Exact<{
   accountID: string;
   input: BidOnBehalfInput;

@@ -16,6 +16,13 @@ export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInpu
   }
 }`;
 
+export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
+  createUserTokenV2(accountId: $accountId, input: $input) {
+    token
+    expirationDate
+  }
+}`;
+
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
   bidOnBehalf(accountId: $accountID, input: $input) {
     amount
