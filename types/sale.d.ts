@@ -6,7 +6,6 @@ import {
 import { Image } from './image';
 
 export { ClosingMethod, SaleStatus };
-export { SaleItem };
 
 export type Sale = {
   /** Id of a sale. */
