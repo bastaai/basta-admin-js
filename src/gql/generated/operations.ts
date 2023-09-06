@@ -490,6 +490,23 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
   }
 }`;
 
+export const GET_ACCOUNT = `query GET_ACCOUNT($accountId: String!) {
+  account(accountId: $accountId) {
+    id
+    name
+    email
+    created
+    modified
+    handle
+    description
+    imageUrl
+    links {
+      url
+      type
+    }
+  }
+}`;
+
 export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFilter: ItemsFilter!, $first: Int, $after: String) {
   items(
     accountId: $accountId

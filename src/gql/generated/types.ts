@@ -2035,6 +2035,26 @@ export type Publish_SaleMutation = {
   };
 };
 
+export type Get_AccountQueryVariables = Exact<{
+  accountId: string;
+}>;
+
+export type Get_AccountQuery = {
+  __typename?: 'Query';
+  account: {
+    __typename?: 'Account';
+    id: string;
+    name: string;
+    email: string;
+    created: string;
+    modified?: string | null;
+    handle?: string | null;
+    description?: string | null;
+    imageUrl?: string | null;
+    links: Array<{ __typename?: 'Link'; url: string; type: LinkType }>;
+  };
+};
+
 export type Get_All_ItemsQueryVariables = Exact<{
   accountId: string;
   itemsFilter: ItemsFilter;
