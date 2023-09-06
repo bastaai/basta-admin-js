@@ -92,4 +92,6 @@ export interface IAccountService {
     userId: string,
     ttlMinutes: number
   ): Promise<{ token: string; expirationDate: string }>;
+  /** Gets a Basta account.  */
+  get(accountId: string): Promise<Account>;
 }

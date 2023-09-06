@@ -1,0 +1,16 @@
+query GET_ACCOUNT($accountId: String!) {
+  account(accountId: $accountId) {
+    id
+    name
+    email
+    created
+    modified
+    handle
+    description
+    imageUrl
+    links {
+      url
+      type
+    }
+  }
+}

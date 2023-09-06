@@ -1,13 +1,19 @@
 import { Account } from '../../types/account';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IAccountService } from '../../types/sdk';
-import { CREATE_ACCOUNT, CREATE_USER_TOKEN } from '../gql/generated/operations';
+import {
+  CREATE_ACCOUNT,
+  CREATE_USER_TOKEN,
+  GET_ACCOUNT,
+} from '../gql/generated/operations';
 import {
   CreateAccountInput,
   Create_AccountMutation,
   Create_AccountMutationVariables,
   Create_User_TokenMutation,
   Create_User_TokenMutationVariables,
+  Get_AccountQuery,
+  Get_AccountQueryVariables,
 } from '../gql/generated/types';
 import { mapAccountToAccount } from '../utils';
 
@@ -70,6 +76,36 @@ export class AccountService implements IAccountService {
     return {
       token: json.data.createUserTokenV2.token,
       expirationDate: json.data.createUserTokenV2.expirationDate,
+    };
+  }
+
+  async get(accountId: string): Promise<Account> {
+    const variables: Get_AccountQueryVariables = {
+      accountId: accountId,
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        query: GET_ACCOUNT,
+        variables: variables,
+      }),
+    });
+
+    const json: BastaResponse<Get_AccountQuery> = await res.json();
+    const account = json.data.account;
+
+    return {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      created: account.created,
+      modified: account.modified ?? '',
+      handle: account.handle ?? '',
+      description: account.description ?? '',
+      imageUrl: account.imageUrl ?? '',
+      links: account.links,
     };
   }
 }
