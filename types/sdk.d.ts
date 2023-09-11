@@ -13,7 +13,6 @@ import {
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
-import { IncomingHttpHeaders } from 'http';
 
 export type BastaResponse<T> = {
   data: T;
@@ -85,7 +84,7 @@ export interface IAccountService {
   /** Creates a Basta account.  */
   __create(
     account: CreateAccountInput,
-    headers: IncomingHttpHeaders
+    headers: NodeJS.Dict<string | string[]>
   ): Promise<Account>;
   /** Creates a user token that enables a user to subscribe to personal bidding data. */
   createUserToken(

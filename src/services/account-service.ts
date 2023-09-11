@@ -24,8 +24,11 @@ export class AccountService implements IAccountService {
     this._bastaReq = bastaReq;
   }
 
-  /** ⚠️ Not publicly available... yet! ⚠️ */
-  async __create(account: CreateAccountInput): Promise<Account> {
+  /** ⚠️ Not publicly available ⚠️ */
+  async __create(
+    account: CreateAccountInput,
+    headers: NodeJS.Dict<string | string[]>
+  ): Promise<Account> {
     const variables: Create_AccountMutationVariables = {
       input: {
         email: account.email,
@@ -38,7 +41,10 @@ export class AccountService implements IAccountService {
 
     const res = await fetch(this._bastaReq.url, {
       method: 'POST',
-      headers: this._bastaReq.headers,
+      headers: {
+        ...this._bastaReq.headers,
+        ...headers,
+      },
       body: JSON.stringify({
         variables: variables,
         query: CREATE_ACCOUNT,
