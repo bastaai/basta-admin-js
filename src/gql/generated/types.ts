@@ -1230,7 +1230,11 @@ export type SaleItemInput = {
   highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
-  /** Reserve of the item in minor currency unit. */
+  /**
+   * The reserve is the minimum amount that an item will sell for.
+   * Reserve should be in minor currency units.
+   * A reserve of 0 is treated like a no reserve sale.
+   */
   reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
   saleId: string;
@@ -1489,7 +1493,7 @@ export type Create_User_TokenMutation = {
 };
 
 export type Bid_On_BehalfMutationVariables = Exact<{
-  accountID: string;
+  accountId: string;
   input: BidOnBehalfInput;
 }>;
 
@@ -1497,11 +1501,13 @@ export type Bid_On_BehalfMutation = {
   __typename?: 'Mutation';
   bidOnBehalf: {
     __typename?: 'Bid';
+    bidId: string;
     amount: number;
     maxAmount: number;
     userId: string;
     date: string;
     bidStatus?: BidStatus | null;
+    bidSequenceNumber: number;
   };
 };
 

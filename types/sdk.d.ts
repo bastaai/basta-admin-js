@@ -3,6 +3,7 @@ import { BidResponse, BidType } from './bid';
 import type { Account } from './account';
 import {
   AddItemToSaleInput,
+  Bid,
   CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
@@ -39,6 +40,8 @@ export interface IBidService {
   placeMaxBid(params: BidArgs): Promise<BidResponse>;
   /** Places an offer on a Basta item. */
   placeOffer(params: BidArgs): Promise<BidResponse>;
+  /** Bid on behalf of a user */
+  bidOnBehalf(params: BidArgs): Promise<Bid>;
 }
 export interface ISaleService {
   /** Gets a Basta sale. */
