@@ -53,6 +53,20 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
   }
 }`;
 
+export const CANCEL_LATEST_BID_ON_ITEM = `mutation CANCEL_LATEST_BID_ON_ITEM($accountId: String!, $input: CancelLatestBidOnItemInput!) {
+  cancelLatestBidOnItem(accountId: $accountId, input: $input) {
+    removedBids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+  }
+}`;
+
 export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
   addItemToSale(accountId: $accountId, input: $input) {
     id

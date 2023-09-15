@@ -1531,6 +1531,28 @@ export type Bid_On_ItemMutation = {
       };
 };
 
+export type Cancel_Latest_Bid_On_ItemMutationVariables = Exact<{
+  accountId: string;
+  input: CancelLatestBidOnItemInput;
+}>;
+
+export type Cancel_Latest_Bid_On_ItemMutation = {
+  __typename?: 'Mutation';
+  cancelLatestBidOnItem: {
+    __typename?: 'CanceledLatestBidOnItem';
+    removedBids: Array<{
+      __typename?: 'Bid';
+      bidId: string;
+      amount: number;
+      maxAmount: number;
+      userId: string;
+      date: string;
+      bidStatus?: BidStatus | null;
+      bidSequenceNumber: number;
+    }>;
+  };
+};
+
 export type Add_Item_To_SaleMutationVariables = Exact<{
   accountId: string;
   input: AddItemToSaleInput;

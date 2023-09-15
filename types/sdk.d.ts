@@ -4,6 +4,7 @@ import type { Account } from './account';
 import {
   AddItemToSaleInput,
   Bid,
+  CancelLatestBidOnItemInput,
   CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
@@ -42,6 +43,8 @@ export interface IBidService {
   placeOffer(params: BidArgs): Promise<BidResponse>;
   /** Bid on behalf of a user */
   bidOnBehalf(params: BidArgs): Promise<Bid>;
+  /** Cancel the latest bid on item (including reactive bids that were placed as a side-effect) */
+  cancelLatestBidOnItem(input: CancelLatestBidOnItemInput): Promise<Bid[]>;
 }
 export interface ISaleService {
   /** Gets a Basta sale. */

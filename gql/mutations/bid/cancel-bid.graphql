@@ -1,0 +1,16 @@
+mutation CANCEL_LATEST_BID_ON_ITEM(
+  $accountId: String!
+  $input: CancelLatestBidOnItemInput!
+) {
+  cancelLatestBidOnItem(accountId: $accountId, input: $input) {
+    removedBids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+  }
+}

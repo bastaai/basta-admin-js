@@ -1,7 +1,11 @@
 import { BidResponse } from '../../types/bid';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, BidArgs, IBidService } from '../../types/sdk';
-import { BID_ON_BEHALF, BID_ON_ITEM } from '../gql/generated/operations';
+import {
+  BID_ON_BEHALF,
+  BID_ON_ITEM,
+  CANCEL_LATEST_BID_ON_ITEM,
+} from '../gql/generated/operations';
 import {
   Bid,
   BidType,
@@ -9,6 +13,8 @@ import {
   Bid_On_BehalfMutationVariables,
   Bid_On_ItemMutation,
   Bid_On_ItemMutationVariables,
+  Cancel_Latest_Bid_On_ItemMutation,
+  Cancel_Latest_Bid_On_ItemMutationVariables,
 } from '../gql/generated/types';
 
 export class BidService implements IBidService {
@@ -156,5 +162,39 @@ export class BidService implements IBidService {
     const bid = json.data.bidOnBehalf;
 
     return bid;
+  }
+
+  async cancelLatestBidOnItem({
+    itemId,
+    saleId,
+    sequenceNumber,
+  }: {
+    itemId: string;
+    saleId: string;
+    sequenceNumber: number;
+  }): Promise<Bid[]> {
+    const variables: Cancel_Latest_Bid_On_ItemMutationVariables = {
+      accountId: this._bastaReq.accountId,
+      input: {
+        itemId: itemId,
+        saleId: saleId,
+        sequenceNumber: sequenceNumber,
+      },
+    };
+
+    const res = await fetch(this._bastaReq.url, {
+      method: 'POST',
+      headers: this._bastaReq.headers,
+      body: JSON.stringify({
+        variables: variables,
+        query: CANCEL_LATEST_BID_ON_ITEM,
+      }),
+    });
+
+    const json: BastaResponse<Cancel_Latest_Bid_On_ItemMutation> =
+      await res.json();
+    const removedBids = json.data.cancelLatestBidOnItem.removedBids;
+
+    return removedBids;
   }
 }
