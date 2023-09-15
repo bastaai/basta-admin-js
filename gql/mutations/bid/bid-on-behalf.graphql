@@ -1,9 +1,11 @@
-mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
-  bidOnBehalf(accountId: $accountID, input: $input) {
+mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountId, input: $input) {
+    bidId
     amount
     maxAmount
     userId
     date
     bidStatus
+    bidSequenceNumber
   }
 }

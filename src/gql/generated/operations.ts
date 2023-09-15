@@ -23,13 +23,15 @@ export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!
   }
 }`;
 
-export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
-  bidOnBehalf(accountId: $accountID, input: $input) {
+export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountId, input: $input) {
+    bidId
     amount
     maxAmount
     userId
     date
     bidStatus
+    bidSequenceNumber
   }
 }`;
 
@@ -47,6 +49,20 @@ export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: Bi
     ... on BidPlacedError {
       errorCode
       error
+    }
+  }
+}`;
+
+export const CANCEL_LATEST_BID_ON_ITEM = `mutation CANCEL_LATEST_BID_ON_ITEM($accountId: String!, $input: CancelLatestBidOnItemInput!) {
+  cancelLatestBidOnItem(accountId: $accountId, input: $input) {
+    removedBids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
     }
   }
 }`;
