@@ -12,6 +12,7 @@ import type { IBastaAdmin } from './sdk';
 export { ClosingMethod, SaleStatus, ItemStatus, BidType };
 
 // Types
+export type { Account } from './account';
 export type { BidIncrementTable, Participant, Sale, SaleItem } from './sale';
 export type { Item } from './item';
 export type { BidResponse } from './bid';
