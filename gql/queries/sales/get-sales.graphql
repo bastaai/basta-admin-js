@@ -1,0 +1,83 @@
+query GET_SALE(
+  $accountId: String!
+  $id: ID!
+  $take: Int
+  $cursor: String
+  $direction: PaginationDirection
+) {
+  sale(accountId: $accountId, id: $id) {
+    id
+    accountId
+    title
+    description
+    currency
+    status
+    closingMethod
+    closingTimeCountdown
+    sequenceNumber
+    images {
+      id
+      url
+      order
+    }
+    items {
+      edges {
+        cursor
+        node {
+          id
+          title
+          totalBids
+          description
+          currentBid
+          leaderId
+          saleId
+          reserve
+          startingBid
+          lowEstimate
+          highEstimate
+          itemNumber
+          allowedBidTypes
+          status
+          images {
+            id
+            url
+            order
+          }
+          bids {
+            bidId
+            amount
+            userId
+            date
+            bidStatus
+            maxAmount
+            bidSequenceNumber
+          }
+          dates {
+            closingStart
+            closingEnd
+          }
+        }
+      }
+    }
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      closingDate
+      openDate
+    }
+    participants(take: $take, cursor: $cursor, direction: $direction) {
+      edges {
+        cursor
+        node {
+          userId
+        }
+      }
+      totalCount
+    }
+  }
+}

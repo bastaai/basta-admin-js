@@ -1,0 +1,98 @@
+query GET_ALL_SALES(
+  $accountId: String!
+  $first: Int = 20
+  $after: String
+  $filter: SaleFilter
+) {
+  sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
+    edges {
+      node {
+        id
+        accountId
+        title
+        description
+        currency
+        status
+        closingMethod
+        closingTimeCountdown
+        sequenceNumber
+        images {
+          id
+          url
+          order
+        }
+        items {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              id
+              title
+              totalBids
+              description
+              currentBid
+              leaderId
+              saleId
+              reserve
+              startingBid
+              lowEstimate
+              highEstimate
+              itemNumber
+              allowedBidTypes
+              status
+              images {
+                id
+                url
+                order
+              }
+              bids {
+                bidId
+                amount
+                userId
+                date
+                bidStatus
+                maxAmount
+                bidSequenceNumber
+              }
+              dates {
+                closingStart
+                closingEnd
+              }
+            }
+          }
+        }
+        incrementTable {
+          rules {
+            highRange
+            lowRange
+            step
+          }
+        }
+        dates {
+          closingDate
+          openDate
+        }
+        participants {
+          pageInfo {
+            __typename
+            startCursor
+            endCursor
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              userId
+            }
+          }
+          totalCount
+        }
+      }
+    }
+  }
+}

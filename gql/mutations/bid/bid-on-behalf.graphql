@@ -1,0 +1,11 @@
+mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
+  bidOnBehalf(accountId: $accountId, input: $input) {
+    bidId
+    amount
+    maxAmount
+    userId
+    date
+    bidStatus
+    bidSequenceNumber
+  }
+}

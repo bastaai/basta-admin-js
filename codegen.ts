@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      ['https://management.api.basta.ai/graphql']: {
+      ['https://management.api.basta.wtf/graphql']: {
         headers: {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           ['x-api-key']: process.env.TEMP_API_KEY!,

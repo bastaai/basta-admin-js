@@ -3,24 +3,37 @@ import {
   IBastaAdmin,
   ISaleService,
   IBidService,
-  IUserService,
+  IItemService,
+  IAccountService,
 } from '../types/sdk';
+import { AccountService } from './services/account-service';
 import { BidService } from './services/bid-service';
+import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
-import { UserService } from './services/user-service';
 
-export const initBasta = (secretKey: string, accountId: string) => {
-  return new BastaAdmin(secretKey, accountId);
+export {
+  ClosingMethod,
+  SaleStatus,
+  ItemStatus,
+  BidType,
+} from './gql/generated/types';
+
+export const initBasta = (
+  args: { accountId: string; secretKey: string },
+  isStaging: boolean
+) => {
+  return new BastaAdmin(args.accountId, args.secretKey, isStaging);
 };
 
 class BastaAdmin implements IBastaAdmin {
   readonly sale: ISaleService;
   readonly bid: IBidService;
-  readonly user: IUserService;
+  readonly item: IItemService;
+  readonly account: IAccountService;
 
   private readonly _bastaReq: BastaRequest;
 
-  constructor(secretKey: string, accountId: string) {
+  constructor(accountId: string, secretKey: string, isStaging: boolean) {
     if (typeof window !== 'undefined') {
       throw new Error(
         'Basta Admin SDK is not designed to be used in a browser environment. Exposing the secret key is a security risk.'
@@ -29,7 +42,7 @@ class BastaAdmin implements IBastaAdmin {
 
     this._bastaReq = {
       accountId: accountId,
-      url: 'https://management.api.basta.ai/graphql',
+      url: `https://management.api.basta.${isStaging ? 'wtf' : 'ai'}/graphql`,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,
@@ -39,6 +52,7 @@ class BastaAdmin implements IBastaAdmin {
 
     this.sale = new SaleService(this._bastaReq);
     this.bid = new BidService(this._bastaReq);
-    this.user = new UserService(this._bastaReq);
+    this.item = new ItemService(this._bastaReq);
+    this.account = new AccountService(this._bastaReq);
   }
 }

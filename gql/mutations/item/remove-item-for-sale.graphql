@@ -1,26 +1,40 @@
-query GET_SALE(
+mutation REMOVE_ITEM_FROM_SALE(
   $accountId: String!
-  $id: ID!
-  $take: Int
-  $cursor: String
-  $direction: PaginationDirection
+  $input: RemoveSaleItemInput!
 ) {
-  sale(accountId: $accountId, id: $id) {
+  removeItemFromSale(accountId: $accountId, input: $input) {
     id
     accountId
     title
     description
     currency
     status
+    incrementTable {
+      rules {
+        highRange
+        lowRange
+        step
+      }
+    }
+    dates {
+      closingDate
+      openDate
+    }
+    sequenceNumber
     closingMethod
     closingTimeCountdown
-    sequenceNumber
     images {
       id
       url
       order
     }
     items {
+      pageInfo {
+        __typename
+        startCursor
+        endCursor
+        hasNextPage
+      }
       edges {
         cursor
         node {
@@ -58,24 +72,14 @@ query GET_SALE(
           }
         }
       }
+    }
+    participants {
       pageInfo {
+        __typename
         startCursor
         endCursor
         hasNextPage
       }
-    }
-    incrementTable {
-      rules {
-        highRange
-        lowRange
-        step
-      }
-    }
-    dates {
-      closingDate
-      openDate
-    }
-    participants(take: $take, cursor: $cursor, direction: $direction) {
       edges {
         cursor
         node {
@@ -83,11 +87,6 @@ query GET_SALE(
         }
       }
       totalCount
-      pageInfo {
-        startCursor
-        endCursor
-        hasNextPage
-      }
     }
   }
 }

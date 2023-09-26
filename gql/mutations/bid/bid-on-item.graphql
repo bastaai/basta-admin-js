@@ -2,25 +2,16 @@ mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
   bidOnItemV2(accountId: $accountId, input: $input) {
     __typename
     ... on BidPlacedSuccess {
-      amount
-      maxAmount
-      date
+      bidId
       bidStatus
       bidType
+      date
+      amount
+      maxAmount
     }
     ... on BidPlacedError {
       errorCode
       error
     }
-  }
-}
-
-mutation BID_ON_BEHALF($accountID: String!, $input: BidOnBehalfInput!) {
-  bidOnBehalf(accountId: $accountID, input: $input) {
-    amount
-    maxAmount
-    userId
-    date
-    bidStatus
   }
 }

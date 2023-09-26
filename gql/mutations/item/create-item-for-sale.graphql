@@ -1,0 +1,36 @@
+mutation CREATE_ITEM_FOR_SALE($accountId: String!, $input: SaleItemInput!) {
+  createItemForSale(accountId: $accountId, input: $input) {
+    id
+    title
+    totalBids
+    description
+    currentBid
+    leaderId
+    saleId
+    bids {
+      bidId
+      amount
+      maxAmount
+      userId
+      date
+      bidStatus
+      bidSequenceNumber
+    }
+    reserve
+    startingBid
+    status
+    lowEstimate
+    highEstimate
+    itemNumber
+    dates {
+      closingStart
+      closingEnd
+    }
+    allowedBidTypes
+    images {
+      id
+      url
+      order
+    }
+  }
+}
