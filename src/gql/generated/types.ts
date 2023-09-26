@@ -32,6 +32,11 @@ export type Account = {
   /** Name of the account */
   name: string;
   /**
+   * Payment deitals associated with account.
+   * Integrating businesses will have null in this field
+   */
+  paymentDetails?: Maybe<PaymentDetails>;
+  /**
    * Platform Key.
    * Only returned on account creation
    */
@@ -943,6 +948,23 @@ export type ParticipantsEdge = {
   cursor: string;
   node: Participant;
 };
+
+export type PaymentDetails = {
+  __typename?: 'PaymentDetails';
+  /** External account id from payment provider */
+  paymentProviderAccountId?: Maybe<string>;
+  /** Payment Setup Status */
+  status?: Maybe<PaymentProviderStatus>;
+};
+
+export enum PaymentProviderStatus {
+  /** Account has finished onboarding for payment provider and details are being processed. */
+  Processing = 'PROCESSING',
+  /** Account has finished onboarding and details have been processed and confirmed. */
+  Ready = 'READY',
+  /** Account has started onboarding for payment provider but not finished. */
+  Started = 'STARTED',
+}
 
 export enum Permission {
   ReadAccount = 'READ_ACCOUNT',

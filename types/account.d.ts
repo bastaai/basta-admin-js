@@ -1,3 +1,4 @@
+import { PaymentDetails } from '../src/gql/generated/types';
 import { Link } from './link';
 
 /** Account Information */
@@ -25,4 +26,8 @@ export type Account = {
    * Only returned on account creation
    */
   platformKey?: string;
+  /**
+   * Payment Details associated with account.
+   */
+  paymentDetails?: PaymentDetails | null;
 };
