@@ -32,7 +32,7 @@ export type Account = {
   /** Name of the account */
   name: string;
   /**
-   * Payment deitals associated with account.
+   * Payment details associated with account.
    * Integrating businesses will have null in this field
    */
   paymentDetails?: Maybe<PaymentDetails>;
@@ -2102,6 +2102,11 @@ export type Get_AccountQuery = {
     description?: string | null;
     imageUrl?: string | null;
     links: Array<{ __typename?: 'Link'; url: string; type: LinkType }>;
+    paymentDetails?: {
+      __typename?: 'PaymentDetails';
+      paymentProviderAccountId?: string | null;
+      status?: PaymentProviderStatus | null;
+    } | null;
   };
 };
 

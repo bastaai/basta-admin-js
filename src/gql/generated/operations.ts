@@ -520,6 +520,10 @@ export const GET_ACCOUNT = `query GET_ACCOUNT($accountId: String!) {
       url
       type
     }
+    paymentDetails {
+      paymentProviderAccountId
+      status
+    }
   }
 }`;
 
