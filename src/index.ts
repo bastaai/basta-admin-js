@@ -5,17 +5,20 @@ import {
   IBidService,
   IItemService,
   IAccountService,
+  IWebHookService,
 } from '../types/sdk';
 import { AccountService } from './services/account-service';
 import { BidService } from './services/bid-service';
 import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
+import { WebHookService } from './services/web-hook-service';
 
 export {
   ClosingMethod,
   SaleStatus,
   ItemStatus,
   BidType,
+  Bid,
 } from './gql/generated/types';
 
 export const initBasta = (
@@ -30,6 +33,7 @@ class BastaAdmin implements IBastaAdmin {
   readonly bid: IBidService;
   readonly item: IItemService;
   readonly account: IAccountService;
+  readonly webhook: IWebHookService;
 
   private readonly _bastaReq: BastaRequest;
 
@@ -54,5 +58,6 @@ class BastaAdmin implements IBastaAdmin {
     this.bid = new BidService(this._bastaReq);
     this.item = new ItemService(this._bastaReq);
     this.account = new AccountService(this._bastaReq);
+    this.webhook = new WebHookService(this._bastaReq);
   }
 }

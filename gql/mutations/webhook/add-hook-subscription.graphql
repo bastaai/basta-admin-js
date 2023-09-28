@@ -1,0 +1,14 @@
+mutation ADD_HOOK_SUBSCRIPTION(
+  $accountId: String!
+  $input: ActionHookSubscriptionInput!
+) {
+  addActionHookSubscription(accountId: $accountId, input: $input) {
+    accountId
+    action
+    url
+    headers {
+      key
+      value
+    }
+  }
+}
