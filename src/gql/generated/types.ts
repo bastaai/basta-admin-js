@@ -952,9 +952,9 @@ export type ParticipantsEdge = {
 export type PaymentDetails = {
   __typename?: 'PaymentDetails';
   /** External account id from payment provider */
-  paymentProviderAccountId?: Maybe<string>;
+  paymentProviderAccountId: string;
   /** Payment Setup Status */
-  status?: Maybe<PaymentProviderStatus>;
+  status: PaymentProviderStatus;
 };
 
 export enum PaymentProviderStatus {
@@ -2104,8 +2104,8 @@ export type Get_AccountQuery = {
     links: Array<{ __typename?: 'Link'; url: string; type: LinkType }>;
     paymentDetails?: {
       __typename?: 'PaymentDetails';
-      paymentProviderAccountId?: string | null;
-      status?: PaymentProviderStatus | null;
+      paymentProviderAccountId: string;
+      status: PaymentProviderStatus;
     } | null;
   };
 };
