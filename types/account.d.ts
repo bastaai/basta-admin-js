@@ -1,4 +1,4 @@
-import { PaymentDetails } from '../src/gql/generated/types';
+import { PaymentDetails } from './paymentDetails';
 import { Link } from './link';
 
 /** Account Information */
