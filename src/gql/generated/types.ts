@@ -71,6 +71,10 @@ export type ActionHookLog = {
   headers?: Maybe<Array<Maybe<HttpHeader>>>;
   /** Action Hook log entry identifier. */
   id: string;
+  /** Idempotency key */
+  idempotencyKey: string;
+  /** Request Payload as stringified json */
+  requestPayload: string;
   /** Response from Action Hook receiver. */
   response?: Maybe<string>;
   /** Number of HTTP request retries. */
@@ -2524,6 +2528,8 @@ export type Get_All_LogsQuery = {
         accountId: string;
         action: ActionType;
         url: string;
+        requestPayload: string;
+        idempotencyKey: string;
         status?: ActionHookStatus | null;
         error?: string | null;
         retries?: number | null;

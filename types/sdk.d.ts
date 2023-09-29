@@ -3,7 +3,6 @@ import { BidResponse, BidType } from './bid';
 import type { Account } from './account';
 import {
   ActionHookFilter,
-  ActionHookLog,
   ActionHookSubscription,
   ActionHookSubscriptionInput,
   AddItemToSaleInput,
@@ -26,6 +25,7 @@ import {
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
+import { ActionHookLog } from './webhook';
 
 export type BastaResponse<T> = {
   data: T;

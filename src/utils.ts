@@ -1,7 +1,8 @@
 import { Account } from '../types/account';
+import { ApiToken } from '../types/api-token';
 import { Item } from '../types/item';
 import { Sale } from '../types/sale';
-import { ActionHookLog, ApiToken } from './gql/generated/types';
+import { ActionHookLog } from '../types/webhook';
 import {
   Item as _Item,
   Account as _Account,
@@ -72,13 +73,15 @@ export const mapWebHookLogToWebHookLog = (
     id: webHookLog.id,
     accountId: webHookLog.accountId,
     action: webHookLog.action,
-    createdAt: webHookLog.createdAt ?? '',
+    createdAt: webHookLog.createdAt,
     url: webHookLog.url,
-    error: webHookLog.error ?? '',
-    executedAt: webHookLog.executedAt ?? '',
+    error: webHookLog.error,
+    executedAt: webHookLog.executedAt,
     headers: webHookLog.headers,
-    response: webHookLog.response ?? '',
-    retries: webHookLog.retries ?? undefined,
-    status: webHookLog.status ?? undefined,
+    response: webHookLog.response,
+    retries: webHookLog.retries,
+    status: webHookLog.status,
+    idempotencyKey: webHookLog.idempotencyKey,
+    requestPayload: webHookLog.requestPayload,
   };
 };

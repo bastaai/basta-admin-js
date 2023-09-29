@@ -16,6 +16,8 @@ query GET_ALL_LOGS(
           key
           value
         }
+        requestPayload
+        idempotencyKey
         status
         error
         retries

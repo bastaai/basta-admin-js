@@ -1,4 +1,4 @@
-import { PaymentDetails } from './paymentDetails';
+import { PaymentDetails } from './payment-details';
 import { Link } from './link';
 
 /** Account Information */

@@ -1,5 +1,6 @@
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IWebHookService } from '../../types/sdk';
+import { ActionHookLog } from '../../types/webhook';
 import {
   ADD_HOOK_SUBSCRIPTION,
   DELETE_HOOK_SUBSCRIPTION,
@@ -10,7 +11,6 @@ import {
 } from '../gql/generated/operations';
 import {
   ActionHookFilter,
-  ActionHookLog,
   ActionHookSubscription,
   ActionHookSubscriptionInput,
   Add_Hook_SubscriptionMutation,

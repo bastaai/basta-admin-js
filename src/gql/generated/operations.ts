@@ -825,6 +825,8 @@ export const GET_ALL_LOGS = `query GET_ALL_LOGS($accountId: String!, $first: Int
           key
           value
         }
+        requestPayload
+        idempotencyKey
         status
         error
         retries
