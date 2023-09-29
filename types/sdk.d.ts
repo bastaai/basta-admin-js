@@ -2,16 +2,27 @@ import { Sale } from './sale';
 import { BidResponse, BidType } from './bid';
 import type { Account } from './account';
 import {
+  ActionHookFilter,
+  ActionHookLog,
+  ActionHookSubscription,
+  ActionHookSubscriptionInput,
   AddItemToSaleInput,
+  ApiToken,
+  ApiTokenCreated,
+  ApiTokenInput,
   Bid,
   CancelLatestBidOnItemInput,
   CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
+  DeleteActionHookSubscriptionInput,
   Item,
   PublishSaleInput,
   RemoveSaleItemInput,
+  RevokeApiTokenInput,
   SaleItem,
+  TestActionHookResponse,
+  UpdateActionHookSubscriptionInput,
   UpdateItemInput,
   UpdateSaleItemInput,
 } from '../src/gql/generated/types';
@@ -33,6 +44,7 @@ export interface IBastaAdmin {
   bid: IBidService;
   item: IItemService;
   account: IAccountService;
+  webhook: IWebHookService;
 }
 export interface IBidService {
   /** Places a bid on a Basta item. */
@@ -99,4 +111,29 @@ export interface IAccountService {
   ): Promise<{ token: string; expirationDate: string }>;
   /** Gets a Basta account.  */
   get(accountId: string): Promise<Account>;
+  /** Get API Keys that have created.  */
+  getApiTokens(): Promise<ApiToken[]>;
+  /** Create an API key, that can access all functions in the API on behalf of the logged in customer.  */
+  createApiToken(input: ApiTokenInput): Promise<ApiTokenCreated>;
+  /** Revoke the API key by id..  */
+  revokeApiToken(input: RevokeApiTokenInput): Promise<boolean>;
+}
+
+export interface IWebHookService {
+  /** Get account action hook subscriptions  */
+  get(): Promise<ActionHookSubscription[]>;
+  /** Get all Action Hook logs.  */
+  getAllLogs(filter: ActionHookFilter): Promise<ActionHookLog[]>;
+  /** Add action hook subscription  */
+  add(input: ActionHookSubscriptionInput): Promise<ActionHookSubscription>;
+  /** Delete action hook subscription  */
+  delete(input: DeleteActionHookSubscriptionInput): Promise<boolean>;
+  /** Update  action hook subscription  */
+  update(
+    input: UpdateActionHookSubscriptionInput
+  ): Promise<ActionHookSubscription>;
+  /** Test ActionHook configuration. This will trigger an action hook to be sent.  */
+  testActionHook(
+    input: ActionHookSubscriptionInput
+  ): Promise<TestActionHookResponse>;
 }

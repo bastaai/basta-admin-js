@@ -1500,6 +1500,22 @@ export type Create_AccountMutation = {
   };
 };
 
+export type Create_Api_TokenMutationVariables = Exact<{
+  accountId: string;
+  input: ApiTokenInput;
+}>;
+
+export type Create_Api_TokenMutation = {
+  __typename?: 'Mutation';
+  createApiToken: {
+    __typename?: 'ApiTokenCreated';
+    id: string;
+    name: string;
+    roles: Array<ApiTokenRole>;
+    generatedApiKey: string;
+  };
+};
+
 export type Create_User_TokenMutationVariables = Exact<{
   accountId: string;
   input: UserTokenInput;
@@ -1512,6 +1528,16 @@ export type Create_User_TokenMutation = {
     token: string;
     expirationDate: string;
   };
+};
+
+export type Revoke_Api_TokenMutationVariables = Exact<{
+  accountId: string;
+  input: RevokeApiTokenInput;
+}>;
+
+export type Revoke_Api_TokenMutation = {
+  __typename?: 'Mutation';
+  revokeApiToken: boolean;
 };
 
 export type Bid_On_BehalfMutationVariables = Exact<{
@@ -2085,6 +2111,81 @@ export type Publish_SaleMutation = {
   };
 };
 
+export type Add_Hook_SubscriptionMutationVariables = Exact<{
+  accountId: string;
+  input: ActionHookSubscriptionInput;
+}>;
+
+export type Add_Hook_SubscriptionMutation = {
+  __typename?: 'Mutation';
+  addActionHookSubscription: {
+    __typename?: 'ActionHookSubscription';
+    accountId: string;
+    action: ActionType;
+    url: string;
+    headers?: Array<{
+      __typename?: 'HttpHeader';
+      key: string;
+      value: string;
+    } | null> | null;
+  };
+};
+
+export type Delete_Hook_SubscriptionMutationVariables = Exact<{
+  accountId: string;
+  input: DeleteActionHookSubscriptionInput;
+}>;
+
+export type Delete_Hook_SubscriptionMutation = {
+  __typename?: 'Mutation';
+  deleteActionHookSubscription: boolean;
+};
+
+export type Test_Hook_SubscriptionMutationVariables = Exact<{
+  accountId: string;
+  input: ActionHookSubscriptionInput;
+}>;
+
+export type Test_Hook_SubscriptionMutation = {
+  __typename?: 'Mutation';
+  testActionHook: {
+    __typename?: 'TestActionHookResponse';
+    requestPayload: string;
+    requestMethod: string;
+    statusCode: number;
+    requestHeaders: Array<{
+      __typename?: 'HttpHeader';
+      key: string;
+      value: string;
+    } | null>;
+    responseHeaders?: Array<{
+      __typename?: 'HttpHeader';
+      key: string;
+      value: string;
+    } | null> | null;
+  };
+};
+
+export type Update_Hook_SubscriptionMutationVariables = Exact<{
+  accountId: string;
+  input: UpdateActionHookSubscriptionInput;
+}>;
+
+export type Update_Hook_SubscriptionMutation = {
+  __typename?: 'Mutation';
+  updateActionHookSubscription: {
+    __typename?: 'ActionHookSubscription';
+    accountId: string;
+    action: ActionType;
+    url: string;
+    headers?: Array<{
+      __typename?: 'HttpHeader';
+      key: string;
+      value: string;
+    } | null> | null;
+  };
+};
+
 export type Get_AccountQueryVariables = Exact<{
   accountId: string;
 }>;
@@ -2107,6 +2208,30 @@ export type Get_AccountQuery = {
       paymentProviderAccountId: string;
       status: PaymentProviderStatus;
     } | null;
+  };
+};
+
+export type Get_Api_KeysQueryVariables = Exact<{
+  accountId: string;
+  first?: InputMaybe<number>;
+  after?: InputMaybe<string>;
+}>;
+
+export type Get_Api_KeysQuery = {
+  __typename?: 'Query';
+  apiTokens: {
+    __typename?: 'ApiTokenConnection';
+    edges: Array<{
+      __typename?: 'ApiTokensEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ApiToken';
+        id: string;
+        name: string;
+        accountId: string;
+        roles: Array<ApiTokenRole>;
+      };
+    }>;
   };
 };
 
@@ -2377,4 +2502,58 @@ export type Get_SaleQuery = {
       }>;
     };
   };
+};
+
+export type Get_All_LogsQueryVariables = Exact<{
+  accountId: string;
+  first?: InputMaybe<number>;
+  after?: InputMaybe<string>;
+  filter?: InputMaybe<ActionHookFilter>;
+}>;
+
+export type Get_All_LogsQuery = {
+  __typename?: 'Query';
+  actionHookLogs: {
+    __typename?: 'ActionHookLogConnection';
+    edges: Array<{
+      __typename?: 'ActionHookLogEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ActionHookLog';
+        id: string;
+        accountId: string;
+        action: ActionType;
+        url: string;
+        status?: ActionHookStatus | null;
+        error?: string | null;
+        retries?: number | null;
+        createdAt?: string | null;
+        executedAt?: string | null;
+        headers?: Array<{
+          __typename?: 'HttpHeader';
+          key: string;
+          value: string;
+        } | null> | null;
+      };
+    }>;
+  };
+};
+
+export type Get_Hook_SubscriptionQueryVariables = Exact<{
+  accountId: string;
+}>;
+
+export type Get_Hook_SubscriptionQuery = {
+  __typename?: 'Query';
+  actionHookSubscriptions: Array<{
+    __typename?: 'ActionHookSubscription';
+    accountId: string;
+    action: ActionType;
+    url: string;
+    headers?: Array<{
+      __typename?: 'HttpHeader';
+      key: string;
+      value: string;
+    } | null> | null;
+  }>;
 };

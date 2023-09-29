@@ -1,0 +1,6 @@
+mutation DELETE_HOOK_SUBSCRIPTION(
+  $accountId: String!
+  $input: DeleteActionHookSubscriptionInput!
+) {
+  deleteActionHookSubscription(accountId: $accountId, input: $input)
+}
