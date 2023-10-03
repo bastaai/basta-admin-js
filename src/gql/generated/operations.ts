@@ -813,7 +813,12 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
 }`;
 
 export const GET_ALL_LOGS = `query GET_ALL_LOGS($accountId: String!, $first: Int = 500, $after: String, $filter: ActionHookFilter) {
-  actionHookLogs(accountId: $accountId, after: $after, filter: $filter) {
+  actionHookLogs(
+    accountId: $accountId
+    first: $first
+    after: $after
+    filter: $filter
+  ) {
     edges {
       cursor
       node {

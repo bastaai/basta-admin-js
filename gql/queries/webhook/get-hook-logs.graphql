@@ -4,7 +4,12 @@ query GET_ALL_LOGS(
   $after: String
   $filter: ActionHookFilter
 ) {
-  actionHookLogs(accountId: $accountId, after: $after, filter: $filter) {
+  actionHookLogs(
+    accountId: $accountId
+    first: $first
+    after: $after
+    filter: $filter
+  ) {
     edges {
       cursor
       node {

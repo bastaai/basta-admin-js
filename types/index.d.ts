@@ -26,7 +26,7 @@ export type { Account } from './account';
 export type { BidIncrementTable, Participant, Sale, SaleItem } from './sale';
 export type { Item } from './item';
 export type { BidResponse } from './bid';
-export type { ActionHookLog } from './webhook';
+export type { ActionHookLog, ActionHookSubscription } from './webhook';
 export type { ApiToken, ApiTokenCreated } from './api-token';
 
 export const initBasta: (
