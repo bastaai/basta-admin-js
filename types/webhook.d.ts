@@ -1,4 +1,20 @@
 /**
+ * Action Hook subscription contains subscriber registration information.
+ * Action Hook is an action that occurs when an event happens.
+ * Action can be an HTTP POST request that will be triggered to customers web servers.
+ */
+export type ActionHookSubscription = {
+  /** Account identifier. */
+  accountId: string;
+  /** Name of the basta action that is being subscribed to. */
+  action: ActionType;
+  /** Custom HTTP header values sent with the action Action Hook. */
+  headers?: Array<HttpHeader | null | undefined> | null | undefined;
+  /** Action Hook receiver endpoint. */
+  url: string;
+};
+
+/**
  * Action Hook Log represents a recorded Action Hook HTTP request to a customers web servers.
  * Log entry may contain information about a pending, successful or failed request.
  */

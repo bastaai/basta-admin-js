@@ -13,12 +13,15 @@ import { ItemService } from './services/item-service';
 import { SaleService } from './services/sale-service';
 import { WebHookService } from './services/web-hook-service';
 
+// Only export enums here. Types are exported in a .d.ts file elsewhere.
 export {
   ClosingMethod,
   SaleStatus,
   ItemStatus,
   BidType,
-  Bid,
+  ActionType,
+  ActionHookStatus,
+  ApiTokenRole,
 } from './gql/generated/types';
 
 export const initBasta = (
