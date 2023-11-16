@@ -1,0 +1,18 @@
+mutation TEST_HOOK_SUBSCRIPTION(
+  $accountId: String!
+  $input: ActionHookSubscriptionInput!
+) {
+  testActionHook(accountId: $accountId, input: $input) {
+    requestHeaders {
+      key
+      value
+    }
+    requestPayload
+    requestMethod
+    responseHeaders {
+      key
+      value
+    }
+    statusCode
+  }
+}

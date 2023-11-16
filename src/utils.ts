@@ -1,10 +1,14 @@
 import { Account } from '../types/account';
+import { ApiToken } from '../types/api-token';
 import { Item } from '../types/item';
 import { Sale } from '../types/sale';
+import { ActionHookLog } from '../types/webhook';
 import {
   Item as _Item,
   Account as _Account,
   Sale as _Sale,
+  ActionHookLog as _ActionHookLog,
+  ApiToken as _ApiToken,
 } from './gql/generated/types';
 
 export const mapSaleToSale = (sale: _Sale): Sale => {
@@ -50,5 +54,34 @@ export const mapItemToItem = (item: _Item): Item => {
     saleId: item.saleId ?? undefined,
     valuationAmount: item.valuationAmount ?? undefined,
     valuationCurrency: item.valuationCurrency ?? undefined,
+  };
+};
+
+export const mapTokenToToken = (token: _ApiToken): ApiToken => {
+  return {
+    accountId: token.accountId,
+    id: token.id,
+    roles: token.roles,
+    name: token.name,
+  };
+};
+
+export const mapWebHookLogToWebHookLog = (
+  webHookLog: _ActionHookLog
+): ActionHookLog => {
+  return {
+    id: webHookLog.id,
+    accountId: webHookLog.accountId,
+    action: webHookLog.action,
+    createdAt: webHookLog.createdAt,
+    url: webHookLog.url,
+    error: webHookLog.error,
+    executedAt: webHookLog.executedAt,
+    headers: webHookLog.headers,
+    response: webHookLog.response,
+    retries: webHookLog.retries,
+    status: webHookLog.status,
+    idempotencyKey: webHookLog.idempotencyKey,
+    requestPayload: webHookLog.requestPayload,
   };
 };

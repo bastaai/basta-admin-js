@@ -16,11 +16,24 @@ export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInpu
   }
 }`;
 
+export const CREATE_API_TOKEN = `mutation CREATE_API_TOKEN($accountId: String!, $input: ApiTokenInput!) {
+  createApiToken(accountId: $accountId, input: $input) {
+    id
+    name
+    roles
+    generatedApiKey
+  }
+}`;
+
 export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!, $input: UserTokenInput!) {
   createUserTokenV2(accountId: $accountId, input: $input) {
     token
     expirationDate
   }
+}`;
+
+export const REVOKE_API_TOKEN = `mutation REVOKE_API_TOKEN($accountId: String!, $input: RevokeApiTokenInput!) {
+  revokeApiToken(accountId: $accountId, input: $input)
 }`;
 
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
@@ -506,6 +519,50 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
   }
 }`;
 
+export const ADD_HOOK_SUBSCRIPTION = `mutation ADD_HOOK_SUBSCRIPTION($accountId: String!, $input: ActionHookSubscriptionInput!) {
+  addActionHookSubscription(accountId: $accountId, input: $input) {
+    accountId
+    action
+    url
+    headers {
+      key
+      value
+    }
+  }
+}`;
+
+export const DELETE_HOOK_SUBSCRIPTION = `mutation DELETE_HOOK_SUBSCRIPTION($accountId: String!, $input: DeleteActionHookSubscriptionInput!) {
+  deleteActionHookSubscription(accountId: $accountId, input: $input)
+}`;
+
+export const TEST_HOOK_SUBSCRIPTION = `mutation TEST_HOOK_SUBSCRIPTION($accountId: String!, $input: ActionHookSubscriptionInput!) {
+  testActionHook(accountId: $accountId, input: $input) {
+    requestHeaders {
+      key
+      value
+    }
+    requestPayload
+    requestMethod
+    responseHeaders {
+      key
+      value
+    }
+    statusCode
+  }
+}`;
+
+export const UPDATE_HOOK_SUBSCRIPTION = `mutation UPDATE_HOOK_SUBSCRIPTION($accountId: String!, $input: UpdateActionHookSubscriptionInput!) {
+  updateActionHookSubscription(accountId: $accountId, input: $input) {
+    accountId
+    action
+    url
+    headers {
+      key
+      value
+    }
+  }
+}`;
+
 export const GET_ACCOUNT = `query GET_ACCOUNT($accountId: String!) {
   account(accountId: $accountId) {
     id
@@ -523,6 +580,20 @@ export const GET_ACCOUNT = `query GET_ACCOUNT($accountId: String!) {
     paymentDetails {
       paymentProviderAccountId
       status
+    }
+  }
+}`;
+
+export const GET_API_KEYS = `query GET_API_KEYS($accountId: String!, $first: Int = 10, $after: String) {
+  apiTokens(accountId: $accountId, first: $first, after: $after) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        accountId
+        roles
+      }
     }
   }
 }`;
@@ -737,6 +808,48 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
         }
       }
       totalCount
+    }
+  }
+}`;
+
+export const GET_ALL_LOGS = `query GET_ALL_LOGS($accountId: String!, $first: Int = 500, $after: String, $filter: ActionHookFilter) {
+  actionHookLogs(
+    accountId: $accountId
+    first: $first
+    after: $after
+    filter: $filter
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        accountId
+        action
+        url
+        headers {
+          key
+          value
+        }
+        requestPayload
+        idempotencyKey
+        status
+        error
+        retries
+        createdAt
+        executedAt
+      }
+    }
+  }
+}`;
+
+export const GET_HOOK_SUBSCRIPTION = `query GET_HOOK_SUBSCRIPTION($accountId: String!) {
+  actionHookSubscriptions(accountId: $accountId) {
+    accountId
+    action
+    url
+    headers {
+      key
+      value
     }
   }
 }`;

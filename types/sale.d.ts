@@ -1,11 +1,11 @@
 import {
-  Bid,
   BidType,
   ClosingMethod,
   ItemDates,
   ItemStatus,
   SaleStatus,
 } from '../src/gql/generated/types';
+import { Bid } from './bid';
 import { Image } from './image';
 
 // Enums
@@ -13,7 +13,6 @@ export { ClosingMethod, SaleStatus };
 
 /** A sale item (item that has been added to a sale) */
 export type SaleItem = {
-  __typename?: 'SaleItem';
   /**
    * Allowed BidTypes on the item.
    * Currently only a single BidType is allowed per item.
@@ -33,7 +32,7 @@ export type SaleItem = {
   /** Id of an item. */
   id: string;
   /** Images attached to saleItem */
-  images: Array<Image>;
+  images: Image[] | null | undefined;
   /** Item number */
   itemNumber: number;
   /** Current leader (user id) for the item */

@@ -1,0 +1,11 @@
+query GET_HOOK_SUBSCRIPTION($accountId: String!) {
+  actionHookSubscriptions(accountId: $accountId) {
+    accountId
+    action
+    url
+    headers {
+      key
+      value
+    }
+  }
+}
