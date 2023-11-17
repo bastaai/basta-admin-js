@@ -1,21 +1,3 @@
-export const CREATE_ACCOUNT = `mutation CREATE_ACCOUNT($input: CreateAccountInput!) {
-  createAccount(input: $input) {
-    id
-    name
-    email
-    created
-    modified
-    handle
-    description
-    imageUrl
-    platformKey
-    links {
-      type
-      url
-    }
-  }
-}`;
-
 export const CREATE_API_TOKEN = `mutation CREATE_API_TOKEN($accountId: String!, $input: ApiTokenInput!) {
   createApiToken(accountId: $accountId, input: $input) {
     id

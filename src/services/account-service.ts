@@ -28,45 +28,13 @@ import {
   Revoke_Api_TokenMutation,
   Revoke_Api_TokenMutationVariables,
 } from '../gql/generated/types';
-import { mapAccountToAccount, mapTokenToToken } from '../utils';
+import { mapTokenToToken } from '../utils';
 
 export class AccountService implements IAccountService {
   protected readonly _bastaReq: BastaRequest;
 
   constructor(bastaReq: BastaRequest) {
     this._bastaReq = bastaReq;
-  }
-
-  /** ⚠️ Not publicly available ⚠️ */
-  async __create(
-    account: CreateAccountInput,
-    headers: NodeJS.Dict<string | string[]>
-  ): Promise<Account> {
-    const variables: Create_AccountMutationVariables = {
-      input: {
-        email: account.email,
-        name: account.name,
-        description: account.description,
-        handle: account.handle,
-        links: account.links,
-      },
-    };
-
-    const res = await fetch(this._bastaReq.url, {
-      method: 'POST',
-      headers: {
-        ...this._bastaReq.headers,
-        ...headers,
-      },
-      body: JSON.stringify({
-        variables: variables,
-        query: CREATE_ACCOUNT,
-      }),
-    });
-
-    const json: BastaResponse<Create_AccountMutation> = await res.json();
-
-    return mapAccountToAccount(json.data.createAccount);
   }
 
   async createUserToken(
