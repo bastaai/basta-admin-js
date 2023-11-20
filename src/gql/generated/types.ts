@@ -1736,6 +1736,7 @@ export type Bid_On_BehalfMutation = {
     date: string;
     bidStatus?: BidStatus | null;
     bidSequenceNumber: number;
+    bidderIdentifier: string;
   };
 };
 
@@ -1777,6 +1778,7 @@ export type Cancel_Latest_Bid_On_ItemMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
   };
 };
@@ -1813,6 +1815,7 @@ export type Add_Item_To_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -1860,6 +1863,7 @@ export type Create_Item_For_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -1979,6 +1983,7 @@ export type Remove_Item_From_SaleMutation = {
             bidStatus?: BidStatus | null;
             maxAmount: number;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename?: 'ItemDates';
@@ -2039,6 +2044,7 @@ export type Update_Item_For_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -2138,6 +2144,7 @@ export type Create_SaleMutation = {
             date: string;
             bidStatus?: BidStatus | null;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename: 'ItemDates';
@@ -2244,6 +2251,7 @@ export type Publish_SaleMutation = {
             date: string;
             bidStatus?: BidStatus | null;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename: 'ItemDates';
@@ -2410,6 +2418,7 @@ export type Get_Api_KeysQuery = {
         name: string;
         accountId: string;
         roles: Array<ApiTokenRole>;
+        created: string;
       };
     }>;
   };
@@ -2543,6 +2552,7 @@ export type Get_All_SalesQuery = {
                 bidStatus?: BidStatus | null;
                 maxAmount: number;
                 bidSequenceNumber: number;
+                bidderIdentifier: string;
               }>;
               dates: {
                 __typename?: 'ItemDates';

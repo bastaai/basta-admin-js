@@ -1,15 +1,39 @@
 import {
+  BidStatus,
   BidType,
   ClosingMethod,
   ItemDates,
   ItemStatus,
   SaleStatus,
 } from '../src/gql/generated/types';
-import { Bid } from './bid';
 import { Image } from './image';
 
 // Enums
 export { ClosingMethod, SaleStatus };
+
+/** A bid on a item */
+export type Bid = {
+  /** Amount of the bid in minor currency unit. */
+  amount: number;
+  /** BidId UUID string */
+  bidId: string;
+  /**
+   * Bids sequence number tells us how bids are connected.
+   * Bids with the same bid sequence number happend during the same Bid/Max-bid request.
+   * Mainly used for cancelling bids.
+   */
+  bidSequenceNumber: number;
+  /** Bid status of currently logged in user for this item */
+  bidStatus?: BidStatus | null | undefined;
+  /** A unique hash composed of SaleId, ItemId and UserId */
+  bidderIdentifier: string;
+  /** Date of when the bid was placed. */
+  date: string;
+  /** Max amount of the bid in minor currency unit. */
+  maxAmount: number;
+  /** Users id that placed the bid */
+  userId: string;
+};
 
 /** A sale item (item that has been added to a sale) */
 export type SaleItem = {

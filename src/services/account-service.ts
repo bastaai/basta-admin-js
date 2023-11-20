@@ -2,7 +2,6 @@ import { Account } from '../../types/account';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IAccountService } from '../../types/sdk';
 import {
-  CREATE_ACCOUNT,
   CREATE_API_TOKEN,
   CREATE_USER_TOKEN,
   GET_ACCOUNT,
@@ -13,9 +12,6 @@ import {
   ApiToken,
   ApiTokenCreated,
   ApiTokenInput,
-  CreateAccountInput,
-  Create_AccountMutation,
-  Create_AccountMutationVariables,
   Create_Api_TokenMutation,
   Create_Api_TokenMutationVariables,
   Create_User_TokenMutation,
