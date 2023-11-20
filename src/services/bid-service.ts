@@ -159,7 +159,7 @@ export class BidService implements IBidService {
     });
 
     const json: BastaResponse<Bid_On_BehalfMutation> = await res.json();
-    const bid: Bid = json.data.bidOnBehalf;
+    const bid = json.data.bidOnBehalf;
 
     return bid;
   }
