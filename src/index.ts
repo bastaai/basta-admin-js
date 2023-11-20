@@ -44,11 +44,13 @@ class BastaAdmin implements IBastaAdmin {
       );
     }
 
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASTA_ADMIN_SDK_GRAPHQL ||
+      'management.api.basta.ai';
+
     this._bastaReq = {
       accountId: accountId,
-      url:
-        process.env.NEXT_PUBLIC_BASTA_ADMIN_SDK_GRAPHQL ||
-        `https://management.api.basta.ai/graphql`,
+      url: `https://${baseUrl}/graphql`,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,
