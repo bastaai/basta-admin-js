@@ -193,11 +193,7 @@ export class ItemService implements IItemService {
     const json: BastaResponse<Remove_Item_From_SaleMutation> = await res.json();
     const sale = json.data.removeItemFromSale;
 
-    if (sale.__typename === 'Sale') {
-      return mapSaleToSale(sale);
-    }
-
-    throw new Error('Sale is undefined');
+    return mapSaleToSale(sale);
   }
 
   async updateItemForSale(
