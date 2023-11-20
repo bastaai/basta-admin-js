@@ -2659,6 +2659,7 @@ export type Get_SaleQuery = {
             bidStatus?: BidStatus | null;
             maxAmount: number;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename?: 'ItemDates';

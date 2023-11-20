@@ -773,6 +773,7 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
             bidStatus
             maxAmount
             bidSequenceNumber
+            bidderIdentifier
           }
           dates {
             closingStart

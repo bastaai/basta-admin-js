@@ -114,8 +114,7 @@ export class SaleService implements ISaleService {
     });
 
     const json: BastaResponse<Create_SaleMutation> = await res.json();
-
-    if (json.data.createSale) return mapSaleToSale(json.data.createSale);
+    return mapSaleToSale(json.data.createSale);
   }
 
   async getAll(): Promise<Sale[]> {
