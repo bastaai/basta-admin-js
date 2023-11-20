@@ -51,6 +51,7 @@ query GET_SALE(
             bidStatus
             maxAmount
             bidSequenceNumber
+            bidderIdentifier
           }
           dates {
             closingStart

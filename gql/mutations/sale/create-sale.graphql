@@ -51,6 +51,7 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
             date
             bidStatus
             bidSequenceNumber
+            bidderIdentifier
           }
           dates {
             __typename

@@ -11,6 +11,7 @@ mutation CANCEL_LATEST_BID_ON_ITEM(
       date
       bidStatus
       bidSequenceNumber
+      bidderIdentifier
     }
   }
 }

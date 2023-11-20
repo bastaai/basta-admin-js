@@ -15,6 +15,7 @@ mutation CREATE_ITEM_FOR_SALE($accountId: String!, $input: SaleItemInput!) {
       date
       bidStatus
       bidSequenceNumber
+      bidderIdentifier
     }
     reserve
     startingBid

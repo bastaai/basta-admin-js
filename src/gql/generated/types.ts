@@ -13,6 +13,8 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 /** Account Information */
 export type Account = {
   __typename?: 'Account';
+  /** Basta Bid Client */
+  bastaBidClient: boolean;
   /** created */
   created: string;
   /** description */
@@ -37,10 +39,10 @@ export type Account = {
    */
   paymentDetails?: Maybe<PaymentDetails>;
   /**
-   * Platform Key.
-   * Only returned on account creation
+   * Populated with Seller terms have been accepted for account.
+   * Integrating businesses will have null in this field.
    */
-  platformKey?: Maybe<string>;
+  terms?: Maybe<SellerTerms>;
 };
 
 /** Filter for the Action Hook log. */
@@ -180,17 +182,77 @@ export type AddItemToSaleInput = {
 };
 
 /**
+ * API key represent a secret key that allows
+ * software to access the API on behalf of customer.
+ */
+export type ApiKey = {
+  __typename?: 'ApiKey';
+  accountId: string;
+  created: string;
+  id: string;
+  name: string;
+  roles: Array<ApiKeyRole>;
+};
+
+export type ApiKeyConnection = {
+  __typename?: 'ApiKeyConnection';
+  /** Edges */
+  edges: Array<ApiKeyEdge>;
+  /** Current page information */
+  pageInfo: PageInfo;
+};
+
+/**
+ * Created API key represent a secret key that allows
+ * software programs to access the API on behalf of customers to access the API.
+ * Make sure to copy api key now as it will not shown again.
+ */
+export type ApiKeyCreated = {
+  __typename?: 'ApiKeyCreated';
+  generatedApiKey: string;
+  id: string;
+  name: string;
+  roles: Array<ApiKeyRole>;
+};
+
+export type ApiKeyEdge = {
+  __typename?: 'ApiKeyEdge';
+  /** Current cursor */
+  cursor: string;
+  /** Current node */
+  node: ApiKey;
+};
+
+/** Input object for when creating a API key */
+export type ApiKeyInput = {
+  /** Name of the API key */
+  name: string;
+  /** Role associated to API key */
+  role: Array<ApiKeyRole>;
+};
+
+/** Role that authorize api keys */
+export enum ApiKeyRole {
+  /** ADMIN HAS UNRESTRICTED ACCESS */
+  Admin = 'ADMIN',
+  /** READ HAS READ ONLY ACCESS */
+  Read = 'READ',
+}
+
+/**
  * API token represent a token that allows
  * customers to access the API in machine and machine manner.
  */
 export type ApiToken = {
   __typename?: 'ApiToken';
   accountId: string;
+  created: string;
   id: string;
   name: string;
   roles: Array<ApiTokenRole>;
 };
 
+/** DEPRECATED. */
 export type ApiTokenConnection = {
   __typename?: 'ApiTokenConnection';
   /** Edges */
@@ -212,7 +274,10 @@ export type ApiTokenCreated = {
   roles: Array<ApiTokenRole>;
 };
 
-/** Input object for when creating a API token */
+/**
+ * DEPRECATED.
+ * Input object for when creating a API token
+ */
 export type ApiTokenInput = {
   /** Name of the API token */
   name: string;
@@ -220,7 +285,10 @@ export type ApiTokenInput = {
   role: Array<ApiTokenRole>;
 };
 
-/** Role that authorize api tokens */
+/**
+ * DEPRECATED.
+ * Role that authorize api keys
+ */
 export enum ApiTokenRole {
   /** ADMIN HAS UNRESTRICTED ACCESS */
   Admin = 'ADMIN',
@@ -228,6 +296,7 @@ export enum ApiTokenRole {
   Read = 'READ',
 }
 
+/** DEPRECATED. */
 export type ApiTokensEdge = {
   __typename?: 'ApiTokensEdge';
   /** Current cursor */
@@ -251,6 +320,8 @@ export type Bid = {
   bidSequenceNumber: number;
   /** Bid status of currently logged in user for this item */
   bidStatus?: Maybe<BidStatus>;
+  /** A unique hash composed of SaleId, ItemId and UserId */
+  bidderIdentifier: string;
   /** Date of when the bid was placed. */
   date: string;
   /** Max amount of the bid in minor currency unit. */
@@ -506,6 +577,7 @@ export type CreateSaleInput = {
   currency?: InputMaybe<string>;
   dates?: InputMaybe<SaleDatesInput>;
   description?: InputMaybe<string>;
+  themeType?: InputMaybe<number>;
   title?: InputMaybe<string>;
 };
 
@@ -513,6 +585,12 @@ export type CreateSaleInput = {
 export type DeleteActionHookSubscriptionInput = {
   /** Event that triggers the action. */
   action: ActionType;
+};
+
+/** Delete item image input */
+export type DeleteItemImageInput = {
+  imageId: string;
+  itemId: string;
 };
 
 /** Input object for when deleting a item (including unassociating from a sale) */
@@ -562,6 +640,12 @@ export type Image = {
   order: number;
   /** Image URL */
   url: string;
+};
+
+/** Image reordering input */
+export type ImageOrderInput = {
+  imageId: string;
+  order: number;
 };
 
 export type Item = {
@@ -662,6 +746,12 @@ export type MaxBidOnBehalfInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /**
+   * Not available for integrating applications.
+   * Accepts seller terms on behalf of account.
+   * Returns a RFC399 timestamp of when seller terms were accepted.
+   */
+  acceptTerms: string;
   /** Add action hook subscription */
   addActionHookSubscription: ActionHookSubscription;
   /** Add a currently existing item to a sale. */
@@ -678,14 +768,15 @@ export type Mutation = {
   cancelLatestBidOnItem: CanceledLatestBidOnItem;
   /** Close a sale, non forcefully. */
   closeSale: Sale;
-  /** Create Account */
-  createAccount: Account;
-  /** Create an API key, that can access all functions in the API on behalf of the logged in customer. */
-  createApiToken: ApiTokenCreated;
+  /** Create an API key, that can access all functions in the API on behalf of the account. */
+  createApiKey: ApiKeyCreated;
   /**
-   * Create and sign a token that can be used to bid on behalf of a user (unique user id needs to be provided)
-   * @deprecated No longer supported
+   * DEPRECATED.
+   * Create an API key, that can access all functions in the API on behalf of the logged in customer.
+   * @deprecated Use createApiKey mutation
    */
+  createApiToken: ApiTokenCreated;
+  /** Create and sign a token that can be used to bid on behalf of a user (unique user id needs to be provided) */
   createBidderToken: BidderToken;
   /** Create item. This operation will create a standalone item that is not part of a sale. */
   createItem: Item;
@@ -700,6 +791,11 @@ export type Mutation = {
   createUserTokenV2: UserToken;
   /** Delete action hook subscription */
   deleteActionHookSubscription: boolean;
+  /**
+   * Delete item image.
+   * Method only available through admin.
+   */
+  deleteItemImage: Array<Image>;
   /** Close a sale, forcefully. */
   forceCloseSale: Sale;
   /** Open a sale, forcefully. */
@@ -708,16 +804,32 @@ export type Mutation = {
   forceStartClosingSale: Sale;
   /**
    * Max bid on behalf of a user
-   * @deprecated(reason: "Use bidOnBehalf with type as MAX")
+   * @deprecated Use bidOnBehalf with type as MAX
    */
   maxBidOnBehalf: Bid;
+  /**
+   * Onboard Basta Sellers onto supported payment provider/s.
+   * Not available for integrating applications.
+   */
+  onboardPaymentAccount: OnboardPaymentAccountResponse;
   /** Open a sale, non forcefully. */
   openSale: Sale;
   /** Publish a sale, forcefully. */
   publishSale: Sale;
   /** Remove an item from the sale. This will not delete the item completely. */
   removeItemFromSale: Sale;
+  /**
+   * Reorder item images.
+   * Method only available through admin.
+   */
+  reorderItemImages: Array<Image>;
   /** Revoke the API key by id. */
+  revokeApiKey: boolean;
+  /**
+   * DEPRECATED.
+   * Revoke the API key by id.
+   * @deprecated Use revokeApiKey mutation
+   */
   revokeApiToken: boolean;
   /** Sets sale item winner. Marks bid as won and closes item. Used in offer model. */
   setItemWinner: SaleItem;
@@ -739,6 +851,10 @@ export type Mutation = {
   updateItemNumbers: Sale;
   /** Update a sale */
   updateSale: Sale;
+};
+
+export type MutationAcceptTermsArgs = {
+  accountId: string;
 };
 
 export type MutationAddActionHookSubscriptionArgs = {
@@ -771,8 +887,9 @@ export type MutationCloseSaleArgs = {
   input: CloseSaleInput;
 };
 
-export type MutationCreateAccountArgs = {
-  input: CreateAccountInput;
+export type MutationCreateApiKeyArgs = {
+  accountId: string;
+  input: ApiKeyInput;
 };
 
 export type MutationCreateApiTokenArgs = {
@@ -810,6 +927,11 @@ export type MutationDeleteActionHookSubscriptionArgs = {
   input: DeleteActionHookSubscriptionInput;
 };
 
+export type MutationDeleteItemImageArgs = {
+  accountId: string;
+  input: DeleteItemImageInput;
+};
+
 export type MutationForceCloseSaleArgs = {
   accountId: string;
   input: CloseSaleInput;
@@ -830,6 +952,11 @@ export type MutationMaxBidOnBehalfArgs = {
   input: MaxBidOnBehalfInput;
 };
 
+export type MutationOnboardPaymentAccountArgs = {
+  accountId: string;
+  input: OnboardPaymentAccountInput;
+};
+
 export type MutationOpenSaleArgs = {
   accountId: string;
   input: OpenSaleInput;
@@ -843,6 +970,16 @@ export type MutationPublishSaleArgs = {
 export type MutationRemoveItemFromSaleArgs = {
   accountId: string;
   input: RemoveSaleItemInput;
+};
+
+export type MutationReorderItemImagesArgs = {
+  accountId: string;
+  input: ReorderItemImages;
+};
+
+export type MutationRevokeApiKeyArgs = {
+  accountId: string;
+  input: RevokeApiKeyInput;
 };
 
 export type MutationRevokeApiTokenArgs = {
@@ -906,6 +1043,18 @@ export type MutationUpdateSaleArgs = {
 export type Node = {
   /** Identification of the node. */
   id: string;
+};
+
+export type OnboardPaymentAccountInput = {
+  refreshUrl: string;
+  returnUrl: string;
+  sellerLocation: SellerLocation;
+};
+
+export type OnboardPaymentAccountResponse = {
+  __typename?: 'OnboardPaymentAccountResponse';
+  /** Client should redirect Basta sellers to this url to finish onboarding. */
+  onboardingUrl: string;
 };
 
 /** Input object for when forcing sale to open. */
@@ -973,11 +1122,13 @@ export enum PaymentProviderStatus {
 export enum Permission {
   ReadAccount = 'READ_ACCOUNT',
   ReadActionHooks = 'READ_ACTION_HOOKS',
+  ReadApiKeys = 'READ_API_KEYS',
   ReadApiTokens = 'READ_API_TOKENS',
   ReadItem = 'READ_ITEM',
   ReadSale = 'READ_SALE',
   WriteAccount = 'WRITE_ACCOUNT',
   WriteActionHooks = 'WRITE_ACTION_HOOKS',
+  WriteApiKeys = 'WRITE_API_KEYS',
   WriteApiTokens = 'WRITE_API_TOKENS',
   WriteBidderToken = 'WRITE_BIDDER_TOKEN',
   WriteCancelBid = 'WRITE_CANCEL_BID',
@@ -1001,6 +1152,12 @@ export type Query = {
   /** Get account action hook subscriptions */
   actionHookSubscriptions: Array<ActionHookSubscription>;
   /** Get API Keys that have created. */
+  apiKeys: ApiKeyConnection;
+  /**
+   * DEPRECATED.
+   * Get API Keys that have created.
+   * @deprecated Use apiKeys query
+   */
   apiTokens: ApiTokenConnection;
   /** Fetch information about an Item */
   item: Item;
@@ -1030,6 +1187,12 @@ export type QueryActionHookLogsArgs = {
 
 export type QueryActionHookSubscriptionsArgs = {
   accountId: string;
+};
+
+export type QueryApiKeysArgs = {
+  accountId: string;
+  after?: InputMaybe<string>;
+  first?: InputMaybe<number>;
 };
 
 export type QueryApiTokensArgs = {
@@ -1104,7 +1267,21 @@ export type RemoveSaleItemInput = {
   saleId: string;
 };
 
-/** Input object for when revoking a API token */
+export type ReorderItemImages = {
+  imageOrderChanges: Array<ImageOrderInput>;
+  itemId: string;
+};
+
+/** Input object for when revoking a API key */
+export type RevokeApiKeyInput = {
+  /** API key Id that needs to be revoked */
+  apiKeyId: string;
+};
+
+/**
+ * DEPRECATED.
+ * Input object for when revoking a API token
+ */
 export type RevokeApiTokenInput = {
   /** API token Id that needs to be revoked */
   apiTokenId: string;
@@ -1147,6 +1324,11 @@ export type Sale = {
   sequenceNumber: number;
   /** Sale status */
   status: SaleStatus;
+  /**
+   * Sale theme type.
+   * Only used for sales owned by basta
+   */
+  themeType?: Maybe<number>;
   /** Sale Title */
   title?: Maybe<string>;
 };
@@ -1335,6 +1517,20 @@ export type SalesEdge = {
   node: Sale;
 };
 
+export enum SellerLocation {
+  /** Sellers located in iceland */
+  Is = 'IS',
+  /** Sellers located in the united states */
+  Us = 'US',
+}
+
+/** Terms information, who and when terms were accepted */
+export type SellerTerms = {
+  __typename?: 'SellerTerms';
+  accepted_by: string;
+  accepted_date: string;
+};
+
 /** Input to set an item winner and close the item. */
 export type SetItemWinnerInput = {
   bidId: string;
@@ -1431,6 +1627,7 @@ export type UpdateSaleInput = {
   currency: string;
   dates: SaleDatesInput;
   description: string;
+  themeType?: InputMaybe<number>;
   title: string;
 };
 
@@ -1481,27 +1678,6 @@ export type UserTokenInput = {
   ttlMinutes: number;
   /** Unique UserID that represents a user in your system. */
   userID: string;
-};
-
-export type Create_AccountMutationVariables = Exact<{
-  input: CreateAccountInput;
-}>;
-
-export type Create_AccountMutation = {
-  __typename?: 'Mutation';
-  createAccount: {
-    __typename?: 'Account';
-    id: string;
-    name: string;
-    email: string;
-    created: string;
-    modified?: string | null;
-    handle?: string | null;
-    description?: string | null;
-    imageUrl?: string | null;
-    platformKey?: string | null;
-    links: Array<{ __typename?: 'Link'; type: LinkType; url: string }>;
-  };
 };
 
 export type Create_Api_TokenMutationVariables = Exact<{
@@ -1560,6 +1736,7 @@ export type Bid_On_BehalfMutation = {
     date: string;
     bidStatus?: BidStatus | null;
     bidSequenceNumber: number;
+    bidderIdentifier: string;
   };
 };
 
@@ -1601,6 +1778,7 @@ export type Cancel_Latest_Bid_On_ItemMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
   };
 };
@@ -1637,6 +1815,7 @@ export type Add_Item_To_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -1684,6 +1863,7 @@ export type Create_Item_For_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -1803,6 +1983,7 @@ export type Remove_Item_From_SaleMutation = {
             bidStatus?: BidStatus | null;
             maxAmount: number;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename?: 'ItemDates';
@@ -1863,6 +2044,7 @@ export type Update_Item_For_SaleMutation = {
       date: string;
       bidStatus?: BidStatus | null;
       bidSequenceNumber: number;
+      bidderIdentifier: string;
     }>;
     dates: {
       __typename?: 'ItemDates';
@@ -1962,6 +2144,7 @@ export type Create_SaleMutation = {
             date: string;
             bidStatus?: BidStatus | null;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename: 'ItemDates';
@@ -2068,6 +2251,7 @@ export type Publish_SaleMutation = {
             date: string;
             bidStatus?: BidStatus | null;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename: 'ItemDates';
@@ -2234,6 +2418,7 @@ export type Get_Api_KeysQuery = {
         name: string;
         accountId: string;
         roles: Array<ApiTokenRole>;
+        created: string;
       };
     }>;
   };
@@ -2367,6 +2552,7 @@ export type Get_All_SalesQuery = {
                 bidStatus?: BidStatus | null;
                 maxAmount: number;
                 bidSequenceNumber: number;
+                bidderIdentifier: string;
               }>;
               dates: {
                 __typename?: 'ItemDates';
@@ -2473,6 +2659,7 @@ export type Get_SaleQuery = {
             bidStatus?: BidStatus | null;
             maxAmount: number;
             bidSequenceNumber: number;
+            bidderIdentifier: string;
           }>;
           dates: {
             __typename?: 'ItemDates';

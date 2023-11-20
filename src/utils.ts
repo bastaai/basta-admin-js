@@ -1,11 +1,9 @@
-import { Account } from '../types/account';
 import { ApiToken } from '../types/api-token';
 import { Item } from '../types/item';
 import { Sale } from '../types/sale';
 import { ActionHookLog } from '../types/webhook';
 import {
   Item as _Item,
-  Account as _Account,
   Sale as _Sale,
   ActionHookLog as _ActionHookLog,
   ApiToken as _ApiToken,
@@ -29,22 +27,6 @@ export const mapSaleToSale = (sale: _Sale): Sale => {
   };
 };
 
-export const mapAccountToAccount = (account: _Account): Account => {
-  return {
-    created: account.created,
-    email: account.email,
-    id: account.id,
-    links: account.links,
-    name: account.name,
-    description: account.description,
-    handle: account.handle,
-    imageUrl: account.imageUrl,
-    modified: account.modified,
-    platformKey: account.platformKey ?? undefined,
-    paymentDetails: account.paymentDetails,
-  };
-};
-
 export const mapItemToItem = (item: _Item): Item => {
   return {
     id: item.id,
@@ -63,6 +45,7 @@ export const mapTokenToToken = (token: _ApiToken): ApiToken => {
     id: token.id,
     roles: token.roles,
     name: token.name,
+    created: token.created,
   };
 };
 

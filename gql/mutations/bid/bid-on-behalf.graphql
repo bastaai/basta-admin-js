@@ -7,5 +7,6 @@ mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
     date
     bidStatus
     bidSequenceNumber
+    bidderIdentifier
   }
 }

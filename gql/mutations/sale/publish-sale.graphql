@@ -51,6 +51,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
             date
             bidStatus
             bidSequenceNumber
+            bidderIdentifier
           }
           dates {
             __typename

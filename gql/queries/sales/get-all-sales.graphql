@@ -58,6 +58,7 @@ query GET_ALL_SALES(
                 bidStatus
                 maxAmount
                 bidSequenceNumber
+                bidderIdentifier
               }
               dates {
                 closingStart

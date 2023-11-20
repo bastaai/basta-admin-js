@@ -65,6 +65,7 @@ mutation REMOVE_ITEM_FROM_SALE(
             bidStatus
             maxAmount
             bidSequenceNumber
+            bidderIdentifier
           }
           dates {
             closingStart

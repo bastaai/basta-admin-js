@@ -99,11 +99,6 @@ export interface IItemService {
 }
 
 export interface IAccountService {
-  /** Creates a Basta account.  */
-  __create(
-    account: CreateAccountInput,
-    headers: NodeJS.Dict<string | string[]>
-  ): Promise<Account>;
   /** Creates a user token that enables a user to subscribe to personal bidding data. */
   createUserToken(
     userId: string,
