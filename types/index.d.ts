@@ -29,10 +29,7 @@ export type { BidResponse } from './bid';
 export type { ActionHookLog, ActionHookSubscription } from './webhook';
 export type { ApiToken, ApiTokenCreated } from './api-token';
 
-export const initBasta: (
-  args: {
-    accountId: string;
-    secretKey: string;
-  },
-  isStaging: boolean
-) => IBastaAdmin;
+export const initBasta: (args: {
+  accountId: string;
+  secretKey: string;
+}) => IBastaAdmin;
