@@ -47,12 +47,6 @@ export interface IBastaAdmin {
   webhook: IWebHookService;
 }
 export interface IBidService {
-  /** Places a bid on a Basta item. */
-  placeBid(params: BidArgs): Promise<BidResponse>;
-  /** Places a max bid on a Basta item. */
-  placeMaxBid(params: BidArgs): Promise<BidResponse>;
-  /** Places an offer on a Basta item. */
-  placeOffer(params: BidArgs): Promise<BidResponse>;
   /** Bid on behalf of a user */
   bidOnBehalf(params: BidArgs): Promise<Bid>;
   /** Cancel the latest bid on item (including reactive bids that were placed as a side-effect) */
