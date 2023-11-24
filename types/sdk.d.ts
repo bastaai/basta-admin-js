@@ -1,5 +1,5 @@
 import { Sale } from './sale';
-import { BidResponse, BidType } from './bid';
+import { BidType } from './bid';
 import type { Account } from './account';
 import {
   ActionHookFilter,
@@ -11,7 +11,6 @@ import {
   ApiTokenInput,
   Bid,
   CancelLatestBidOnItemInput,
-  CreateAccountInput,
   CreateItemInput,
   CreateSaleInput,
   DeleteActionHookSubscriptionInput,
