@@ -9,6 +9,7 @@ export type ApiToken = {
   id: string;
   name: string;
   roles: ApiTokenRole[];
+  created: string;
 };
 
 /**

@@ -24,11 +24,8 @@ export {
   ApiTokenRole,
 } from './gql/generated/types';
 
-export const initBasta = (
-  args: { accountId: string; secretKey: string },
-  isStaging: boolean
-) => {
-  return new BastaAdmin(args.accountId, args.secretKey, isStaging);
+export const initBasta = (args: { accountId: string; secretKey: string }) => {
+  return new BastaAdmin(args.accountId, args.secretKey);
 };
 
 class BastaAdmin implements IBastaAdmin {
@@ -40,16 +37,20 @@ class BastaAdmin implements IBastaAdmin {
 
   private readonly _bastaReq: BastaRequest;
 
-  constructor(accountId: string, secretKey: string, isStaging: boolean) {
+  constructor(accountId: string, secretKey: string) {
     if (typeof window !== 'undefined') {
       throw new Error(
         'Basta Admin SDK is not designed to be used in a browser environment. Exposing the secret key is a security risk.'
       );
     }
 
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASTA_ADMIN_SDK_GRAPHQL ||
+      'management.api.basta.ai';
+
     this._bastaReq = {
       accountId: accountId,
-      url: `https://management.api.basta.${isStaging ? 'wtf' : 'ai'}/graphql`,
+      url: `https://${baseUrl}/graphql`,
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': secretKey,

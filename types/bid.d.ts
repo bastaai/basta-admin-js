@@ -16,6 +16,8 @@ export type Bid = {
   bidSequenceNumber: number;
   /** Bid status of currently logged in user for this item */
   bidStatus?: BidStatus | null | undefined;
+  /** A unique hash composed of SaleId, ItemId and UserId */
+  bidderIdentifier: string;
   /** Date of when the bid was placed. */
   date: string;
   /** Max amount of the bid in minor currency unit. */
