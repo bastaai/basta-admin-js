@@ -374,31 +374,6 @@ export type BidOnBehalfInput = {
   userId: string;
 };
 
-/** BidOnItemInput. A bid can be NormalBid, MaxBid or Offer */
-export type BidOnItemInput = {
-  /**
-   * Amount should be given in minor currency unit for the currency selected for the sale.
-   * In USD that would be cents. A bid of $100 should have the amount set as the integer 10_000
-   */
-  amount: number;
-  /**
-   * AppliedByUserId indicates who is executing the bid.
-   * If userId and appliedByuserId are not the same then appliedByUserId is bidding on behalf of userId.
-   */
-  appliedByUserId: string;
-  /** The type of bid being placed. Must be part of item's allowedBids property. */
-  bidType: BidType;
-  /** ItemId */
-  itemId: string;
-  /** SaleId for the item */
-  saleId: string;
-  /**
-   * UserId of the bid owner.
-   * Important that this is the unique userId of the user who is performing the bid in your system.
-   */
-  userId: string;
-};
-
 /** A bid is either succesful or there was an error */
 export type BidPlaced = BidPlacedError | BidPlacedSuccess;
 
@@ -555,6 +530,13 @@ export type CreateAccountInput = {
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
   /** name for the account */
   name: string;
+};
+
+/** Create Item Image */
+export type CreateItemImage = {
+  itemId: string;
+  order: number;
+  url: string;
 };
 
 /** Item input when creating an item */
@@ -758,12 +740,6 @@ export type Mutation = {
   addItemToSale: SaleItem;
   /** Bid on behalf of a user */
   bidOnBehalf: Bid;
-  /**
-   * Endpoint only available to SDK users.
-   * Place bid on an item for some amount. Can be of type NORMAL, MAX and OFFER.
-   * Amount will be the MaxAmount when bid is of type MAX and OfferAmount for bids of type OFFER.
-   */
-  bidOnItemV2: BidPlaced;
   /** Cancel the latest bid on item (including reactive bids that were placed as a side-effect) */
   cancelLatestBidOnItem: CanceledLatestBidOnItem;
   /** Close a sale, non forcefully. */
@@ -782,6 +758,11 @@ export type Mutation = {
   createItem: Item;
   /** Create item and add to a sale. This operation will automatically create an item and add it to the sale. */
   createItemForSale: SaleItem;
+  /**
+   * Create Item Image.
+   * Method only available through admin.
+   */
+  createItemImage: Array<Image>;
   /** Create a sale */
   createSale: Sale;
   /**
@@ -872,11 +853,6 @@ export type MutationBidOnBehalfArgs = {
   input: BidOnBehalfInput;
 };
 
-export type MutationBidOnItemV2Args = {
-  accountId: string;
-  input: BidOnItemInput;
-};
-
 export type MutationCancelLatestBidOnItemArgs = {
   accountId: string;
   input: CancelLatestBidOnItemInput;
@@ -910,6 +886,11 @@ export type MutationCreateItemArgs = {
 export type MutationCreateItemForSaleArgs = {
   accountId: string;
   input: SaleItemInput;
+};
+
+export type MutationCreateItemImageArgs = {
+  accountId: string;
+  input: CreateItemImage;
 };
 
 export type MutationCreateSaleArgs = {
@@ -1738,26 +1719,6 @@ export type Bid_On_BehalfMutation = {
     bidSequenceNumber: number;
     bidderIdentifier: string;
   };
-};
-
-export type Bid_On_ItemMutationVariables = Exact<{
-  accountId: string;
-  input: BidOnItemInput;
-}>;
-
-export type Bid_On_ItemMutation = {
-  __typename?: 'Mutation';
-  bidOnItemV2:
-    | { __typename: 'BidPlacedError'; errorCode: BidErrorCode; error: string }
-    | {
-        __typename: 'BidPlacedSuccess';
-        bidId: string;
-        bidStatus: BidStatus;
-        bidType: BidType;
-        date: string;
-        amount: number;
-        maxAmount: number;
-      };
 };
 
 export type Cancel_Latest_Bid_On_ItemMutationVariables = Exact<{

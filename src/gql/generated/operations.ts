@@ -31,24 +31,6 @@ export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountId: String!, $input
   }
 }`;
 
-export const BID_ON_ITEM = `mutation BID_ON_ITEM($accountId: String!, $input: BidOnItemInput!) {
-  bidOnItemV2(accountId: $accountId, input: $input) {
-    __typename
-    ... on BidPlacedSuccess {
-      bidId
-      bidStatus
-      bidType
-      date
-      amount
-      maxAmount
-    }
-    ... on BidPlacedError {
-      errorCode
-      error
-    }
-  }
-}`;
-
 export const CANCEL_LATEST_BID_ON_ITEM = `mutation CANCEL_LATEST_BID_ON_ITEM($accountId: String!, $input: CancelLatestBidOnItemInput!) {
   cancelLatestBidOnItem(accountId: $accountId, input: $input) {
     removedBids {
