@@ -1,29 +1,34 @@
-import { CreateSaleInput, Sale } from './sale';
-import { BidType } from './bid';
+import {
+  CreateSaleInput,
+  PublishSaleInput,
+  RemoveSaleItemInput,
+  Sale,
+  SaleItem,
+  UpdateSaleItemInput,
+} from './sale';
+import { Bid, BidType, CancelLatestBidOnItemInput } from './bid';
 import type { Account } from './account';
 import {
   ActionHookFilter,
+  ActionHookLog,
   ActionHookSubscription,
   ActionHookSubscriptionInput,
+  DeleteActionHookSubscriptionInput,
+  TestActionHookResponse,
+  UpdateActionHookSubscriptionInput,
+} from './webhook';
+import {
   AddItemToSaleInput,
+  CreateItemInput,
+  Item,
+  UpdateItemInput,
+} from './item';
+import {
   ApiToken,
   ApiTokenCreated,
   ApiTokenInput,
-  Bid,
-  CancelLatestBidOnItemInput,
-  CreateItemInput,
-  DeleteActionHookSubscriptionInput,
-  Item,
-  PublishSaleInput,
-  RemoveSaleItemInput,
   RevokeApiTokenInput,
-  SaleItem,
-  TestActionHookResponse,
-  UpdateActionHookSubscriptionInput,
-  UpdateItemInput,
-  UpdateSaleItemInput,
-} from '../src/gql/generated/types';
-import { ActionHookLog } from './webhook';
+} from './api-token';
 
 export type BastaResponse<T> = {
   data: T;

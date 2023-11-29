@@ -1,5 +1,6 @@
-import { ItemStatus } from '../src/gql/generated/types';
+import { BidType, ItemStatus } from '../src/gql/generated/types';
 import { Image } from './image';
+import { BidIncrementTableInput } from './sale';
 
 export { ItemStatus };
 
@@ -18,4 +19,55 @@ export type Item = {
   valuationAmount?: number;
   /** Valuation currency */
   valuationCurrency?: string;
+};
+
+/** Item input when creating an item */
+export type CreateItemInput = {
+  /** Description for describing the item */
+  description?: string | null | undefined;
+  /** Title for describing the item */
+  title: string;
+  /** Valuation of the item in minor currency unit. */
+  valuationAmount?: number | null | undefined;
+  /** Valuation currency */
+  valuationCurrency?: string | null | undefined;
+};
+
+/** Item input when modifying an item */
+export type UpdateItemInput = {
+  description?: string | null | undefined;
+  title?: string | null | undefined;
+  valuationAmount?: number | null | undefined;
+  valuationCurrency?: string | null | undefined;
+};
+
+export type ItemDates = {
+  closingEnd?: string | null | undefined;
+  closingStart?: string | null | undefined;
+};
+
+/** Add a current item to a sale. */
+export type AddItemToSaleInput = {
+  /** Item number is used to order items (optional) */
+  ItemNumber?: number | null | undefined;
+  /**
+   * Allowed BidTypes on the item.
+   * Currently only a single BidType is allowed per item.
+   * Defaults to allowing only Max bids if not supplied.
+   */
+  allowedBidTypes?: Array<BidType> | null | undefined;
+  /** Optional bid increment table for this item. */
+  bidIncrementTable?: BidIncrementTableInput | null | undefined;
+  /** High estimate of the item (optional) in minor currency unit. */
+  highEstimate?: number | null | undefined;
+  /** Item id of the item that you are adding to the sale. */
+  itemId: string;
+  /** Low estimate of the item (optional) in minor currency unit. */
+  lowEstimate?: number | null | undefined;
+  /** Reserve of the item in minor currency unit. */
+  reserve?: number | null | undefined;
+  /** Id of the sale that is associated with the item. */
+  saleId: string;
+  /** Starting bid of the item in minor currency unit. */
+  startingBid?: number | null | undefined;
 };

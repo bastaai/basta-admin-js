@@ -1,12 +1,12 @@
 import {
   BidType,
   ClosingMethod,
-  ItemDates,
   ItemStatus,
   SaleStatus,
 } from '../src/gql/generated/types';
 import { Bid } from './bid';
 import { Image } from './image';
+import { ItemDates } from './item';
 
 // Enums
 export { ClosingMethod, SaleStatus };
@@ -149,4 +149,47 @@ export type Participant = {
  */
 export type BidIncrementTable = {
   rules: { lowRange: number; highRange: number; step: number }[];
+};
+
+/** Input object for when forcing sale to published. */
+export type PublishSaleInput = {
+  saleId: string;
+};
+
+/** Input to remove an item from a sale */
+export type RemoveSaleItemInput = {
+  /** Item id of the item that you are removing from the sale. */
+  itemId: string;
+  /** Id of the sale that is associated with the item. */
+  saleId: string;
+};
+
+/** Update SaleItem input when modifying an item */
+export type UpdateSaleItemInput = {
+  /**
+   * Allowed BidTypes on the item.
+   * Currently only a single BidType is allowed per item.
+   * Defaults to allowing only Max bids if not supplied.
+   */
+  allowedBidTypes?: Array<BidType> | null | undefined;
+  /** Optional bid increment table for this item. */
+  bidIncrementTable?: BidIncrementTableInput | null | undefined;
+  /** Description for describing the item */
+  description?: string | null | undefined;
+  /** High estimate of the item (optional) in minor currency unit. */
+  highEstimate?: number | null | undefined;
+  /** Low estimate of the item (optional) in minor currency unit. */
+  lowEstimate?: number | null | undefined;
+  /** Reserve of the item in minor currency unit. */
+  reserve?: number | null | undefined;
+  /** Id of the sale that is associated with the item. */
+  saleId: string;
+  /** Starting bid of the item in minor currency unit. */
+  startingBid?: number | null | undefined;
+  /** Title for describing the item */
+  title: string;
+  /** Valuation of the item in minor currency unit. */
+  valuationAmount?: number | null | undefined;
+  /** Valuation currency in minor currency unit. */
+  valuationCurrency?: string | null | undefined;
 };

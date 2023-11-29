@@ -42,3 +42,19 @@ export type BidResponse =
       bid: undefined;
       success: false;
     };
+
+/**
+ * Cancel latest bid on an item.
+ * Caution: Be careful when using this operation. Multiple requests will end in multiple
+ * placed bids to be cancelled.
+ * Cancel latest bid will remove the latest bid and any reactive bid placed.
+ * This results in 1 or 2 bids being cancelled per call.
+ */
+export type CancelLatestBidOnItemInput = {
+  /** Item ID of the item */
+  itemId: string;
+  /** Sale ID of the sale that includes the item in scope. */
+  saleId: string;
+  /** Bid sequence number of the latest bid. */
+  sequenceNumber: number;
+};

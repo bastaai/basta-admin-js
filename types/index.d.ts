@@ -5,8 +5,9 @@ import {
   ItemStatus,
   SaleStatus,
   ApiTokenRole,
+  ActionType,
+  ActionHookStatus,
 } from '../src/gql/generated/types';
-import { ActionHookStatus, ActionType } from './webhook';
 // Types
 import type { IBastaAdmin } from './sdk';
 

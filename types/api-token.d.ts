@@ -23,3 +23,23 @@ export type ApiTokenCreated = {
   name: string;
   roles: Array<ApiTokenRole>;
 };
+
+/**
+ * DEPRECATED.
+ * Input object for when creating a API token
+ */
+export type ApiTokenInput = {
+  /** Name of the API token */
+  name: string;
+  /** Role associated to API token */
+  role: Array<ApiTokenRole>;
+};
+
+/**
+ * DEPRECATED.
+ * Input object for when revoking a API token
+ */
+export type RevokeApiTokenInput = {
+  /** API token Id that needs to be revoked */
+  apiTokenId: string;
+};
