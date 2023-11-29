@@ -1,5 +1,3 @@
-import { ApiTokenRole } from '../src/gql/generated/types';
-
 /**
  * API token represent a token that allows
  * customers to access the API in machine and machine manner.
@@ -43,3 +41,14 @@ export type RevokeApiTokenInput = {
   /** API token Id that needs to be revoked */
   apiTokenId: string;
 };
+
+/**
+ * DEPRECATED.
+ * Role that authorize api keys
+ */
+export enum ApiTokenRole {
+  /** ADMIN HAS UNRESTRICTED ACCESS */
+  Admin = 'ADMIN',
+  /** READ HAS READ ONLY ACCESS */
+  Read = 'READ',
+}

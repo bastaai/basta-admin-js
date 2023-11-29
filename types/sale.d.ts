@@ -1,15 +1,43 @@
-import {
-  BidType,
-  ClosingMethod,
-  ItemStatus,
-  SaleStatus,
-} from '../src/gql/generated/types';
-import { Bid } from './bid';
+import { Bid, BidType } from './bid';
 import { Image } from './image';
-import { ItemDates } from './item';
+import { ItemDates, ItemStatus } from './item';
 
-// Enums
-export { ClosingMethod, SaleStatus };
+/** Sale Status represent what status a sale is currently running in. */
+export enum SaleStatus {
+  /** Sale is closed for bidding. */
+  Closed = 'CLOSED',
+  /** Sale is closing . */
+  Closing = 'CLOSING',
+  /** Sale is opened for bidding. */
+  Opened = 'OPENED',
+  /** Sale is paused. */
+  Paused = 'PAUSED',
+  /** Sale is being processed. */
+  Processing = 'PROCESSING',
+  /** Sale has been published but is not opened for bidding. */
+  Published = 'PUBLISHED',
+  /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
+  Unpublished = 'UNPUBLISHED',
+}
+
+/** ClosingMethod represents how SaleItems are moved into CLOSING status and when they are CLOSED */
+export enum ClosingMethod {
+  /**
+   * No sniping.
+   * All items close at the same time as the sale
+   */
+  None = 'NONE',
+  /**
+   * Only one item is in status CLOSING at once.
+   * Other items wait in status OPEN.
+   */
+  OneByOne = 'ONE_BY_ONE',
+  /**
+   * Each item has a precalculated closing time.
+   * Default if ClosingMethod is not specified.
+   */
+  Overlapping = 'OVERLAPPING',
+}
 
 /** Input for creating or modifying sales. */
 export type CreateSaleInput = {

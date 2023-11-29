@@ -1,15 +1,10 @@
-// Enums
-import {
-  BidType,
-  ClosingMethod,
-  ItemStatus,
-  SaleStatus,
-  ApiTokenRole,
-  ActionType,
-  ActionHookStatus,
-} from '../src/gql/generated/types';
 // Types
+import { ApiTokenRole } from './api-token';
+import { BidType } from './bid';
+import { ItemStatus } from './item';
+import { ClosingMethod, SaleStatus } from './sale';
 import type { IBastaAdmin } from './sdk';
+import { ActionHookStatus, ActionType } from './webhook';
 
 // Enums
 export {

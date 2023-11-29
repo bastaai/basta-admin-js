@@ -1,5 +1,3 @@
-import { ActionHookStatus, ActionType } from '../src/gql/generated/types';
-
 /**
  * Action Hook subscription contains subscriber registration information.
  * Action Hook is an action that occurs when an event happens.
@@ -110,3 +108,23 @@ export type TestActionHookResponse = {
   responseHeaders?: Array<HttpHeader | null | undefined> | null | undefined;
   statusCode: number;
 };
+
+/** Action types (events) that can trigger Action Hooks. */
+export enum ActionType {
+  /** Event: When bid on any item associated with your account occurs in the system. */
+  BidOnItem = 'BID_ON_ITEM',
+  /** Event: When an item status change associated with your account occurs in the system. */
+  ItemsStatusChanged = 'ITEMS_STATUS_CHANGED',
+  /** Event: When a sale status change associated with your account occurs in the system. */
+  SaleStatusChanged = 'SALE_STATUS_CHANGED',
+}
+
+/** Status of the Action Hook request. */
+export enum ActionHookStatus {
+  /** Action Hook request failed. */
+  Failed = 'FAILED',
+  /** Action Hook request is queued to be sent. */
+  Pending = 'PENDING',
+  /** Action Hook request was successfully sent. */
+  Success = 'SUCCESS',
+}

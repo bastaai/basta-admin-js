@@ -1,8 +1,16 @@
-import { BidType, ItemStatus } from '../src/gql/generated/types';
+import { BidType } from './bid';
 import { Image } from './image';
 import { BidIncrementTableInput } from './sale';
 
-export { ItemStatus };
+/** Item statuses for items in a sale */
+export enum ItemStatus {
+  ItemClosed = 'ITEM_CLOSED',
+  ItemClosing = 'ITEM_CLOSING',
+  ItemNotOpen = 'ITEM_NOT_OPEN',
+  ItemOpen = 'ITEM_OPEN',
+  ItemPaused = 'ITEM_PAUSED',
+  ItemProcessing = 'ITEM_PROCESSING',
+}
 
 export type Item = {
   /** Id of an item. */

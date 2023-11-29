@@ -1,6 +1,16 @@
-import { BidStatus, BidType } from '../src/gql/generated/types';
-
-export { BidType };
+/** Bid Type represent what kind of bid is being placed on an item. */
+export enum BidType {
+  /**
+   * Bid is the highest amount a user is willing to pay. The auction
+   * engine will automatically place the lowest bid necessary on behalf
+   * of the user until the max amount is reached.
+   */
+  Max = 'MAX',
+  /** Bid is a normal bid. */
+  Normal = 'NORMAL',
+  /** Bid is an offer that the user commits to buying the item for. */
+  Offer = 'OFFER',
+}
 
 /** A bid on a item */
 export type Bid = {
@@ -25,6 +35,24 @@ export type Bid = {
   /** Users id that placed the bid */
   userId: string;
 };
+
+/** Bid statuses that calculates in what status the bid is. */
+export enum BidStatus {
+  /** User is losing the item. */
+  Losing = 'LOSING',
+  /** User has lost the item. */
+  Lost = 'LOST',
+  /** User is not bidding on the item */
+  NotBidding = 'NOT_BIDDING',
+  /** User submitted an offer successfully */
+  Submitted = 'SUBMITTED',
+  /** User is winning the item. */
+  Winning = 'WINNING',
+  /** User's bid has been withdrawn */
+  Withdrawn = 'WITHDRAWN',
+  /** User has won the item. */
+  Won = 'WON',
+}
 
 export type BidResponse =
   | {

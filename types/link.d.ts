@@ -1,4 +1,9 @@
-import { LinkType } from '../src/gql/generated/types';
+export enum LinkType {
+  Instagram = 'INSTAGRAM',
+  Tiktok = 'TIKTOK',
+  Website = 'WEBSITE',
+  Youtube = 'YOUTUBE',
+}
 
 export type Link = {
   type: LinkType;
