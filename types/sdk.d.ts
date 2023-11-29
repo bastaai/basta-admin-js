@@ -1,4 +1,4 @@
-import { Sale } from './sale';
+import { CreateSaleInput, Sale } from './sale';
 import { BidType } from './bid';
 import type { Account } from './account';
 import {
@@ -12,7 +12,6 @@ import {
   Bid,
   CancelLatestBidOnItemInput,
   CreateItemInput,
-  CreateSaleInput,
   DeleteActionHookSubscriptionInput,
   Item,
   PublishSaleInput,
