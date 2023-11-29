@@ -1,5 +1,5 @@
 import { BastaRequest } from '../../types/request';
-import { Sale } from '../../types/sale';
+import { CreateSaleInput, Sale } from '../../types/sale';
 import { BastaResponse, ISaleService } from '../../types/sdk';
 import {
   GET_SALE,
@@ -12,13 +12,13 @@ import {
   Get_SaleQuery,
   Get_All_SalesQueryVariables,
   Get_All_SalesQuery,
-  CreateSaleInput,
   Create_SaleMutation,
   Create_SaleMutationVariables,
   PublishSaleInput,
   Publish_SaleMutationVariables,
   Publish_SaleMutation,
 } from '../gql/generated/types';
+
 import { mapSaleToSale } from '../utils';
 
 export class SaleService implements ISaleService {

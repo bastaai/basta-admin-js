@@ -11,6 +11,47 @@ import { Image } from './image';
 // Enums
 export { ClosingMethod, SaleStatus };
 
+/** Input for creating or modifying sales. */
+export type CreateSaleInput = {
+  bidIncrementTable?: BidIncrementTableInput | null | undefined;
+  closingMethod?: ClosingMethod | null | undefined;
+  closingTimeCountdown?: number | null | undefined;
+  currency?: string | null | undefined;
+  dates?: SaleDatesInput | null | undefined;
+  description?: string | null | undefined;
+  themeType?: number | null | undefined;
+  title?: string | null | undefined;
+};
+
+/** Bid increment table input, to control increments in a sale. */
+export type BidIncrementTableInput = {
+  rules: Array<RangeRuleInput>;
+};
+
+/** Input arguments for when creating or modifying a sale. */
+export type SaleDatesInput = {
+  /** Closing Date */
+  closingDate?: string | null | undefined;
+  /** Opening Date */
+  openDate?: string | null | undefined;
+};
+
+/**
+ * Range rules input in an increment table.
+ * Values should be in minor currency units.
+ * If a sale has USD as currency then the minor currency unit is cents.
+ * The rule [hihgRange: $1000, lowRange: $0, step: $25] should be sent as
+ *   [highRange: 100000, lowRange: 0, step: 2500]
+ */
+export type RangeRuleInput = {
+  /** High range of the rule in minor currency units. */
+  highRange: number;
+  /** Low range of the rule in minor currency units. */
+  lowRange: number;
+  /** Step of the rule in minor currency units. */
+  step: number;
+};
+
 /** A sale item (item that has been added to a sale) */
 export type SaleItem = {
   /**
