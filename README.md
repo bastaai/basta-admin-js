@@ -36,3 +36,8 @@ const basta = initBasta({ accountId: 'accountId', secretKey: 'secretKey' });
 
 Navigate to the Basta Admin [portal](https://admin.basta.ai) to create a
 **secret key** and aquire the **account id**.
+
+# Currencies
+
+All currency amounts follow the ISO 4217 standard. See here
+https://en.wikipedia.org/wiki/ISO_4217.
