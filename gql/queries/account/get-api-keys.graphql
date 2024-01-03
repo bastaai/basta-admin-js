@@ -1,5 +1,5 @@
 query GET_API_KEYS($accountId: String!, $first: Int = 10, $after: String) {
-  apiTokens(accountId: $accountId, first: $first, after: $after) {
+  apiKeys(accountId: $accountId, first: $first, after: $after) {
     edges {
       cursor
       node {

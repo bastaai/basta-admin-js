@@ -1,3 +1,3 @@
-mutation REVOKE_API_TOKEN($accountId: String!, $input: RevokeApiTokenInput!) {
-  revokeApiToken(accountId: $accountId, input: $input)
+mutation REVOKE_API_KEY($accountId: String!, $input: RevokeApiKeyInput!) {
+  revokeApiKey(accountId: $accountId, input: $input)
 }

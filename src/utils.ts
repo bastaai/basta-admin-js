@@ -1,12 +1,12 @@
-import { ApiToken } from '../types/api-token';
+import { ApiKey } from '../types/api-key';
 import { Item } from '../types/item';
 import { Sale } from '../types/sale';
 import { ActionHookLog } from '../types/webhook';
 import {
+  ActionHookLog as _ActionHookLog,
+  ApiKey as _ApiKey,
   Item as _Item,
   Sale as _Sale,
-  ActionHookLog as _ActionHookLog,
-  ApiToken as _ApiToken,
 } from './gql/generated/types';
 
 export const mapSaleToSale = (sale: _Sale): Sale => {
@@ -39,13 +39,13 @@ export const mapItemToItem = (item: _Item): Item => {
   };
 };
 
-export const mapTokenToToken = (token: _ApiToken): ApiToken => {
+export const mapKeyToKey = (key: _ApiKey): ApiKey => {
   return {
-    accountId: token.accountId,
-    id: token.id,
-    roles: token.roles,
-    name: token.name,
-    created: token.created,
+    accountId: key.accountId,
+    id: key.id,
+    roles: key.roles,
+    name: key.name,
+    created: key.created,
   };
 };
 

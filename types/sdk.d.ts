@@ -1,3 +1,17 @@
+import type { Account } from './account';
+import {
+  ApiKey,
+  ApiKeyCreated,
+  ApiKeyInput,
+  RevokeApiKeyInput,
+} from './api-key';
+import { Bid, BidType, CancelLatestBidOnItemInput } from './bid';
+import {
+  AddItemToSaleInput,
+  CreateItemInput,
+  Item,
+  UpdateItemInput,
+} from './item';
 import {
   CreateSaleInput,
   PublishSaleInput,
@@ -6,8 +20,6 @@ import {
   SaleItem,
   UpdateSaleItemInput,
 } from './sale';
-import { Bid, BidType, CancelLatestBidOnItemInput } from './bid';
-import type { Account } from './account';
 import {
   ActionHookFilter,
   ActionHookLog,
@@ -17,18 +29,6 @@ import {
   TestActionHookResponse,
   UpdateActionHookSubscriptionInput,
 } from './webhook';
-import {
-  AddItemToSaleInput,
-  CreateItemInput,
-  Item,
-  UpdateItemInput,
-} from './item';
-import {
-  ApiToken,
-  ApiTokenCreated,
-  ApiTokenInput,
-  RevokeApiTokenInput,
-} from './api-token';
 
 export type BastaResponse<T> = {
   data: T;
@@ -104,11 +104,11 @@ export interface IAccountService {
   /** Gets a Basta account.  */
   get(accountId: string): Promise<Account>;
   /** Get API Keys that have created.  */
-  getApiTokens(): Promise<ApiToken[]>;
+  getApiKeys(): Promise<ApiKey[]>;
   /** Create an API key, that can access all functions in the API on behalf of the logged in customer.  */
-  createApiToken(input: ApiTokenInput): Promise<ApiTokenCreated>;
+  createApiKey(input: ApiKeyInput): Promise<ApiKeyCreated>;
   /** Revoke the API key by id..  */
-  revokeApiToken(input: RevokeApiTokenInput): Promise<boolean>;
+  revokeApiKey(input: RevokeApiKeyInput): Promise<boolean>;
 }
 
 export interface IWebHookService {

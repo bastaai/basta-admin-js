@@ -1661,18 +1661,18 @@ export type UserTokenInput = {
   userID: string;
 };
 
-export type Create_Api_TokenMutationVariables = Exact<{
+export type Create_Api_KeyMutationVariables = Exact<{
   accountId: string;
-  input: ApiTokenInput;
+  input: ApiKeyInput;
 }>;
 
-export type Create_Api_TokenMutation = {
+export type Create_Api_KeyMutation = {
   __typename?: 'Mutation';
-  createApiToken: {
-    __typename?: 'ApiTokenCreated';
+  createApiKey: {
+    __typename?: 'ApiKeyCreated';
     id: string;
     name: string;
-    roles: Array<ApiTokenRole>;
+    roles: Array<ApiKeyRole>;
     generatedApiKey: string;
   };
 };
@@ -1691,14 +1691,14 @@ export type Create_User_TokenMutation = {
   };
 };
 
-export type Revoke_Api_TokenMutationVariables = Exact<{
+export type Revoke_Api_KeyMutationVariables = Exact<{
   accountId: string;
-  input: RevokeApiTokenInput;
+  input: RevokeApiKeyInput;
 }>;
 
-export type Revoke_Api_TokenMutation = {
+export type Revoke_Api_KeyMutation = {
   __typename?: 'Mutation';
-  revokeApiToken: boolean;
+  revokeApiKey: boolean;
 };
 
 export type Bid_On_BehalfMutationVariables = Exact<{
@@ -2368,17 +2368,17 @@ export type Get_Api_KeysQueryVariables = Exact<{
 
 export type Get_Api_KeysQuery = {
   __typename?: 'Query';
-  apiTokens: {
-    __typename?: 'ApiTokenConnection';
+  apiKeys: {
+    __typename?: 'ApiKeyConnection';
     edges: Array<{
-      __typename?: 'ApiTokensEdge';
+      __typename?: 'ApiKeyEdge';
       cursor: string;
       node: {
-        __typename?: 'ApiToken';
+        __typename?: 'ApiKey';
         id: string;
         name: string;
         accountId: string;
-        roles: Array<ApiTokenRole>;
+        roles: Array<ApiKeyRole>;
         created: string;
       };
     }>;

@@ -1,5 +1,5 @@
 // Types
-import { ApiTokenRole } from './api-token';
+import { ApiKeyRole } from './api-key';
 import { BidType } from './bid';
 import { ItemStatus } from './item';
 import { ClosingMethod, SaleStatus } from './sale';
@@ -8,22 +8,22 @@ import { ActionHookStatus, ActionType } from './webhook';
 
 // Enums
 export {
-  ClosingMethod,
-  SaleStatus,
-  ItemStatus,
-  BidType,
-  ActionType,
   ActionHookStatus,
-  ApiTokenRole,
+  ActionType,
+  ApiKeyRole,
+  BidType,
+  ClosingMethod,
+  ItemStatus,
+  SaleStatus,
 };
 
 // Types
 export type { Account } from './account';
-export type { BidIncrementTable, Participant, Sale, SaleItem } from './sale';
-export type { Item } from './item';
+export type { ApiKey, ApiKeyCreated } from './api-key';
 export type { BidResponse } from './bid';
+export type { Item } from './item';
+export type { BidIncrementTable, Participant, Sale, SaleItem } from './sale';
 export type { ActionHookLog, ActionHookSubscription } from './webhook';
-export type { ApiToken, ApiTokenCreated } from './api-token';
 
 export const initBasta: (args: {
   accountId: string;

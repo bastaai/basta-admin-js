@@ -7,9 +7,9 @@ const config: CodegenConfig = {
       ['https://management.api.basta.wtf/graphql']: {
         headers: {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          ['x-api-key']: process.env.TEMP_API_KEY!,
+          ['x-api-key']: '1DGSt3i3DOeteBj7Tu_1gQyzMb6f28AJCJnMPICSjlo=', //process.env.TEMP_API_KEY!,
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          ['x-account-id']: process.env.TEMP_ACCOUNT_ID!,
+          ['x-account-id']: '45a8ab01-dd4d-4842-bc13-0aa6961afc49', //process.env.TEMP_ACCOUNT_ID!,
         },
       },
     },

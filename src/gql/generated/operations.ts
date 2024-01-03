@@ -1,5 +1,5 @@
-export const CREATE_API_TOKEN = `mutation CREATE_API_TOKEN($accountId: String!, $input: ApiTokenInput!) {
-  createApiToken(accountId: $accountId, input: $input) {
+export const CREATE_API_KEY = `mutation CREATE_API_KEY($accountId: String!, $input: ApiKeyInput!) {
+  createApiKey(accountId: $accountId, input: $input) {
     id
     name
     roles
@@ -14,8 +14,8 @@ export const CREATE_USER_TOKEN = `mutation CREATE_USER_TOKEN($accountId: String!
   }
 }`;
 
-export const REVOKE_API_TOKEN = `mutation REVOKE_API_TOKEN($accountId: String!, $input: RevokeApiTokenInput!) {
-  revokeApiToken(accountId: $accountId, input: $input)
+export const REVOKE_API_KEY = `mutation REVOKE_API_KEY($accountId: String!, $input: RevokeApiKeyInput!) {
+  revokeApiKey(accountId: $accountId, input: $input)
 }`;
 
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
@@ -557,7 +557,7 @@ export const GET_ACCOUNT = `query GET_ACCOUNT($accountId: String!) {
 }`;
 
 export const GET_API_KEYS = `query GET_API_KEYS($accountId: String!, $first: Int = 10, $after: String) {
-  apiTokens(accountId: $accountId, first: $first, after: $after) {
+  apiKeys(accountId: $accountId, first: $first, after: $after) {
     edges {
       cursor
       node {

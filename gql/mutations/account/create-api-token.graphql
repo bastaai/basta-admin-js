@@ -1,5 +1,5 @@
-mutation CREATE_API_TOKEN($accountId: String!, $input: ApiTokenInput!) {
-  createApiToken(accountId: $accountId, input: $input) {
+mutation CREATE_API_KEY($accountId: String!, $input: ApiKeyInput!) {
+  createApiKey(accountId: $accountId, input: $input) {
     id
     name
     roles
