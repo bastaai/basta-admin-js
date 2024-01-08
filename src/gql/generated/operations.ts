@@ -229,8 +229,8 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
   }
 }`;
 
-export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: String!, $itemId: String!, $input: UpdateSaleItemInput!) {
-  updateItemForSale(accountId: $accountId, itemId: $itemId, input: $input) {
+export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: String!, $input: UpdateSaleItemInput!) {
+  updateItemForSale(accountId: $accountId, input: $input) {
     id
     title
     totalBids
@@ -593,6 +593,10 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
           order
         }
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }`;
