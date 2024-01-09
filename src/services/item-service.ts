@@ -32,7 +32,11 @@ import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
 import { Sale } from '../../types/sale';
 import { Item } from '../../types/item';
-import { mapItemToItem, mapSaleToSale } from '../utils';
+import {
+  mapItemToItem,
+  mapPaginatedItemsToItem,
+  mapSaleToSale,
+} from '../utils';
 
 export class ItemService implements IItemService {
   protected readonly _bastaReq: BastaRequest;
@@ -61,10 +65,12 @@ export class ItemService implements IItemService {
     return mapItemToItem(json.data.item);
   }
 
-  async getAll(): Promise<Item[]> {
+  async getAll(first = 10, after?: string | undefined): Promise<Item[]> {
     const variables: Get_All_ItemsQueryVariables = {
       accountId: this._bastaReq.accountId,
       itemsFilter: { onlyMyItems: false },
+      first: first,
+      after: after,
     };
 
     const res = await fetch(this._bastaReq.url, {
@@ -78,7 +84,7 @@ export class ItemService implements IItemService {
 
     const json: BastaResponse<Get_All_ItemsQuery> = await res.json();
 
-    return json.data.items.edges.map((x) => mapItemToItem(x.node));
+    return json.data.items.edges.map((x) => mapPaginatedItemsToItem(x));
   }
 
   async create(input: CreateItemInput): Promise<Item> {
