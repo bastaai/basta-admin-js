@@ -167,24 +167,12 @@ export type AddItemToSaleInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
-  /**
-   * Date and time when item should close.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  closingDate: string;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Item id of the item that you are adding to the sale. */
   itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
-  /**
-   * Date and time when item should open up for bidding.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  openDate: string;
   /** Reserve of the item in minor currency unit. */
   reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
@@ -662,16 +650,8 @@ export type Item = {
 
 export type ItemDates = {
   __typename?: 'ItemDates';
-  /**
-   * UTC+0 RFC3339 formatted date and time when item should move to status CLOSED.
-   * This property is extend each time a bid is received during sniping.
-   * Sniping is defined as the period between closingStart and closingEnd.
-   */
   closingEnd?: Maybe<string>;
-  /** UTC+0 RFC3339 formatted date and time when item will start closing (start of sniping period). */
   closingStart?: Maybe<string>;
-  /** UTC+0 RFC3339 formatted date and time when item will open. */
-  openDate?: Maybe<string>;
 };
 
 /** Item filter */
@@ -848,10 +828,7 @@ export type Mutation = {
   updateItem: Item;
   /** Update item associated with a sale. */
   updateItemForSale: SaleItem;
-  /**
-   * Update ItemNumbers input
-   * @deprecated deprecated method will be removed from schema soon
-   */
+  /** Update ItemNumbers input */
   updateItemNumbers: Sale;
   /** Update a sale */
   updateSale: Sale;
@@ -1030,6 +1007,7 @@ export type MutationUpdateItemArgs = {
 export type MutationUpdateItemForSaleArgs = {
   accountId: string;
   input: UpdateSaleItemInput;
+  itemId: string;
 };
 
 export type MutationUpdateItemNumbersArgs = {
@@ -1435,24 +1413,12 @@ export type SaleItemInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
-  /**
-   * Date and time when item should close.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  closingDate?: InputMaybe<string>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
-  /**
-   * Date and time when item should open up for bidding.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  openDate?: InputMaybe<string>;
   /**
    * The reserve is the minimum amount that an item will sell for.
    * Reserve should be in minor currency units.
@@ -1656,29 +1622,15 @@ export type UpdateSaleItemInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
-  /**
-   * Date and time when item should close.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  closingDate?: InputMaybe<string>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
-  /** Id of the item that should be updated */
-  itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
-  /**
-   * Date and time when item should open up for bidding.
-   * Format: RFC3339 timestamp.
-   * Example: "2019-10-12T07:20:50.52Z"
-   */
-  openDate?: InputMaybe<string>;
   /** Reserve of the item in minor currency unit. */
   reserve?: InputMaybe<number>;
-  /** Id of the sale that the item belongs to */
+  /** Id of the sale that is associated with the item. */
   saleId: string;
   /** Starting bid of the item in minor currency unit. */
   startingBid?: InputMaybe<number>;
@@ -2022,6 +1974,7 @@ export type Remove_Item_From_SaleMutation = {
 
 export type Update_Item_For_SaleMutationVariables = Exact<{
   accountId: string;
+  itemId: string;
   input: UpdateSaleItemInput;
 }>;
 
@@ -2506,6 +2459,7 @@ export type Get_All_SalesQuery = {
     __typename?: 'SaleConnection';
     edges: Array<{
       __typename?: 'SalesEdge';
+      cursor: string;
       node: {
         __typename?: 'Sale';
         id: string;
@@ -2606,6 +2560,11 @@ export type Get_All_SalesQuery = {
         };
       };
     }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      endCursor: string;
+    };
   };
 };
 

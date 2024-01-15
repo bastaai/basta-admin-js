@@ -17,6 +17,10 @@ import {
   Remove_Item_From_SaleMutation,
   Update_ItemMutation,
   Update_Item_For_SaleMutation,
+  Update_Item_For_SaleMutationVariables,
+  Remove_Item_From_SaleMutationVariables,
+  Add_Item_To_SaleMutationVariables,
+  Update_ItemMutationVariables,
 } from '../gql/generated/types';
 import {
   ADD_ITEM_TO_SALE,
@@ -108,7 +112,7 @@ export class ItemService implements IItemService {
   }
 
   async update(itemId: string, input: UpdateItemInput): Promise<Item> {
-    const variables = {
+    const variables: Update_ItemMutationVariables = {
       accountId: this._bastaReq.accountId,
       itemId: itemId,
       input: input,
@@ -162,7 +166,7 @@ export class ItemService implements IItemService {
   }
 
   async addItemToSale(input: AddItemToSaleInput): Promise<SaleItem> {
-    const variables = {
+    const variables: Add_Item_To_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
       input,
     };
@@ -182,7 +186,7 @@ export class ItemService implements IItemService {
   }
 
   async removeItemFromSale(input: RemoveSaleItemInput): Promise<Sale> {
-    const variables = {
+    const variables: Remove_Item_From_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
       input,
     };
@@ -206,7 +210,7 @@ export class ItemService implements IItemService {
     itemId: string,
     input: UpdateSaleItemInput
   ): Promise<SaleItem> {
-    const variables = {
+    const variables: Update_Item_For_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
       itemId,
       input,
