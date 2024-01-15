@@ -19,7 +19,7 @@ import {
   Publish_SaleMutation,
 } from '../gql/generated/types';
 
-import { mapSaleToSale } from '../utils';
+import { mapPaginatedSalesToSale, mapSaleToSale } from '../utils';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;
@@ -117,9 +117,11 @@ export class SaleService implements ISaleService {
     return mapSaleToSale(json.data.createSale);
   }
 
-  async getAll(): Promise<Sale[]> {
+  async getAll(first = 10, after?: string | undefined): Promise<Sale[]> {
     const variables: Get_All_SalesQueryVariables = {
       accountId: this._bastaReq.accountId,
+      first: first,
+      after: after,
     };
 
     const res = await fetch(this._bastaReq.url, {
@@ -133,6 +135,6 @@ export class SaleService implements ISaleService {
 
     const json: BastaResponse<Get_All_SalesQuery> = await res.json();
 
-    return json.data.sales.edges.map((x) => mapSaleToSale(x.node));
+    return json.data.sales.edges.map((x) => mapPaginatedSalesToSale(x));
   }
 }

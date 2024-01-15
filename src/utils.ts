@@ -8,6 +8,7 @@ import {
   ActionHookLog as _ActionHookLog,
   ApiToken as _ApiToken,
   ItemsEdge,
+  SalesEdge,
 } from './gql/generated/types';
 
 export const mapSaleToSale = (sale: _Sale): Sale => {
@@ -25,6 +26,28 @@ export const mapSaleToSale = (sale: _Sale): Sale => {
     description: sale.description ?? '',
     incrementTable: sale.incrementTable,
     status: sale.status,
+  };
+};
+
+export const mapPaginatedSalesToSale = (edge: SalesEdge): Sale => {
+  const sale = edge.node;
+  const page = edge.cursor;
+
+  return {
+    accountId: sale.accountId,
+    closingTimeCountdown: sale.closingTimeCountdown,
+    dates: sale.dates,
+    id: sale.id,
+    images: sale.images,
+    items: sale.items.edges.map((x) => x.node),
+    participants: sale.participants.edges.map((x) => x.node),
+    sequenceNumber: sale.sequenceNumber,
+    title: sale.title ?? '',
+    closingMethod: sale.closingMethod,
+    description: sale.description ?? '',
+    incrementTable: sale.incrementTable,
+    status: sale.status,
+    cursor: page,
   };
 };
 

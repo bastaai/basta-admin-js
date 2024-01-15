@@ -229,8 +229,8 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
   }
 }`;
 
-export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: String!, $input: UpdateSaleItemInput!) {
-  updateItemForSale(accountId: $accountId, input: $input) {
+export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: String!, $itemId: String!, $input: UpdateSaleItemInput!) {
+  updateItemForSale(accountId: $accountId, itemId: $itemId, input: $input) {
     id
     title
     totalBids
@@ -620,6 +620,7 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
 export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: Int = 20, $after: String, $filter: SaleFilter) {
   sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
     edges {
+      cursor
       node {
         id
         accountId
@@ -708,6 +709,10 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           totalCount
         }
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }`;

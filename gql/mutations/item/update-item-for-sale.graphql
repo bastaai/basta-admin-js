@@ -1,8 +1,9 @@
 mutation UPDATE_ITEM_FOR_SALE(
   $accountId: String!
+  $itemId: String!
   $input: UpdateSaleItemInput!
 ) {
-  updateItemForSale(accountId: $accountId, input: $input) {
+  updateItemForSale(accountId: $accountId, itemId: $itemId, input: $input) {
     id
     title
     totalBids
