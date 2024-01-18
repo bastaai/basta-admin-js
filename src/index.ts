@@ -1,10 +1,10 @@
 import { BastaRequest } from '../types/request';
 import {
+  IAccountService,
   IBastaAdmin,
-  ISaleService,
   IBidService,
   IItemService,
-  IAccountService,
+  ISaleService,
   IWebHookService,
 } from '../types/sdk';
 import { AccountService } from './services/account-service';
@@ -15,13 +15,13 @@ import { WebHookService } from './services/web-hook-service';
 
 // Only export enums here. Types are exported in a .d.ts file elsewhere.
 export {
-  ClosingMethod,
-  SaleStatus,
-  ItemStatus,
-  BidType,
-  ActionType,
   ActionHookStatus,
-  ApiTokenRole,
+  ActionType,
+  ApiKeyRole,
+  BidType,
+  ClosingMethod,
+  ItemStatus,
+  SaleStatus,
 } from './gql/generated/types';
 
 export const initBasta = (args: { accountId: string; secretKey: string }) => {
