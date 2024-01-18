@@ -167,12 +167,24 @@ export type AddItemToSaleInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
+  /**
+   * Date and time when item should close.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  closingDate: string;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Item id of the item that you are adding to the sale. */
   itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
+  /**
+   * Date and time when item should open up for bidding.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  openDate: string;
   /** Reserve of the item in minor currency unit. */
   reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
@@ -503,6 +515,7 @@ export enum ClosingMethod {
   /**
    * Only one item is in status CLOSING at once.
    * Other items wait in status OPEN.
+   * @deprecated use item dates, will be removed in the near future
    */
   OneByOne = 'ONE_BY_ONE',
   /**
@@ -650,8 +663,16 @@ export type Item = {
 
 export type ItemDates = {
   __typename?: 'ItemDates';
+  /**
+   * UTC+0 RFC3339 formatted date and time when item should move to status CLOSED.
+   * This property is extend each time a bid is received during sniping.
+   * Sniping is defined as the period between closingStart and closingEnd.
+   */
   closingEnd?: Maybe<string>;
+  /** UTC+0 RFC3339 formatted date and time when item will start closing (start of sniping period). */
   closingStart?: Maybe<string>;
+  /** UTC+0 RFC3339 formatted date and time when item will open. */
+  openDate?: Maybe<string>;
 };
 
 /** Item filter */
@@ -708,9 +729,11 @@ export type LinkInput = {
 };
 
 export enum LinkType {
+  Facebook = 'FACEBOOK',
   Instagram = 'INSTAGRAM',
   Tiktok = 'TIKTOK',
   Website = 'WEBSITE',
+  X = 'X',
   Youtube = 'YOUTUBE',
 }
 
@@ -828,7 +851,10 @@ export type Mutation = {
   updateItem: Item;
   /** Update item associated with a sale. */
   updateItemForSale: SaleItem;
-  /** Update ItemNumbers input */
+  /**
+   * Update ItemNumbers input
+   * @deprecated deprecated method will be removed from schema soon
+   */
   updateItemNumbers: Sale;
   /** Update a sale */
   updateSale: Sale;
@@ -1007,7 +1033,6 @@ export type MutationUpdateItemArgs = {
 export type MutationUpdateItemForSaleArgs = {
   accountId: string;
   input: UpdateSaleItemInput;
-  itemId: string;
 };
 
 export type MutationUpdateItemNumbersArgs = {
@@ -1375,7 +1400,10 @@ export type SaleItem = {
   dates: ItemDates;
   /** Item description */
   description?: Maybe<string>;
-  /** High Estimate of item in minor currency unit. */
+  /**
+   * High Estimate of item in minor currency unit.
+   * @deprecated deprecated method will be removed from schema soon
+   */
   highEstimate: number;
   /** Id of an item. */
   id: string;
@@ -1385,7 +1413,10 @@ export type SaleItem = {
   itemNumber: number;
   /** Current leader (user id) for the item */
   leaderId?: Maybe<string>;
-  /** Low Estimate of item in minor currency unit. */
+  /**
+   * Low Estimate of item in minor currency unit.
+   * @deprecated deprecated method will be removed from schema soon
+   */
   lowEstimate: number;
   /** Reserve on the item in minor currency unit. */
   reserve?: Maybe<number>;
@@ -1413,12 +1444,29 @@ export type SaleItemInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
+  /**
+   * Date and time when item should close.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  closingDate?: InputMaybe<string>;
+  /**
+   * ClosingTime countdown is the sniping duration in milliseconds.
+   * If not provided it defaults to sale's closing time countdown.
+   */
+  closingTimeCountdown?: InputMaybe<number>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
+  /**
+   * Date and time when item should open up for bidding.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  openDate?: InputMaybe<string>;
   /**
    * The reserve is the minimum amount that an item will sell for.
    * Reserve should be in minor currency units.
@@ -1622,15 +1670,29 @@ export type UpdateSaleItemInput = {
   allowedBidTypes?: InputMaybe<Array<BidType>>;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: InputMaybe<BidIncrementTableInput>;
+  /**
+   * Date and time when item should close.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  closingDate?: InputMaybe<string>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
+  /** Id of the item that should be updated */
+  itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: InputMaybe<number>;
+  /**
+   * Date and time when item should open up for bidding.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  openDate?: InputMaybe<string>;
   /** Reserve of the item in minor currency unit. */
   reserve?: InputMaybe<number>;
-  /** Id of the sale that is associated with the item. */
+  /** Id of the sale that the item belongs to */
   saleId: string;
   /** Starting bid of the item in minor currency unit. */
   startingBid?: InputMaybe<number>;
@@ -1974,7 +2036,6 @@ export type Remove_Item_From_SaleMutation = {
 
 export type Update_Item_For_SaleMutationVariables = Exact<{
   accountId: string;
-  itemId: string;
   input: UpdateSaleItemInput;
 }>;
 
