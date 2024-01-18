@@ -206,13 +206,9 @@ export class ItemService implements IItemService {
     return mapSaleToSale(sale);
   }
 
-  async updateItemForSale(
-    itemId: string,
-    input: UpdateSaleItemInput
-  ): Promise<SaleItem> {
+  async updateItemForSale(input: UpdateSaleItemInput): Promise<SaleItem> {
     const variables: Update_Item_For_SaleMutationVariables = {
       accountId: this._bastaReq.accountId,
-      itemId,
       input,
     };
 

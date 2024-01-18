@@ -89,10 +89,7 @@ export interface IItemService {
   /** Remove an item from the sale. This will not delete the item completely. */
   removeItemFromSale(input: RemoveSaleItemInput): Promise<Sale>;
   /** Update item associated with a sale. */
-  updateItemForSale(
-    itemId: string,
-    input: UpdateSaleItemInput
-  ): Promise<SaleItem>;
+  updateItemForSale(input: UpdateSaleItemInput): Promise<SaleItem>;
 }
 
 export interface IAccountService {

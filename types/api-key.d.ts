@@ -3,12 +3,11 @@
  * software to access the API on behalf of customer.
  */
 export type ApiKey = {
-  __typename?: 'ApiKey';
   accountId: string;
   created: string;
   id: string;
   name: string;
-  roles: Array<ApiKeyRole>;
+  roles: ApiKeyRole[];
 };
 
 /**
@@ -17,11 +16,10 @@ export type ApiKey = {
  * Make sure to copy api key now as it will not shown again.
  */
 export type ApiKeyCreated = {
-  __typename?: 'ApiKeyCreated';
   generatedApiKey: string;
   id: string;
   name: string;
-  roles: Array<ApiKeyRole>;
+  roles: ApiKeyRole[];
 };
 
 /** Input object for when creating a API key */
@@ -29,7 +27,7 @@ export type ApiKeyInput = {
   /** Name of the API key */
   name: string;
   /** Role associated to API key */
-  role: Array<ApiKeyRole>;
+  role: ApiKeyRole[];
 };
 
 /** Input object for when revoking a API key */
