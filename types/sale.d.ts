@@ -160,6 +160,7 @@ export type Sale = {
   items: SaleItem[];
   /** Get list of participants for this sale */
   participants: Participant[];
+  cursor?: string;
 };
 
 /**

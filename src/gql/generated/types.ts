@@ -2415,6 +2415,11 @@ export type Get_All_ItemsQuery = {
         }>;
       };
     }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      endCursor: string;
+    };
   };
 };
 
@@ -2454,6 +2459,7 @@ export type Get_All_SalesQuery = {
     __typename?: 'SaleConnection';
     edges: Array<{
       __typename?: 'SalesEdge';
+      cursor: string;
       node: {
         __typename?: 'Sale';
         id: string;
@@ -2554,6 +2560,11 @@ export type Get_All_SalesQuery = {
         };
       };
     }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      endCursor: string;
+    };
   };
 };
 

@@ -26,5 +26,9 @@ query GET_ALL_ITEMS(
         }
       }
     }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }

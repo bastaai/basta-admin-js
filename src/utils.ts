@@ -7,6 +7,8 @@ import {
   ApiKey as _ApiKey,
   Item as _Item,
   Sale as _Sale,
+  ItemsEdge,
+  SalesEdge,
 } from './gql/generated/types';
 
 export const mapSaleToSale = (sale: _Sale): Sale => {
@@ -24,6 +26,44 @@ export const mapSaleToSale = (sale: _Sale): Sale => {
     description: sale.description ?? '',
     incrementTable: sale.incrementTable,
     status: sale.status,
+  };
+};
+
+export const mapPaginatedSalesToSale = (edge: SalesEdge): Sale => {
+  const sale = edge.node;
+  const page = edge.cursor;
+
+  return {
+    accountId: sale.accountId,
+    closingTimeCountdown: sale.closingTimeCountdown,
+    dates: sale.dates,
+    id: sale.id,
+    images: sale.images,
+    items: sale.items.edges.map((x) => x.node),
+    participants: sale.participants.edges.map((x) => x.node),
+    sequenceNumber: sale.sequenceNumber,
+    title: sale.title ?? '',
+    closingMethod: sale.closingMethod,
+    description: sale.description ?? '',
+    incrementTable: sale.incrementTable,
+    status: sale.status,
+    cursor: page,
+  };
+};
+
+export const mapPaginatedItemsToItem = (edge: ItemsEdge): Item => {
+  const item = edge.node;
+  const page = edge.cursor;
+
+  return {
+    id: item.id,
+    images: item.images,
+    title: item.title ?? '',
+    description: item.description ?? '',
+    saleId: item.saleId ?? undefined,
+    valuationAmount: item.valuationAmount ?? undefined,
+    valuationCurrency: item.valuationCurrency ?? undefined,
+    cursor: page,
   };
 };
 

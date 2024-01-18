@@ -27,6 +27,7 @@ export type Item = {
   valuationAmount?: number;
   /** Valuation currency */
   valuationCurrency?: string;
+  cursor?: string;
 };
 
 /** Item input when creating an item */

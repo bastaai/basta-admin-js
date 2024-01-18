@@ -59,7 +59,7 @@ export interface ISaleService {
   /** Gets a Basta sale. */
   get(saleId: string): Promise<Sale>;
   /** Gets all Basta sales from a user. */
-  getAll(): Promise<Sale[]>;
+  getAll(first?: number, after?: string | undefined): Promise<Sale[]>;
   /** Creates a Basta sale. */
   create(input: CreateSaleInput): Promise<Sale>;
   /** Publishes a sale, forcefully. */
@@ -70,7 +70,7 @@ export interface IItemService {
   /** Gets a Basta item. */
   get(itemId: string): Promise<Item>;
   /** Gets all Basta items from a user. */
-  getAll(): Promise<Item[]>;
+  getAll(first?: number, after?: string | undefined): Promise<Item[]>;
   /** Creates a Basta item. */
   create(input: CreateItemInput): Promise<Item>;
   /** Updates a Basta item. This will update information about items for all sales that has not been closed. */

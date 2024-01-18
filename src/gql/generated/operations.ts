@@ -594,6 +594,10 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
         }
       }
     }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }`;
 
@@ -616,6 +620,7 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
 export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: Int = 20, $after: String, $filter: SaleFilter) {
   sales(accountId: $accountId, first: $first, after: $after, filter: $filter) {
     edges {
+      cursor
       node {
         id
         accountId
@@ -704,6 +709,10 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
           totalCount
         }
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }`;
