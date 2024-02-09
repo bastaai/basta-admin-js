@@ -67,12 +67,24 @@ export type AddItemToSaleInput = {
   allowedBidTypes?: Array<BidType> | null | undefined;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: BidIncrementTableInput | null | undefined;
+  /**
+   * Date and time when item should close.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  closingDate: string;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: number | null | undefined;
   /** Item id of the item that you are adding to the sale. */
   itemId: string;
   /** Low estimate of the item (optional) in minor currency unit. */
   lowEstimate?: number | null | undefined;
+  /**
+   * Date and time when item should open up for bidding.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  openDate: string;
   /** Reserve of the item in minor currency unit. */
   reserve?: number | null | undefined;
   /** Id of the sale that is associated with the item. */
