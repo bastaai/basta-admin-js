@@ -172,7 +172,7 @@ export type AddItemToSaleInput = {
    * Format: RFC3339 timestamp.
    * Example: "2019-10-12T07:20:50.52Z"
    */
-  closingDate: string;
+  closingDate?: InputMaybe<string>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Item id of the item that you are adding to the sale. */
@@ -184,7 +184,7 @@ export type AddItemToSaleInput = {
    * Format: RFC3339 timestamp.
    * Example: "2019-10-12T07:20:50.52Z"
    */
-  openDate: string;
+  openDate?: InputMaybe<string>;
   /** Reserve of the item in minor currency unit. */
   reserve?: InputMaybe<number>;
   /** Id of the sale that is associated with the item. */
@@ -1328,6 +1328,11 @@ export type Sale = {
   participants: ParticipantsConnection;
   /** Sequence number of this sale. */
   sequenceNumber: number;
+  /**
+   * Sale slug. Only set on basta created sales.
+   * Null/empty for integrating applications.
+   */
+  slug?: Maybe<string>;
   /** Sale status */
   status: SaleStatus;
   /**
@@ -1422,6 +1427,11 @@ export type SaleItem = {
   reserve?: Maybe<number>;
   /** Sale id, as items can be created without having to be associated to a sale. */
   saleId: string;
+  /**
+   * Item slug. Only set on basta created items.
+   * Null/empty for integrating applications
+   */
+  slug?: Maybe<string>;
   /** Starting bid for the item in minor currency unit. */
   startingBid?: Maybe<number>;
   /** Status of the item */
@@ -1606,15 +1616,16 @@ export type TokenMetadata = {
 
 /**
  * Update Account properties.
- * All values in object are used to override current Account properties.
+ * Only provided values will be applied.
+ * Null/Nil values are ignored.
  */
 export type UpdateAccountInput = {
   /** description to be displayed on account profile as bio */
   description?: InputMaybe<string>;
   /** email */
-  email: string;
+  email?: InputMaybe<string>;
   /** handle */
-  handle: string;
+  handle?: InputMaybe<string>;
   /** links associated with the account */
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
   /** name */
