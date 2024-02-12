@@ -14,7 +14,7 @@ export type Account = {
   /** description */
   description?: string | null;
   /** account handle, identifier for the account */
-  handle: string;
+  handle?: string | null;
   /** account image url */
   imageUrl?: string | null;
   /** account description (bio) */
