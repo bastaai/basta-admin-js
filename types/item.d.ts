@@ -81,9 +81,4 @@ export type AddItemToSaleInput = {
   startingBid?: number | null | undefined;
   closingDate?: string | null | undefined;
   openDate?: string | null | undefined;
-  /**
-   * Sale slug. Only set on basta created sales.
-   * Null/empty for integrating applications.
-   */
-  slug?: string | null | undefined;
 };
