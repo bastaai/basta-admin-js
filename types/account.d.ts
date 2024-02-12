@@ -8,13 +8,13 @@ export type Account = {
   /** Name of the account */
   name: string;
   /** Contact email address */
-  email: string;
+  email?: string | null | undefined;
   /** created */
   created: string;
   /** description */
   description?: string | null;
   /** account handle, identifier for the account */
-  handle?: string | null;
+  handle?: string | null | undefined;
   /** account image url */
   imageUrl?: string | null;
   /** account description (bio) */

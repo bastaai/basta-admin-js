@@ -120,6 +120,11 @@ export type SaleItem = {
   title?: string | null | undefined;
   /** Number of bids that have been placed on the item */
   totalBids: number;
+  /**
+   * Item slug. Only set on basta created items.
+   * Null/empty for integrating applications
+   */
+  slug?: string | null | undefined;
 };
 
 export type Sale = {
@@ -161,6 +166,11 @@ export type Sale = {
   /** Get list of participants for this sale */
   participants: Participant[];
   cursor?: string;
+  /**
+   * Item slug. Only set on basta created items.
+   * Null/empty for integrating applications
+   */
+  slug?: string | null | undefined;
 };
 
 /**
