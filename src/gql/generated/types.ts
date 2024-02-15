@@ -1667,11 +1667,15 @@ export type UpdateSaleInput = {
   currency: string;
   dates: SaleDatesInput;
   description: string;
+  slug?: InputMaybe<string>;
   themeType?: InputMaybe<number>;
   title: string;
 };
 
-/** Update SaleItem input when modifying an item */
+/**
+ * Update SaleItem input when modifying an item.
+ * All inputs should be set
+ */
 export type UpdateSaleItemInput = {
   /**
    * Allowed BidTypes on the item.
@@ -1705,6 +1709,11 @@ export type UpdateSaleItemInput = {
   reserve?: InputMaybe<number>;
   /** Id of the sale that the item belongs to */
   saleId: string;
+  /**
+   * Update SaleSlug.
+   * Only applies to sales hosted by Basta.
+   */
+  slug?: InputMaybe<string>;
   /** Starting bid of the item in minor currency unit. */
   startingBid?: InputMaybe<number>;
   /** Title for describing the item */

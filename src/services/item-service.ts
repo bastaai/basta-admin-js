@@ -138,6 +138,8 @@ export class ItemService implements IItemService {
     options: {
       startingBid?: number | null;
       reserve?: number | null;
+      openDate?: string | null;
+      closingDate?: string | null;
     }
   ): Promise<SaleItem> {
     const variables: Create_Item_For_SaleMutationVariables = {
@@ -148,6 +150,8 @@ export class ItemService implements IItemService {
         description: item.description ?? '',
         startingBid: options.startingBid,
         reserve: options.reserve,
+        openDate: options.openDate,
+        closingDate: options.closingDate,
       },
     };
 

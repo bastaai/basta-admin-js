@@ -82,6 +82,8 @@ export interface IItemService {
     options: {
       startingBid?: number | null;
       reserve?: number | null;
+      openDate?: string | null;
+      closingDate?: string | null;
     }
   ): Promise<SaleItem>;
   /** Add a currently existing item to a sale. */
