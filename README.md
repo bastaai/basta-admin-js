@@ -34,7 +34,7 @@ import { initBasta } from '@bastaai/basta-admin-js';
 const basta = initBasta({ accountId: 'accountId', secretKey: 'secretKey' });
 ```
 
-Navigate to the Basta Admin [portal](https://admin.basta.ai) to create a
+Navigate to the Basta Admin [portal](https://admin.basta.app) to create a
 **secret key** and aquire the **account id**.
 
 # Currencies
