@@ -41,8 +41,10 @@ query GET_ALL_SALES(
               saleId
               reserve
               startingBid
-              lowEstimate
-              highEstimate
+              estimates {
+                low
+                high
+              }
               itemNumber
               allowedBidTypes
               status

@@ -47,8 +47,10 @@ mutation REMOVE_ITEM_FROM_SALE(
           saleId
           reserve
           startingBid
-          lowEstimate
-          highEstimate
+          estimates {
+            high
+            low
+          }
           itemNumber
           allowedBidTypes
           status

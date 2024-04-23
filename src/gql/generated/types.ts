@@ -525,6 +525,10 @@ export enum ClosingMethod {
   Overlapping = 'OVERLAPPING',
 }
 
+export type ContinueOnboardPaymentAccountInput = {
+  returnUrl: string;
+};
+
 export type CreateAccountInput = {
   /** description to be displayed on account profile as bio */
   description?: InputMaybe<string>;
@@ -556,6 +560,10 @@ export type CreateItemImage = {
 export type CreateItemInput = {
   /** Description for describing the item */
   description?: InputMaybe<string>;
+  /** High Estimate of item in minor currency unit. */
+  highEstimate?: InputMaybe<number>;
+  /** Low Estimate of item in minor currency unit. */
+  lowEstimate?: InputMaybe<number>;
   /** Title for describing the item */
   title: string;
   /** Valuation of the item in minor currency unit. */
@@ -572,6 +580,7 @@ export type CreateSaleInput = {
   currency?: InputMaybe<string>;
   dates?: InputMaybe<SaleDatesInput>;
   description?: InputMaybe<string>;
+  reserveAutoBidMethod?: InputMaybe<ReserveAutoBidMethod>;
   themeType?: InputMaybe<number>;
   title?: InputMaybe<string>;
 };
@@ -596,6 +605,15 @@ export type DeleteItemInput = {
 /** Input object for when deleting a sale. */
 export type DeleteSaleInput = {
   saleId: string;
+};
+
+/** Estimates for an item */
+export type Estimate = {
+  __typename?: 'Estimate';
+  /** Item high estimate */
+  high?: Maybe<number>;
+  /** Item low estimate */
+  low?: Maybe<number>;
 };
 
 export type GetItemInput = {
@@ -647,6 +665,8 @@ export type Item = {
   __typename?: 'Item';
   /** Item description */
   description?: Maybe<string>;
+  /** Item estimate in minor currency unit. */
+  estimates: Estimate;
   /** Id of an item. */
   id: string;
   /** Images attached to item */
@@ -767,6 +787,11 @@ export type Mutation = {
   cancelLatestBidOnItem: CanceledLatestBidOnItem;
   /** Close a sale, non forcefully. */
   closeSale: Sale;
+  /**
+   * If payment provider onboarding was not finished then this mutation can be called to regenerate onboarding link.
+   * Not available for integration applications. Only accesible via admin.
+   */
+  continueOnboardPaymentAccount: OnboardPaymentAccountResponse;
   /** Create an API key, that can access all functions in the API on behalf of the account. */
   createApiKey: ApiKeyCreated;
   /**
@@ -887,6 +912,11 @@ export type MutationCancelLatestBidOnItemArgs = {
 export type MutationCloseSaleArgs = {
   accountId: string;
   input: CloseSaleInput;
+};
+
+export type MutationContinueOnboardPaymentAccountArgs = {
+  accountId: string;
+  input: ContinueOnboardPaymentAccountInput;
 };
 
 export type MutationCreateApiKeyArgs = {
@@ -1052,9 +1082,9 @@ export type Node = {
 };
 
 export type OnboardPaymentAccountInput = {
-  refreshUrl: string;
   returnUrl: string;
   sellerLocation: SellerLocation;
+  type: PaymentAccountType;
 };
 
 export type OnboardPaymentAccountResponse = {
@@ -1108,6 +1138,13 @@ export type ParticipantsEdge = {
   node: Participant;
 };
 
+export enum PaymentAccountType {
+  /** Express account type */
+  Express = 'Express',
+  /** Standard account type */
+  Standard = 'Standard',
+}
+
 export type PaymentDetails = {
   __typename?: 'PaymentDetails';
   /** External account id from payment provider */
@@ -1116,11 +1153,25 @@ export type PaymentDetails = {
   status: PaymentProviderStatus;
 };
 
+export type PaymentOrder = {
+  __typename?: 'PaymentOrder';
+  /** InvoiceID of invoice sent to winner */
+  invoiceId?: Maybe<string>;
+  /** OrderID */
+  orderId: string;
+  /** PaymentID set if payment has been made on invoice */
+  paymentId?: Maybe<string>;
+  /** UserInfo for payment order */
+  user: UserInfo;
+};
+
 export enum PaymentProviderStatus {
+  /** Account has been disabled by payments provider */
+  Disabled = 'DISABLED',
+  /** Account has finished onboarding and details have been processed and confirmed. */
+  Enabled = 'ENABLED',
   /** Account has finished onboarding for payment provider and details are being processed. */
   Processing = 'PROCESSING',
-  /** Account has finished onboarding and details have been processed and confirmed. */
-  Ready = 'READY',
   /** Account has started onboarding for payment provider but not finished. */
   Started = 'STARTED',
 }
@@ -1278,6 +1329,11 @@ export type ReorderItemImages = {
   itemId: string;
 };
 
+export enum ReserveAutoBidMethod {
+  MaxBidBelowReserveIsMet = 'MAX_BID_BELOW_RESERVE_IS_MET',
+  Standard = 'STANDARD',
+}
+
 /** Input object for when revoking a API key */
 export type RevokeApiKeyInput = {
   /** API key Id that needs to be revoked */
@@ -1298,6 +1354,8 @@ export type Sale = {
   __typename?: 'Sale';
   /** Account ID associated with the sale */
   accountId: string;
+  /** Is sale available on the basta bid client ? */
+  bastaBidClient: boolean;
   /** Chosen ClosingMethod */
   closingMethod?: Maybe<ClosingMethod>;
   /**
@@ -1326,6 +1384,12 @@ export type Sale = {
   items: SaleItemsConnection;
   /** Get list of participants for this sale */
   participants: ParticipantsConnection;
+  /**
+   * This setting governs the auction's reserve bid logic.
+   * By default, it is set to NORMAL, meaning the reserve must be met or exceeded through standard bidding.
+   * When configured to MAX_BID_MEETS_RESERVE, any maximum bid that matches or surpasses the reserve price automatically meets the reserve of the item.
+   */
+  reserveAutoBidMethod: ReserveAutoBidMethod;
   /** Sequence number of this sale. */
   sequenceNumber: number;
   /**
@@ -1405,11 +1469,8 @@ export type SaleItem = {
   dates: ItemDates;
   /** Item description */
   description?: Maybe<string>;
-  /**
-   * High Estimate of item in minor currency unit.
-   * @deprecated deprecated method will be removed from schema soon
-   */
-  highEstimate: number;
+  /** Item estimate in minor currency unit. */
+  estimates: Estimate;
   /** Id of an item. */
   id: string;
   /** Images attached to saleItem */
@@ -1419,10 +1480,10 @@ export type SaleItem = {
   /** Current leader (user id) for the item */
   leaderId?: Maybe<string>;
   /**
-   * Low Estimate of item in minor currency unit.
-   * @deprecated deprecated method will be removed from schema soon
+   * Payment Order information associated with item.
+   * Only set on Basta hosted auctions.
    */
-  lowEstimate: number;
+  paymentOrder?: Maybe<PaymentOrder>;
   /** Reserve on the item in minor currency unit. */
   reserve?: Maybe<number>;
   /** Sale id, as items can be created without having to be associated to a sale. */
@@ -1624,6 +1685,8 @@ export type UpdateAccountInput = {
   description?: InputMaybe<string>;
   /** email */
   email?: InputMaybe<string>;
+  /** Autogenerate a new handle as part of the update */
+  generateNewHandle?: InputMaybe<boolean>;
   /** handle */
   handle?: InputMaybe<string>;
   /** links associated with the account */
@@ -1665,7 +1728,8 @@ export type UpdateSaleInput = {
   closingMethod: ClosingMethod;
   closingTimeCountdown: number;
   currency: string;
-  dates: SaleDatesInput;
+  /** Deprecated. Has no effect and is scheduled to be removed */
+  dates?: InputMaybe<SaleDatesInput>;
   description: string;
   slug?: InputMaybe<string>;
   themeType?: InputMaybe<number>;
@@ -1722,6 +1786,16 @@ export type UpdateSaleItemInput = {
   valuationAmount?: InputMaybe<number>;
   /** Valuation currency in minor currency unit. */
   valuationCurrency?: InputMaybe<string>;
+};
+
+export type UserInfo = {
+  __typename?: 'UserInfo';
+  /** Email */
+  email: string;
+  /** Name */
+  name: string;
+  /** UserId */
+  userId: string;
 };
 
 /**
@@ -1845,8 +1919,6 @@ export type Add_Item_To_SaleMutation = {
     reserve?: number | null;
     startingBid?: number | null;
     status: ItemStatus;
-    lowEstimate: number;
-    highEstimate: number;
     itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
     bids: Array<{
@@ -1860,6 +1932,11 @@ export type Add_Item_To_SaleMutation = {
       bidSequenceNumber: number;
       bidderIdentifier: string;
     }>;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     dates: {
       __typename?: 'ItemDates';
       closingStart?: string | null;
@@ -1893,8 +1970,6 @@ export type Create_Item_For_SaleMutation = {
     reserve?: number | null;
     startingBid?: number | null;
     status: ItemStatus;
-    lowEstimate: number;
-    highEstimate: number;
     itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
     bids: Array<{
@@ -1908,6 +1983,11 @@ export type Create_Item_For_SaleMutation = {
       bidSequenceNumber: number;
       bidderIdentifier: string;
     }>;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     dates: {
       __typename?: 'ItemDates';
       closingStart?: string | null;
@@ -2006,11 +2086,14 @@ export type Remove_Item_From_SaleMutation = {
           saleId: string;
           reserve?: number | null;
           startingBid?: number | null;
-          lowEstimate: number;
-          highEstimate: number;
           itemNumber: number;
           allowedBidTypes?: Array<BidType> | null;
           status: ItemStatus;
+          estimates: {
+            __typename?: 'Estimate';
+            high?: number | null;
+            low?: number | null;
+          };
           images: Array<{
             __typename?: 'Image';
             id: string;
@@ -2073,8 +2156,6 @@ export type Update_Item_For_SaleMutation = {
     reserve?: number | null;
     startingBid?: number | null;
     status: ItemStatus;
-    lowEstimate: number;
-    highEstimate: number;
     itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
     bids: Array<{
@@ -2088,6 +2169,11 @@ export type Update_Item_For_SaleMutation = {
       bidSequenceNumber: number;
       bidderIdentifier: string;
     }>;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     dates: {
       __typename?: 'ItemDates';
       closingStart?: string | null;
@@ -2168,9 +2254,12 @@ export type Create_SaleMutation = {
           reserve?: number | null;
           startingBid?: number | null;
           status: ItemStatus;
-          lowEstimate: number;
-          highEstimate: number;
           itemNumber: number;
+          estimates: {
+            __typename?: 'Estimate';
+            low?: number | null;
+            high?: number | null;
+          };
           images: Array<{
             __typename: 'Image';
             id: string;
@@ -2275,9 +2364,12 @@ export type Publish_SaleMutation = {
           reserve?: number | null;
           startingBid?: number | null;
           status: ItemStatus;
-          lowEstimate: number;
-          highEstimate: number;
           itemNumber: number;
+          estimates: {
+            __typename?: 'Estimate';
+            low?: number | null;
+            high?: number | null;
+          };
           images: Array<{
             __typename: 'Image';
             id: string;
@@ -2580,11 +2672,14 @@ export type Get_All_SalesQuery = {
               saleId: string;
               reserve?: number | null;
               startingBid?: number | null;
-              lowEstimate: number;
-              highEstimate: number;
               itemNumber: number;
               allowedBidTypes?: Array<BidType> | null;
               status: ItemStatus;
+              estimates: {
+                __typename?: 'Estimate';
+                low?: number | null;
+                high?: number | null;
+              };
               images: Array<{
                 __typename?: 'Image';
                 id: string;
@@ -2692,11 +2787,14 @@ export type Get_SaleQuery = {
           saleId: string;
           reserve?: number | null;
           startingBid?: number | null;
-          lowEstimate: number;
-          highEstimate: number;
           itemNumber: number;
           allowedBidTypes?: Array<BidType> | null;
           status: ItemStatus;
+          estimates: {
+            __typename?: 'Estimate';
+            low?: number | null;
+            high?: number | null;
+          };
           images: Array<{
             __typename?: 'Image';
             id: string;
