@@ -33,8 +33,10 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
           reserve
           startingBid
           status
-          lowEstimate
-          highEstimate
+          estimates {
+            low
+            high
+          }
           itemNumber
           images {
             __typename

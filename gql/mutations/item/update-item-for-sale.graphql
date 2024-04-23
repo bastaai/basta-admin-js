@@ -23,8 +23,10 @@ mutation UPDATE_ITEM_FOR_SALE(
     reserve
     startingBid
     status
-    lowEstimate
-    highEstimate
+    estimates {
+      low
+      high
+    }
     itemNumber
     dates {
       closingStart

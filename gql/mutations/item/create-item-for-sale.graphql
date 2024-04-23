@@ -20,8 +20,10 @@ mutation CREATE_ITEM_FOR_SALE($accountId: String!, $input: SaleItemInput!) {
     reserve
     startingBid
     status
-    lowEstimate
-    highEstimate
+    estimates {
+      low
+      high
+    }
     itemNumber
     dates {
       closingStart

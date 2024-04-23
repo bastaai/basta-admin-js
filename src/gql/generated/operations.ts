@@ -68,8 +68,10 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
     reserve
     startingBid
     status
-    lowEstimate
-    highEstimate
+    estimates {
+      low
+      high
+    }
     itemNumber
     dates {
       closingStart
@@ -106,8 +108,10 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
     reserve
     startingBid
     status
-    lowEstimate
-    highEstimate
+    estimates {
+      low
+      high
+    }
     itemNumber
     dates {
       closingStart
@@ -184,8 +188,10 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
           saleId
           reserve
           startingBid
-          lowEstimate
-          highEstimate
+          estimates {
+            high
+            low
+          }
           itemNumber
           allowedBidTypes
           status
@@ -251,8 +257,10 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
     reserve
     startingBid
     status
-    lowEstimate
-    highEstimate
+    estimates {
+      low
+      high
+    }
     itemNumber
     dates {
       closingStart
@@ -318,8 +326,10 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
           reserve
           startingBid
           status
-          lowEstimate
-          highEstimate
+          estimates {
+            low
+            high
+          }
           itemNumber
           images {
             __typename
@@ -422,8 +432,10 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
           reserve
           startingBid
           status
-          lowEstimate
-          highEstimate
+          estimates {
+            low
+            high
+          }
           itemNumber
           images {
             __typename
@@ -655,8 +667,10 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
               saleId
               reserve
               startingBid
-              lowEstimate
-              highEstimate
+              estimates {
+                low
+                high
+              }
               itemNumber
               allowedBidTypes
               status
@@ -746,8 +760,10 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           saleId
           reserve
           startingBid
-          lowEstimate
-          highEstimate
+          estimates {
+            low
+            high
+          }
           itemNumber
           allowedBidTypes
           status

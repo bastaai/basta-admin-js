@@ -33,8 +33,10 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
           reserve
           startingBid
           status
-          lowEstimate
-          highEstimate
+          estimates {
+            low
+            high
+          }
           itemNumber
           images {
             __typename
