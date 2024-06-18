@@ -9,6 +9,20 @@ mutation REMOVE_ITEM_FROM_SALE(
     description
     currency
     status
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    bastaBidClient
+    hidden
+    reserveAutoBidMethod
+    type
+    paddles {
+      __typename
+      identifier
+      userId
+      created
+      type
+    }
     incrementTable {
       rules {
         highRange
@@ -20,9 +34,6 @@ mutation REMOVE_ITEM_FROM_SALE(
       closingDate
       openDate
     }
-    sequenceNumber
-    closingMethod
-    closingTimeCountdown
     images {
       id
       url
@@ -47,13 +58,30 @@ mutation REMOVE_ITEM_FROM_SALE(
           saleId
           reserve
           startingBid
+          itemNumber
+          allowedBidTypes
+          status
+          hidden
+          nextAsks
+          reserveMet
+          notifications {
+            __typename
+
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             high
             low
           }
-          itemNumber
-          allowedBidTypes
-          status
           images {
             id
             url
@@ -70,6 +98,7 @@ mutation REMOVE_ITEM_FROM_SALE(
             bidderIdentifier
           }
           dates {
+            openDate
             closingStart
             closingEnd
           }
@@ -77,6 +106,7 @@ mutation REMOVE_ITEM_FROM_SALE(
       }
     }
     participants {
+      totalCount
       pageInfo {
         __typename
         startCursor
@@ -89,7 +119,6 @@ mutation REMOVE_ITEM_FROM_SALE(
           userId
         }
       }
-      totalCount
     }
   }
 }

@@ -10,6 +10,17 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
     sequenceNumber
     closingMethod
     closingTimeCountdown
+    type
+    bastaBidClient
+    hidden
+    reserveAutoBidMethod
+    paddles {
+      __typename
+      created
+      identifier
+      type
+      userId
+    }
     images {
       __typename
       id
@@ -33,11 +44,26 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
           reserve
           startingBid
           status
+          itemNumber
+          hidden
+          nextAsks
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
+          reserveMet
           estimates {
             low
             high
           }
-          itemNumber
           images {
             __typename
             id

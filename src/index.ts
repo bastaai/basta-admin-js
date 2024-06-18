@@ -22,6 +22,8 @@ export {
   ClosingMethod,
   ItemStatus,
   SaleStatus,
+  ReserveAutoBidMethod,
+  SaleType
 } from './gql/generated/types';
 
 export const initBasta = (args: { accountId: string; secretKey: string }) => {

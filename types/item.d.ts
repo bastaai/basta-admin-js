@@ -10,6 +10,7 @@ export enum ItemStatus {
   ItemOpen = 'ITEM_OPEN',
   ItemPaused = 'ITEM_PAUSED',
   ItemProcessing = 'ITEM_PROCESSING',
+  ItemLive = "ITEM_LIVE"
 }
 
 export type Item = {
@@ -82,3 +83,25 @@ export type AddItemToSaleInput = {
   closingDate?: string | null | undefined;
   openDate?: string | null | undefined;
 };
+
+export type ItemMessageNotification = {
+  __typename?: 'ItemMessageNotification';
+  /** Id of the notification */
+  id: string;
+  /** Message */
+  message: string;
+  /** Timestamp */
+  timestamp: string;
+};
+
+export type ItemFairWarningNotification = {
+  __typename?: 'ItemFairWarningNotification';
+  /** Id of the notification */
+  id: string;
+  /** Timestamp */
+  timestamp: string;
+};
+
+export type ItemNotification =
+  | ItemFairWarningNotification
+  | ItemMessageNotification;

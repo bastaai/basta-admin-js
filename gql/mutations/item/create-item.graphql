@@ -2,14 +2,18 @@ mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
   createItem(accountId: $accountId, input: $input) {
     id
     saleId
+    description
+    title
+    valuationAmount
+    valuationCurrency
+    estimates {
+      low
+      high
+    }
     images {
       id
       url
       order
     }
-    description
-    title
-    valuationAmount
-    valuationCurrency
   }
 }

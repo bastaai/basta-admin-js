@@ -19,7 +19,7 @@ import {
   Publish_SaleMutation,
 } from '../gql/generated/types';
 
-import { mapPaginatedSalesToSale, mapSaleToSale } from '../utils';
+import {  mapSaleToSale } from '../utils';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;
@@ -135,6 +135,12 @@ export class SaleService implements ISaleService {
 
     const json: BastaResponse<Get_All_SalesQuery> = await res.json();
 
-    return json.data.sales.edges.map((x) => mapPaginatedSalesToSale(x));
+    return json.data.sales.edges.map((x) => ({
+      ...x.node,
+      title: x.node.title ?? '',
+      description: x.node.description ?? '',
+      items: x.node.items.edges.map((x) => x.node),
+      participants: x.node.participants.edges.map((x) => x.node),
+    }));
   }
 }

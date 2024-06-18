@@ -55,6 +55,26 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
     currentBid
     leaderId
     saleId
+    itemNumber
+    reserve
+    startingBid
+    status
+    allowedBidTypes
+    hidden
+    nextAsks
+    reserveMet
+    notifications {
+      __typename
+      ... on ItemFairWarningNotification {
+        id
+        timestamp
+      }
+      ... on ItemMessageNotification {
+        id
+        message
+        timestamp
+      }
+    }
     bids {
       bidId
       amount
@@ -65,19 +85,15 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
       bidSequenceNumber
       bidderIdentifier
     }
-    reserve
-    startingBid
-    status
     estimates {
       low
       high
     }
-    itemNumber
     dates {
+      openDate
       closingStart
       closingEnd
     }
-    allowedBidTypes
     images {
       id
       url
@@ -95,6 +111,26 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
     currentBid
     leaderId
     saleId
+    itemNumber
+    reserve
+    startingBid
+    status
+    allowedBidTypes
+    hidden
+    nextAsks
+    reserveMet
+    notifications {
+      __typename
+      ... on ItemFairWarningNotification {
+        id
+        timestamp
+      }
+      ... on ItemMessageNotification {
+        id
+        message
+        timestamp
+      }
+    }
     bids {
       bidId
       amount
@@ -105,19 +141,15 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
       bidSequenceNumber
       bidderIdentifier
     }
-    reserve
-    startingBid
-    status
     estimates {
       low
       high
     }
-    itemNumber
     dates {
+      openDate
       closingStart
       closingEnd
     }
-    allowedBidTypes
     images {
       id
       url
@@ -130,15 +162,19 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
   createItem(accountId: $accountId, input: $input) {
     id
     saleId
+    description
+    title
+    valuationAmount
+    valuationCurrency
+    estimates {
+      low
+      high
+    }
     images {
       id
       url
       order
     }
-    description
-    title
-    valuationAmount
-    valuationCurrency
   }
 }`;
 
@@ -150,6 +186,20 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
     description
     currency
     status
+    sequenceNumber
+    closingMethod
+    closingTimeCountdown
+    bastaBidClient
+    hidden
+    reserveAutoBidMethod
+    type
+    paddles {
+      __typename
+      identifier
+      userId
+      created
+      type
+    }
     incrementTable {
       rules {
         highRange
@@ -161,9 +211,6 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
       closingDate
       openDate
     }
-    sequenceNumber
-    closingMethod
-    closingTimeCountdown
     images {
       id
       url
@@ -188,13 +235,28 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
           saleId
           reserve
           startingBid
+          itemNumber
+          allowedBidTypes
+          status
+          hidden
+          nextAsks
+          reserveMet
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             high
             low
           }
-          itemNumber
-          allowedBidTypes
-          status
           images {
             id
             url
@@ -211,6 +273,7 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
             bidderIdentifier
           }
           dates {
+            openDate
             closingStart
             closingEnd
           }
@@ -218,6 +281,7 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
       }
     }
     participants {
+      totalCount
       pageInfo {
         __typename
         startCursor
@@ -230,7 +294,6 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
           userId
         }
       }
-      totalCount
     }
   }
 }`;
@@ -244,6 +307,26 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
     currentBid
     leaderId
     saleId
+    reserve
+    startingBid
+    status
+    itemNumber
+    allowedBidTypes
+    hidden
+    nextAsks
+    reserveMet
+    notifications {
+      __typename
+      ... on ItemFairWarningNotification {
+        id
+        timestamp
+      }
+      ... on ItemMessageNotification {
+        id
+        message
+        timestamp
+      }
+    }
     bids {
       bidId
       amount
@@ -254,19 +337,15 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
       bidSequenceNumber
       bidderIdentifier
     }
-    reserve
-    startingBid
-    status
     estimates {
       low
       high
     }
-    itemNumber
     dates {
+      openDate
       closingStart
       closingEnd
     }
-    allowedBidTypes
     images {
       id
       url
@@ -283,6 +362,10 @@ export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: S
     valuationAmount
     valuationCurrency
     saleId
+    estimates {
+      low
+      high
+    }
     images {
       id
       url
@@ -303,6 +386,17 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
     sequenceNumber
     closingMethod
     closingTimeCountdown
+    type
+    bastaBidClient
+    hidden
+    reserveAutoBidMethod
+    paddles {
+      __typename
+      created
+      identifier
+      type
+      userId
+    }
     images {
       __typename
       id
@@ -326,11 +420,26 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
           reserve
           startingBid
           status
+          itemNumber
+          hidden
+          nextAsks
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
+          reserveMet
           estimates {
             low
             high
           }
-          itemNumber
           images {
             __typename
             id
@@ -409,6 +518,7 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
     sequenceNumber
     closingMethod
     closingTimeCountdown
+    type
     images {
       __typename
       id
@@ -432,11 +542,26 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
           reserve
           startingBid
           status
+          itemNumber
+          nextAsks
+          reserveMet
+          hidden
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             low
             high
           }
-          itemNumber
           images {
             __typename
             id
@@ -456,6 +581,7 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
           }
           dates {
             __typename
+            openDate
             closingStart
             closingEnd
           }
@@ -599,6 +725,10 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
         valuationAmount
         valuationCurrency
         saleId
+        estimates {
+          low
+          high
+        }
         images {
           id
           url
@@ -620,6 +750,10 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
     title
     valuationAmount
     valuationCurrency
+    estimates {
+      low
+      high
+    }
     images {
       __typename
       id
@@ -643,6 +777,16 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
         closingMethod
         closingTimeCountdown
         sequenceNumber
+        bastaBidClient
+        hidden
+        reserveAutoBidMethod
+        type
+        paddles {
+          created
+          identifier
+          type
+          userId
+        }
         images {
           id
           url
@@ -667,13 +811,28 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
               saleId
               reserve
               startingBid
+              itemNumber
+              allowedBidTypes
+              status
+              hidden
+              nextAsks
+              reserveMet
+              notifications {
+                __typename
+                ... on ItemFairWarningNotification {
+                  id
+                  timestamp
+                }
+                ... on ItemMessageNotification {
+                  id
+                  message
+                  timestamp
+                }
+              }
               estimates {
                 low
                 high
               }
-              itemNumber
-              allowedBidTypes
-              status
               images {
                 id
                 url
@@ -690,6 +849,7 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
                 bidderIdentifier
               }
               dates {
+                openDate
                 closingStart
                 closingEnd
               }
@@ -760,13 +920,28 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           saleId
           reserve
           startingBid
+          itemNumber
+          allowedBidTypes
+          status
+          nextAsks
+          reserveMet
+          hidden
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             low
             high
           }
-          itemNumber
-          allowedBidTypes
-          status
           images {
             id
             url
@@ -783,6 +958,7 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
             bidderIdentifier
           }
           dates {
+            openDate
             closingStart
             closingEnd
           }

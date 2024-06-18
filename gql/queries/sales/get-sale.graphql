@@ -33,13 +33,28 @@ query GET_SALE(
           saleId
           reserve
           startingBid
+          itemNumber
+          allowedBidTypes
+          status
+          nextAsks
+          reserveMet
+          hidden
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             low
             high
           }
-          itemNumber
-          allowedBidTypes
-          status
           images {
             id
             url
@@ -56,6 +71,7 @@ query GET_SALE(
             bidderIdentifier
           }
           dates {
+            openDate
             closingStart
             closingEnd
           }

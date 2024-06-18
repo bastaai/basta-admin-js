@@ -1,6 +1,6 @@
 import { Bid, BidType } from './bid';
 import { Image } from './image';
-import { ItemDates, ItemStatus } from './item';
+import { ItemDates, ItemNotification, ItemStatus } from './item';
 
 /** Sale Status represent what status a sale is currently running in. */
 export enum SaleStatus {
@@ -18,6 +18,7 @@ export enum SaleStatus {
   Published = 'PUBLISHED',
   /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
   Unpublished = 'UNPUBLISHED',
+  Live = "LIVE"
 }
 
 /** ClosingMethod represents how SaleItems are moved into CLOSING status and when they are CLOSED */
@@ -39,6 +40,19 @@ export enum ClosingMethod {
   Overlapping = 'OVERLAPPING',
 }
 
+export enum ReserveAutoBidMethod {
+  MaxBidBelowReserveIsMet = 'MAX_BID_BELOW_RESERVE_IS_MET',
+  Standard = 'STANDARD',
+}
+
+/** SaleType represents the type of sale */
+export enum SaleType {
+  /** Sale is a live auction */
+  Live = 'LIVE',
+  /** Sale is a online timed auction */
+  OnlineTimed = 'ONLINE_TIMED',
+}
+
 /** Input for creating or modifying sales. */
 export type CreateSaleInput = {
   bidIncrementTable?: BidIncrementTableInput | null | undefined;
@@ -49,6 +63,17 @@ export type CreateSaleInput = {
   description?: string | null | undefined;
   themeType?: number | null | undefined;
   title?: string | null | undefined;
+  /** Should sale be hidden from public view. Default false. */
+  hidden?: boolean | null | undefined;
+  /**
+   * This setting governs the auction's reserve bid logic.
+   * By default, it is set to STANDARD, meaning the reserve must be met or exceeded through standard bidding.
+   * When configured to MAX_BID_BELOW_RESERVE_IS_MET, any maximum bid that matches or surpasses the reserve price automatically meets the reserve of the item or the max bid amount if below reserve.
+   * Note, this setting cannot be changed after the sale is created.
+   */
+  reserveAutoBidMethod?: ReserveAutoBidMethod | null | undefined;
+  /** Sale type (defaults to ONLINE_TIMED) */
+  type?: SaleType | null | undefined;
 };
 
 /** Bid increment table input, to control increments in a sale. */
@@ -96,8 +121,6 @@ export type SaleItem = {
   dates: ItemDates;
   /** Item description */
   description?: string | null | undefined;
-  /** High Estimate of item in minor currency unit. */
-  highEstimate: number;
   /** Id of an item. */
   id: string;
   /** Images attached to saleItem */
@@ -106,8 +129,6 @@ export type SaleItem = {
   itemNumber: number;
   /** Current leader (user id) for the item */
   leaderId?: string | null | undefined;
-  /** Low Estimate of item in minor currency unit. */
-  lowEstimate: number;
   /** Reserve on the item in minor currency unit. */
   reserve?: number | null | undefined;
   /** Sale id, as items can be created without having to be associated to a sale. */
@@ -120,6 +141,23 @@ export type SaleItem = {
   title?: string | null | undefined;
   /** Number of bids that have been placed on the item */
   totalBids: number;
+  /** Next asks for the item in minor currency units. */
+  nextAsks: Array<number>;
+  notifications: Array<ItemNotification>;
+  /** Item estimate in minor currency unit. */
+  estimates: Estimate;
+  /** Reserve met */
+  reserveMet: boolean;
+  /** Is item hidden for public, and not shown on your sale page. */
+  hidden: boolean;
+};
+
+/** Estimates for an item */
+export type Estimate = {
+  /** Item high estimate */
+  high?: number | null | undefined;
+  /** Item low estimate */
+  low?: number | null | undefined;
 };
 
 export type Sale = {
@@ -221,4 +259,12 @@ export type UpdateSaleItemInput = {
   valuationAmount?: number | null | undefined;
   /** Valuation currency in minor currency unit. */
   valuationCurrency?: string | null | undefined;
+  /** Should item be hidden from public view. */
+  hidden?: boolean | null  | undefined;
+  /**
+   * Date and time when item should open up for bidding.
+   * Format: RFC3339 timestamp.
+   * Example: "2019-10-12T07:20:50.52Z"
+   */
+  openDate?: string | null | undefined;
 };

@@ -17,6 +17,16 @@ query GET_ALL_SALES(
         closingMethod
         closingTimeCountdown
         sequenceNumber
+        bastaBidClient
+        hidden
+        reserveAutoBidMethod
+        type
+        paddles {
+          created
+          identifier
+          type
+          userId
+        }
         images {
           id
           url
@@ -41,13 +51,28 @@ query GET_ALL_SALES(
               saleId
               reserve
               startingBid
+              itemNumber
+              allowedBidTypes
+              status
+              hidden
+              nextAsks
+              reserveMet
+              notifications {
+                __typename
+                ... on ItemFairWarningNotification {
+                  id
+                  timestamp
+                }
+                ... on ItemMessageNotification {
+                  id
+                  message
+                  timestamp
+                }
+              }
               estimates {
                 low
                 high
               }
-              itemNumber
-              allowedBidTypes
-              status
               images {
                 id
                 url
@@ -64,6 +89,7 @@ query GET_ALL_SALES(
                 bidderIdentifier
               }
               dates {
+                openDate
                 closingStart
                 closingEnd
               }

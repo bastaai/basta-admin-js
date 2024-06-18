@@ -7,7 +7,6 @@ import {
   Get_All_ItemsQueryVariables,
   Get_All_ItemsQuery,
   UpdateItemInput,
-  SaleItem,
   AddItemToSaleInput,
   RemoveSaleItemInput,
   UpdateSaleItemInput,
@@ -34,7 +33,7 @@ import {
 } from '../gql/generated/operations';
 import { BastaRequest } from '../../types/request';
 import { BastaResponse, IItemService } from '../../types/sdk';
-import { Sale } from '../../types/sale';
+import { Sale, SaleItem } from '../../types/sale';
 import { Item } from '../../types/item';
 import {
   mapItemToItem,

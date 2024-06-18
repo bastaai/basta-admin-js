@@ -10,6 +10,26 @@ mutation UPDATE_ITEM_FOR_SALE(
     currentBid
     leaderId
     saleId
+    reserve
+    startingBid
+    status
+    itemNumber
+    allowedBidTypes
+    hidden
+    nextAsks
+    reserveMet
+    notifications {
+      __typename
+      ... on ItemFairWarningNotification {
+        id
+        timestamp
+      }
+      ... on ItemMessageNotification {
+        id
+        message
+        timestamp
+      }
+    }
     bids {
       bidId
       amount
@@ -20,19 +40,15 @@ mutation UPDATE_ITEM_FOR_SALE(
       bidSequenceNumber
       bidderIdentifier
     }
-    reserve
-    startingBid
-    status
     estimates {
       low
       high
     }
-    itemNumber
     dates {
+      openDate
       closingStart
       closingEnd
     }
-    allowedBidTypes
     images {
       id
       url

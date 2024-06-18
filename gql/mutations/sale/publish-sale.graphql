@@ -10,6 +10,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
     sequenceNumber
     closingMethod
     closingTimeCountdown
+    type
     images {
       __typename
       id
@@ -33,11 +34,26 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
           reserve
           startingBid
           status
+          itemNumber
+          nextAsks
+          reserveMet
+          hidden
+          notifications {
+            __typename
+            ... on ItemFairWarningNotification {
+              id
+              timestamp
+            }
+            ... on ItemMessageNotification {
+              id
+              message
+              timestamp
+            }
+          }
           estimates {
             low
             high
           }
-          itemNumber
           images {
             __typename
             id
@@ -57,6 +73,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
           }
           dates {
             __typename
+            openDate
             closingStart
             closingEnd
           }

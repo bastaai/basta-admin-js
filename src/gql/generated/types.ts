@@ -155,6 +155,13 @@ export enum ActionType {
   SaleStatusChanged = 'SALE_STATUS_CHANGED',
 }
 
+export type AddFairWarningNotificationToItemInput = {
+  /** Item ID */
+  itemId: string;
+  /** Sale ID */
+  saleId: string;
+};
+
 /** Add a current item to a sale. */
 export type AddItemToSaleInput = {
   /** Item number is used to order items (optional) */
@@ -173,6 +180,8 @@ export type AddItemToSaleInput = {
    * Example: "2019-10-12T07:20:50.52Z"
    */
   closingDate?: InputMaybe<string>;
+  /** Should item be hidden from public view. */
+  hidden?: InputMaybe<boolean>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Item id of the item that you are adding to the sale. */
@@ -191,6 +200,26 @@ export type AddItemToSaleInput = {
   saleId: string;
   /** Starting bid of the item in minor currency unit. */
   startingBid?: InputMaybe<number>;
+};
+
+export type AddMessageNotificationToItemInput = {
+  /** Item ID */
+  itemId: string;
+  /** Message */
+  message: string;
+  /** Sale ID */
+  saleId: string;
+};
+
+export type AddPaddleToSaleInput = {
+  /** Paddle ID */
+  paddleIdentifier: string;
+  /** Sale ID */
+  saleId: string;
+  /** Paddle Type */
+  type: PaddleType;
+  /** Paddle User ID */
+  userId: string;
 };
 
 /**
@@ -338,6 +367,8 @@ export type Bid = {
   date: string;
   /** Max amount of the bid in minor currency unit. */
   maxAmount: number;
+  /** Optional paddle id if bid was placed with a paddle */
+  paddle?: Maybe<Paddle>;
   /** Users id that placed the bid */
   userId: string;
 };
@@ -580,9 +611,19 @@ export type CreateSaleInput = {
   currency?: InputMaybe<string>;
   dates?: InputMaybe<SaleDatesInput>;
   description?: InputMaybe<string>;
+  /** Should sale be hidden from public view. Default false. */
+  hidden?: InputMaybe<boolean>;
+  /**
+   * This setting governs the auction's reserve bid logic.
+   * By default, it is set to STANDARD, meaning the reserve must be met or exceeded through standard bidding.
+   * When configured to MAX_BID_BELOW_RESERVE_IS_MET, any maximum bid that matches or surpasses the reserve price automatically meets the reserve of the item or the max bid amount if below reserve.
+   * Note, this setting cannot be changed after the sale is created.
+   */
   reserveAutoBidMethod?: InputMaybe<ReserveAutoBidMethod>;
   themeType?: InputMaybe<number>;
   title?: InputMaybe<string>;
+  /** Sale type (defaults to ONLINE_TIMED) */
+  type?: InputMaybe<SaleType>;
 };
 
 /** Input to delete an Action Hook subscription. */
@@ -695,11 +736,33 @@ export type ItemDates = {
   openDate?: Maybe<string>;
 };
 
+export type ItemFairWarningNotification = {
+  __typename?: 'ItemFairWarningNotification';
+  /** Id of the notification */
+  id: string;
+  /** Timestamp */
+  timestamp: string;
+};
+
 /** Item filter */
 export type ItemFilter = {
   /** Filter by item title */
   title?: InputMaybe<string>;
 };
+
+export type ItemMessageNotification = {
+  __typename?: 'ItemMessageNotification';
+  /** Id of the notification */
+  id: string;
+  /** Message */
+  message: string;
+  /** Timestamp */
+  timestamp: string;
+};
+
+export type ItemNotification =
+  | ItemFairWarningNotification
+  | ItemMessageNotification;
 
 export type ItemNumberChangeInput = {
   itemId: string;
@@ -710,6 +773,7 @@ export type ItemNumberChangeInput = {
 export enum ItemStatus {
   ItemClosed = 'ITEM_CLOSED',
   ItemClosing = 'ITEM_CLOSING',
+  ItemLive = 'ITEM_LIVE',
   ItemNotOpen = 'ITEM_NOT_OPEN',
   ItemOpen = 'ITEM_OPEN',
   ItemPaused = 'ITEM_PAUSED',
@@ -779,8 +843,14 @@ export type Mutation = {
   acceptTerms: string;
   /** Add action hook subscription */
   addActionHookSubscription: ActionHookSubscription;
+  /** Add fair warning notification to an item */
+  addFairWarningNotificationToItem: SaleItem;
   /** Add a currently existing item to a sale. */
   addItemToSale: SaleItem;
+  /** Add notification to an item */
+  addMessageNotificationToItem: SaleItem;
+  /** Add paddle to sale. */
+  addPaddleToSale: Array<Paddle>;
   /** Bid on behalf of a user */
   bidOnBehalf: Bid;
   /** Cancel the latest bid on item (including reactive bids that were placed as a side-effect) */
@@ -847,6 +917,8 @@ export type Mutation = {
   publishSale: Sale;
   /** Remove an item from the sale. This will not delete the item completely. */
   removeItemFromSale: Sale;
+  /** Remove paddle from sale. */
+  removePaddleFromSale: Array<Paddle>;
   /**
    * Reorder item images.
    * Method only available through admin.
@@ -864,6 +936,8 @@ export type Mutation = {
   setItemWinner: SaleItem;
   /** Sets sale item status. Used in offer model to close item with no winner. */
   setSaleItemStatus: SaleItem;
+  /** Set Sale State unforcefully */
+  setSaleStatus: Sale;
   /** Start to close the sale, non forcefully */
   startClosingSale: Sale;
   /** Test ActionHook configuration. This will trigger an action hook to be sent. */
@@ -876,10 +950,7 @@ export type Mutation = {
   updateItem: Item;
   /** Update item associated with a sale. */
   updateItemForSale: SaleItem;
-  /**
-   * Update ItemNumbers input
-   * @deprecated deprecated method will be removed from schema soon
-   */
+  /** Update ItemNumbers input */
   updateItemNumbers: Sale;
   /** Update a sale */
   updateSale: Sale;
@@ -894,9 +965,24 @@ export type MutationAddActionHookSubscriptionArgs = {
   input: ActionHookSubscriptionInput;
 };
 
+export type MutationAddFairWarningNotificationToItemArgs = {
+  accountId: string;
+  input: AddFairWarningNotificationToItemInput;
+};
+
 export type MutationAddItemToSaleArgs = {
   accountId: string;
   input: AddItemToSaleInput;
+};
+
+export type MutationAddMessageNotificationToItemArgs = {
+  accountId: string;
+  input: AddMessageNotificationToItemInput;
+};
+
+export type MutationAddPaddleToSaleArgs = {
+  accountId: string;
+  input: AddPaddleToSaleInput;
 };
 
 export type MutationBidOnBehalfArgs = {
@@ -1009,6 +1095,11 @@ export type MutationRemoveItemFromSaleArgs = {
   input: RemoveSaleItemInput;
 };
 
+export type MutationRemovePaddleFromSaleArgs = {
+  accountId: string;
+  input: RemovePaddleFromSaleInput;
+};
+
 export type MutationReorderItemImagesArgs = {
   accountId: string;
   input: ReorderItemImages;
@@ -1032,6 +1123,11 @@ export type MutationSetItemWinnerArgs = {
 export type MutationSetSaleItemStatusArgs = {
   accountId: string;
   input: SetSaleItemStatusInput;
+};
+
+export type MutationSetSaleStatusArgs = {
+  accountId: string;
+  input: SetSaleStatusInput;
 };
 
 export type MutationStartClosingSaleArgs = {
@@ -1097,6 +1193,26 @@ export type OnboardPaymentAccountResponse = {
 export type OpenSaleInput = {
   saleId: string;
 };
+
+/** Paddle represent a paddle in a sale */
+export type Paddle = {
+  __typename?: 'Paddle';
+  /** Paddle created date */
+  created: string;
+  /** Paddle identifier */
+  identifier: string;
+  /** Paddle type */
+  type: PaddleType;
+  /** User Id of the paddle owner */
+  userId: string;
+};
+
+/** PaddleType represents the type of paddle */
+export enum PaddleType {
+  InRoom = 'IN_ROOM',
+  NotSet = 'NOT_SET',
+  Phone = 'PHONE',
+}
 
 /** Page info for pagination */
 export type PageInfo = {
@@ -1316,6 +1432,13 @@ export type RangeRuleInput = {
   step: number;
 };
 
+export type RemovePaddleFromSaleInput = {
+  /** Paddle ID */
+  paddleIdentifier: string;
+  /** Sale ID */
+  saleId: string;
+};
+
 /** Input to remove an item from a sale */
 export type RemoveSaleItemInput = {
   /** Item id of the item that you are removing from the sale. */
@@ -1370,6 +1493,8 @@ export type Sale = {
   dates: SaleDates;
   /** Sale Description */
   description?: Maybe<string>;
+  /** Is sale hidden for public, and not shown on your profile. */
+  hidden: boolean;
   /** Id of a sale. */
   id: string;
   /** Images attached to sale */
@@ -1382,12 +1507,15 @@ export type Sale = {
   incrementTable?: Maybe<BidIncrementTable>;
   /** Items that have been associated with this sale. */
   items: SaleItemsConnection;
+  /** Sale paddles created for the sale */
+  paddles: Array<Paddle>;
   /** Get list of participants for this sale */
   participants: ParticipantsConnection;
   /**
    * This setting governs the auction's reserve bid logic.
-   * By default, it is set to NORMAL, meaning the reserve must be met or exceeded through standard bidding.
-   * When configured to MAX_BID_MEETS_RESERVE, any maximum bid that matches or surpasses the reserve price automatically meets the reserve of the item.
+   * By default, it is set to STANDARD, meaning the reserve must be met or exceeded through standard bidding.
+   * When configured to MAX_BID_BELOW_RESERVE_IS_MET, any maximum bid that matches or surpasses the reserve price automatically meets the reserve of the item or the max bid amount if below reserve.
+   * Note, this setting cannot be changed after the sale is created.
    */
   reserveAutoBidMethod: ReserveAutoBidMethod;
   /** Sequence number of this sale. */
@@ -1406,6 +1534,8 @@ export type Sale = {
   themeType?: Maybe<number>;
   /** Sale Title */
   title?: Maybe<string>;
+  /** Sale type */
+  type: SaleType;
 };
 
 /** Sale */
@@ -1421,6 +1551,8 @@ export type SaleParticipantsArgs = {
   take?: InputMaybe<number>;
 };
 
+export type SaleActivity = Sale | SaleItem;
+
 export type SaleConnection = {
   __typename?: 'SaleConnection';
   /** Sale edges */
@@ -1434,6 +1566,8 @@ export type SaleDates = {
   __typename?: 'SaleDates';
   /** Date of when the sale is supposed to be automatically closed. */
   closingDate?: Maybe<string>;
+  /** Date of when the sale is supposed to be manually put to live. */
+  liveDate?: Maybe<string>;
   /** Date of when the sale is supposed to be automatically opened. */
   openDate?: Maybe<string>;
 };
@@ -1442,6 +1576,8 @@ export type SaleDates = {
 export type SaleDatesInput = {
   /** Closing Date */
   closingDate?: InputMaybe<string>;
+  /** Live Date */
+  liveDate?: InputMaybe<string>;
   /** Opening Date */
   openDate?: InputMaybe<string>;
 };
@@ -1471,14 +1607,21 @@ export type SaleItem = {
   description?: Maybe<string>;
   /** Item estimate in minor currency unit. */
   estimates: Estimate;
+  /** Is item hidden for public, and not shown on your sale page. */
+  hidden: boolean;
   /** Id of an item. */
   id: string;
   /** Images attached to saleItem */
   images: Array<Image>;
+  /** Overridden increment table for the item. */
+  incrementTable?: Maybe<BidIncrementTable>;
   /** Item number */
   itemNumber: number;
   /** Current leader (user id) for the item */
   leaderId?: Maybe<string>;
+  /** Next asks for the item in minor currency units. */
+  nextAsks: Array<number>;
+  notifications: Array<ItemNotification>;
   /**
    * Payment Order information associated with item.
    * Only set on Basta hosted auctions.
@@ -1486,6 +1629,8 @@ export type SaleItem = {
   paymentOrder?: Maybe<PaymentOrder>;
   /** Reserve on the item in minor currency unit. */
   reserve?: Maybe<number>;
+  /** Reserve met */
+  reserveMet: boolean;
   /** Sale id, as items can be created without having to be associated to a sale. */
   saleId: string;
   /**
@@ -1501,6 +1646,11 @@ export type SaleItem = {
   title?: Maybe<string>;
   /** Number of bids that have been placed on the item */
   totalBids: number;
+};
+
+/** A sale item (item that has been added to a sale) */
+export type SaleItemNextAsksArgs = {
+  iterations?: InputMaybe<number>;
 };
 
 /** Item input when creating an item */
@@ -1528,6 +1678,8 @@ export type SaleItemInput = {
   closingTimeCountdown?: InputMaybe<number>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
+  /** Should item be hidden from public view. Default false. */
+  hidden?: InputMaybe<boolean>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Low estimate of the item (optional) in minor currency unit. */
@@ -1578,6 +1730,8 @@ export enum SaleStatus {
   Closed = 'CLOSED',
   /** Sale is closing . */
   Closing = 'CLOSING',
+  /** Sale is now live */
+  Live = 'LIVE',
   /** Sale is opened for bidding. */
   Opened = 'OPENED',
   /** Sale is paused. */
@@ -1588,6 +1742,14 @@ export enum SaleStatus {
   Published = 'PUBLISHED',
   /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
   Unpublished = 'UNPUBLISHED',
+}
+
+/** SaleType represents the type of sale */
+export enum SaleType {
+  /** Sale is a live auction */
+  Live = 'LIVE',
+  /** Sale is a online timed auction */
+  OnlineTimed = 'ONLINE_TIMED',
 }
 
 export type SalesAggregate = {
@@ -1638,15 +1800,35 @@ export type SetItemWinnerInput = {
   saleId: string;
 };
 
-/** Input to change the status of an item. */
+/** Input object for when setting sale item status */
 export type SetSaleItemStatusInput = {
   itemId: string;
   saleId: string;
   status: ItemStatus;
 };
 
+/** Input object for when setting sale status */
+export type SetSaleStatusInput = {
+  saleId: string;
+  status: SaleStatus;
+};
+
 /** Input object for when starting to close a sale. */
 export type StartClosingSaleInput = {
+  saleId: string;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  /**
+   * Real-time information for sale related events.
+   * Both Sale and SaleItem data is sent to the socket
+   */
+  saleActivity: SaleActivity;
+};
+
+export type SubscriptionSaleActivityArgs = {
+  accountId: string;
   saleId: string;
 };
 
@@ -1731,6 +1913,8 @@ export type UpdateSaleInput = {
   /** Deprecated. Has no effect and is scheduled to be removed */
   dates?: InputMaybe<SaleDatesInput>;
   description: string;
+  /** Should sale be hidden from public view. Default false. */
+  hidden?: InputMaybe<boolean>;
   slug?: InputMaybe<string>;
   themeType?: InputMaybe<number>;
   title: string;
@@ -1757,6 +1941,8 @@ export type UpdateSaleItemInput = {
   closingDate?: InputMaybe<string>;
   /** Description for describing the item */
   description?: InputMaybe<string>;
+  /** Should item be hidden from public view. */
+  hidden?: InputMaybe<boolean>;
   /** High estimate of the item (optional) in minor currency unit. */
   highEstimate?: InputMaybe<number>;
   /** Id of the item that should be updated */
@@ -1916,11 +2102,27 @@ export type Add_Item_To_SaleMutation = {
     currentBid?: number | null;
     leaderId?: string | null;
     saleId: string;
+    itemNumber: number;
     reserve?: number | null;
     startingBid?: number | null;
     status: ItemStatus;
-    itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
+    hidden: boolean;
+    nextAsks: Array<number>;
+    reserveMet: boolean;
+    notifications: Array<
+      | {
+          __typename: 'ItemFairWarningNotification';
+          id: string;
+          timestamp: string;
+        }
+      | {
+          __typename: 'ItemMessageNotification';
+          id: string;
+          message: string;
+          timestamp: string;
+        }
+    >;
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
@@ -1939,6 +2141,7 @@ export type Add_Item_To_SaleMutation = {
     };
     dates: {
       __typename?: 'ItemDates';
+      openDate?: string | null;
       closingStart?: string | null;
       closingEnd?: string | null;
     };
@@ -1967,11 +2170,27 @@ export type Create_Item_For_SaleMutation = {
     currentBid?: number | null;
     leaderId?: string | null;
     saleId: string;
+    itemNumber: number;
     reserve?: number | null;
     startingBid?: number | null;
     status: ItemStatus;
-    itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
+    hidden: boolean;
+    nextAsks: Array<number>;
+    reserveMet: boolean;
+    notifications: Array<
+      | {
+          __typename: 'ItemFairWarningNotification';
+          id: string;
+          timestamp: string;
+        }
+      | {
+          __typename: 'ItemMessageNotification';
+          id: string;
+          message: string;
+          timestamp: string;
+        }
+    >;
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
@@ -1990,6 +2209,7 @@ export type Create_Item_For_SaleMutation = {
     };
     dates: {
       __typename?: 'ItemDates';
+      openDate?: string | null;
       closingStart?: string | null;
       closingEnd?: string | null;
     };
@@ -2017,6 +2237,11 @@ export type Create_ItemMutation = {
     title?: string | null;
     valuationAmount?: number | null;
     valuationCurrency?: string | null;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     images: Array<{
       __typename?: 'Image';
       id: string;
@@ -2044,6 +2269,17 @@ export type Remove_Item_From_SaleMutation = {
     sequenceNumber: number;
     closingMethod?: ClosingMethod | null;
     closingTimeCountdown: number;
+    bastaBidClient: boolean;
+    hidden: boolean;
+    reserveAutoBidMethod: ReserveAutoBidMethod;
+    type: SaleType;
+    paddles: Array<{
+      __typename: 'Paddle';
+      identifier: string;
+      userId: string;
+      created: string;
+      type: PaddleType;
+    }>;
     incrementTable?: {
       __typename?: 'BidIncrementTable';
       rules: Array<{
@@ -2089,6 +2325,22 @@ export type Remove_Item_From_SaleMutation = {
           itemNumber: number;
           allowedBidTypes?: Array<BidType> | null;
           status: ItemStatus;
+          hidden: boolean;
+          nextAsks: Array<number>;
+          reserveMet: boolean;
+          notifications: Array<
+            | {
+                __typename: 'ItemFairWarningNotification';
+                id: string;
+                timestamp: string;
+              }
+            | {
+                __typename: 'ItemMessageNotification';
+                id: string;
+                message: string;
+                timestamp: string;
+              }
+          >;
           estimates: {
             __typename?: 'Estimate';
             high?: number | null;
@@ -2113,6 +2365,7 @@ export type Remove_Item_From_SaleMutation = {
           }>;
           dates: {
             __typename?: 'ItemDates';
+            openDate?: string | null;
             closingStart?: string | null;
             closingEnd?: string | null;
           };
@@ -2158,6 +2411,22 @@ export type Update_Item_For_SaleMutation = {
     status: ItemStatus;
     itemNumber: number;
     allowedBidTypes?: Array<BidType> | null;
+    hidden: boolean;
+    nextAsks: Array<number>;
+    reserveMet: boolean;
+    notifications: Array<
+      | {
+          __typename: 'ItemFairWarningNotification';
+          id: string;
+          timestamp: string;
+        }
+      | {
+          __typename: 'ItemMessageNotification';
+          id: string;
+          message: string;
+          timestamp: string;
+        }
+    >;
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
@@ -2176,6 +2445,7 @@ export type Update_Item_For_SaleMutation = {
     };
     dates: {
       __typename?: 'ItemDates';
+      openDate?: string | null;
       closingStart?: string | null;
       closingEnd?: string | null;
     };
@@ -2204,6 +2474,11 @@ export type Update_ItemMutation = {
     valuationAmount?: number | null;
     valuationCurrency?: string | null;
     saleId?: string | null;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     images: Array<{
       __typename?: 'Image';
       id: string;
@@ -2231,6 +2506,17 @@ export type Create_SaleMutation = {
     sequenceNumber: number;
     closingMethod?: ClosingMethod | null;
     closingTimeCountdown: number;
+    type: SaleType;
+    bastaBidClient: boolean;
+    hidden: boolean;
+    reserveAutoBidMethod: ReserveAutoBidMethod;
+    paddles: Array<{
+      __typename: 'Paddle';
+      created: string;
+      identifier: string;
+      type: PaddleType;
+      userId: string;
+    }>;
     images: Array<{
       __typename: 'Image';
       id: string;
@@ -2255,6 +2541,22 @@ export type Create_SaleMutation = {
           startingBid?: number | null;
           status: ItemStatus;
           itemNumber: number;
+          hidden: boolean;
+          nextAsks: Array<number>;
+          reserveMet: boolean;
+          notifications: Array<
+            | {
+                __typename: 'ItemFairWarningNotification';
+                id: string;
+                timestamp: string;
+              }
+            | {
+                __typename: 'ItemMessageNotification';
+                id: string;
+                message: string;
+                timestamp: string;
+              }
+          >;
           estimates: {
             __typename?: 'Estimate';
             low?: number | null;
@@ -2341,6 +2643,7 @@ export type Publish_SaleMutation = {
     sequenceNumber: number;
     closingMethod?: ClosingMethod | null;
     closingTimeCountdown: number;
+    type: SaleType;
     images: Array<{
       __typename: 'Image';
       id: string;
@@ -2365,6 +2668,22 @@ export type Publish_SaleMutation = {
           startingBid?: number | null;
           status: ItemStatus;
           itemNumber: number;
+          nextAsks: Array<number>;
+          reserveMet: boolean;
+          hidden: boolean;
+          notifications: Array<
+            | {
+                __typename: 'ItemFairWarningNotification';
+                id: string;
+                timestamp: string;
+              }
+            | {
+                __typename: 'ItemMessageNotification';
+                id: string;
+                message: string;
+                timestamp: string;
+              }
+          >;
           estimates: {
             __typename?: 'Estimate';
             low?: number | null;
@@ -2389,6 +2708,7 @@ export type Publish_SaleMutation = {
           }>;
           dates: {
             __typename: 'ItemDates';
+            openDate?: string | null;
             closingStart?: string | null;
             closingEnd?: string | null;
           };
@@ -2580,6 +2900,11 @@ export type Get_All_ItemsQuery = {
         valuationAmount?: number | null;
         valuationCurrency?: string | null;
         saleId?: string | null;
+        estimates: {
+          __typename?: 'Estimate';
+          low?: number | null;
+          high?: number | null;
+        };
         images: Array<{
           __typename?: 'Image';
           id: string;
@@ -2610,6 +2935,11 @@ export type Get_ItemQuery = {
     title?: string | null;
     valuationAmount?: number | null;
     valuationCurrency?: string | null;
+    estimates: {
+      __typename?: 'Estimate';
+      low?: number | null;
+      high?: number | null;
+    };
     images: Array<{
       __typename: 'Image';
       id: string;
@@ -2644,6 +2974,17 @@ export type Get_All_SalesQuery = {
         closingMethod?: ClosingMethod | null;
         closingTimeCountdown: number;
         sequenceNumber: number;
+        bastaBidClient: boolean;
+        hidden: boolean;
+        reserveAutoBidMethod: ReserveAutoBidMethod;
+        type: SaleType;
+        paddles: Array<{
+          __typename?: 'Paddle';
+          created: string;
+          identifier: string;
+          type: PaddleType;
+          userId: string;
+        }>;
         images: Array<{
           __typename?: 'Image';
           id: string;
@@ -2675,6 +3016,22 @@ export type Get_All_SalesQuery = {
               itemNumber: number;
               allowedBidTypes?: Array<BidType> | null;
               status: ItemStatus;
+              hidden: boolean;
+              nextAsks: Array<number>;
+              reserveMet: boolean;
+              notifications: Array<
+                | {
+                    __typename: 'ItemFairWarningNotification';
+                    id: string;
+                    timestamp: string;
+                  }
+                | {
+                    __typename: 'ItemMessageNotification';
+                    id: string;
+                    message: string;
+                    timestamp: string;
+                  }
+              >;
               estimates: {
                 __typename?: 'Estimate';
                 low?: number | null;
@@ -2699,6 +3056,7 @@ export type Get_All_SalesQuery = {
               }>;
               dates: {
                 __typename?: 'ItemDates';
+                openDate?: string | null;
                 closingStart?: string | null;
                 closingEnd?: string | null;
               };
@@ -2790,6 +3148,22 @@ export type Get_SaleQuery = {
           itemNumber: number;
           allowedBidTypes?: Array<BidType> | null;
           status: ItemStatus;
+          nextAsks: Array<number>;
+          reserveMet: boolean;
+          hidden: boolean;
+          notifications: Array<
+            | {
+                __typename: 'ItemFairWarningNotification';
+                id: string;
+                timestamp: string;
+              }
+            | {
+                __typename: 'ItemMessageNotification';
+                id: string;
+                message: string;
+                timestamp: string;
+              }
+          >;
           estimates: {
             __typename?: 'Estimate';
             low?: number | null;
@@ -2814,6 +3188,7 @@ export type Get_SaleQuery = {
           }>;
           dates: {
             __typename?: 'ItemDates';
+            openDate?: string | null;
             closingStart?: string | null;
             closingEnd?: string | null;
           };

@@ -5,6 +5,10 @@ query GET_ITEM($accountId: String!, $itemId: String!) {
     title
     valuationAmount
     valuationCurrency
+    estimates {
+      low
+      high
+    }
     images {
       __typename
       id

@@ -19,6 +19,10 @@ query GET_ALL_ITEMS(
         valuationAmount
         valuationCurrency
         saleId
+        estimates {
+          low
+          high
+        }
         images {
           id
           url

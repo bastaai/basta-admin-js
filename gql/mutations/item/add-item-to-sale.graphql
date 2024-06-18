@@ -7,6 +7,28 @@ mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
     currentBid
     leaderId
     saleId
+    itemNumber
+    reserve
+    startingBid
+    status
+    allowedBidTypes
+    hidden
+    nextAsks
+    reserveMet
+    notifications {
+      __typename
+
+      ... on ItemFairWarningNotification {
+        id
+        timestamp
+      }
+
+      ... on ItemMessageNotification {
+        id
+        message
+        timestamp
+      }
+    }
     bids {
       bidId
       amount
@@ -17,19 +39,15 @@ mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
       bidSequenceNumber
       bidderIdentifier
     }
-    reserve
-    startingBid
-    status
     estimates {
       low
       high
     }
-    itemNumber
     dates {
+      openDate
       closingStart
       closingEnd
     }
-    allowedBidTypes
     images {
       id
       url
