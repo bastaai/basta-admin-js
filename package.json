@@ -18,7 +18,7 @@
     "build": "npm run clean && rollup --bundleConfigAsCjs -c",
     "debug": "nodemon -e ts --watch src --exec \"npm run build\"",
     "clean": "rimraf dist",
-    "test": "npm lint && npm test:unit && npm typecheck",
+    "test": "npm run lint && npm test:unit && npm typecheck",
     "test:unit": "jest",
     "typecheck": "tsc",
     "lint": "eslint '{src,types}/**/*.ts' && prettier './**/*.{ts,md,html,css}' --check",

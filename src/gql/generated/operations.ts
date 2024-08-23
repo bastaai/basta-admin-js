@@ -21,6 +21,7 @@ export const REVOKE_API_KEY = `mutation REVOKE_API_KEY($accountId: String!, $inp
 export const BID_ON_BEHALF = `mutation BID_ON_BEHALF($accountId: String!, $input: BidOnBehalfInput!) {
   bidOnBehalf(accountId: $accountId, input: $input) {
     bidId
+    saleId
     amount
     maxAmount
     userId
@@ -35,6 +36,7 @@ export const CANCEL_LATEST_BID_ON_ITEM = `mutation CANCEL_LATEST_BID_ON_ITEM($ac
   cancelLatestBidOnItem(accountId: $accountId, input: $input) {
     removedBids {
       bidId
+      saleId
       amount
       maxAmount
       userId
@@ -77,6 +79,7 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
     }
     bids {
       bidId
+      saleId
       amount
       maxAmount
       userId
@@ -133,6 +136,7 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
     }
     bids {
       bidId
+      saleId
       amount
       maxAmount
       userId
@@ -264,6 +268,7 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
           }
           bids {
             bidId
+            saleId
             amount
             userId
             date
@@ -329,6 +334,7 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
     }
     bids {
       bidId
+      saleId
       amount
       maxAmount
       userId
@@ -449,6 +455,7 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
           bids {
             __typename
             bidId
+            saleId
             amount
             maxAmount
             userId
@@ -571,6 +578,7 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
           bids {
             __typename
             bidId
+            saleId
             amount
             maxAmount
             userId
@@ -840,6 +848,7 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
               }
               bids {
                 bidId
+                saleId
                 amount
                 userId
                 date
@@ -949,6 +958,7 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           }
           bids {
             bidId
+            saleId
             amount
             userId
             date

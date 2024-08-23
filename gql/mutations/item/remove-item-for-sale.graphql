@@ -89,6 +89,7 @@ mutation REMOVE_ITEM_FROM_SALE(
           }
           bids {
             bidId
+            saleId
             amount
             userId
             date

@@ -63,6 +63,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
           bids {
             __typename
             bidId
+            saleId
             amount
             maxAmount
             userId
