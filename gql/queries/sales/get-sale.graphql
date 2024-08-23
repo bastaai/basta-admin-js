@@ -62,6 +62,7 @@ query GET_SALE(
           }
           bids {
             bidId
+            saleId
             amount
             userId
             date

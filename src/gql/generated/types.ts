@@ -2068,6 +2068,7 @@ export type Bid_On_BehalfMutation = {
   bidOnBehalf: {
     __typename?: 'Bid';
     bidId: string;
+    saleId: string;
     amount: number;
     maxAmount: number;
     userId: string;
@@ -2090,6 +2091,7 @@ export type Cancel_Latest_Bid_On_ItemMutation = {
     removedBids: Array<{
       __typename?: 'Bid';
       bidId: string;
+      saleId: string;
       amount: number;
       maxAmount: number;
       userId: string;
@@ -2137,6 +2139,7 @@ export type Add_Item_To_SaleMutation = {
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
+      saleId: string;
       amount: number;
       maxAmount: number;
       userId: string;
@@ -2201,6 +2204,7 @@ export type Create_Item_For_SaleMutation = {
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
+      saleId: string;
       amount: number;
       maxAmount: number;
       userId: string;
@@ -2362,6 +2366,7 @@ export type Remove_Item_From_SaleMutation = {
           bids: Array<{
             __typename?: 'Bid';
             bidId: string;
+            saleId: string;
             amount: number;
             userId: string;
             date: string;
@@ -2433,6 +2438,7 @@ export type Update_Item_For_SaleMutation = {
     bids: Array<{
       __typename?: 'Bid';
       bidId: string;
+      saleId: string;
       amount: number;
       maxAmount: number;
       userId: string;
@@ -2574,6 +2580,7 @@ export type Create_SaleMutation = {
           bids: Array<{
             __typename: 'Bid';
             bidId: string;
+            saleId: string;
             amount: number;
             maxAmount: number;
             userId: string;
@@ -2701,6 +2708,7 @@ export type Publish_SaleMutation = {
           bids: Array<{
             __typename: 'Bid';
             bidId: string;
+            saleId: string;
             amount: number;
             maxAmount: number;
             userId: string;
@@ -3049,6 +3057,7 @@ export type Get_All_SalesQuery = {
               bids: Array<{
                 __typename?: 'Bid';
                 bidId: string;
+                saleId: string;
                 amount: number;
                 userId: string;
                 date: string;
@@ -3181,6 +3190,7 @@ export type Get_SaleQuery = {
           bids: Array<{
             __typename?: 'Bid';
             bidId: string;
+            saleId: string;
             amount: number;
             userId: string;
             date: string;

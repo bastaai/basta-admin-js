@@ -32,6 +32,7 @@ mutation UPDATE_ITEM_FOR_SALE(
     }
     bids {
       bidId
+      saleId
       amount
       maxAmount
       userId

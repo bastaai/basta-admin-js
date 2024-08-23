@@ -73,6 +73,7 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
           bids {
             __typename
             bidId
+            saleId
             amount
             maxAmount
             userId

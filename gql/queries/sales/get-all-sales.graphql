@@ -80,6 +80,7 @@ query GET_ALL_SALES(
               }
               bids {
                 bidId
+                saleId
                 amount
                 userId
                 date

@@ -5,6 +5,7 @@ mutation CANCEL_LATEST_BID_ON_ITEM(
   cancelLatestBidOnItem(accountId: $accountId, input: $input) {
     removedBids {
       bidId
+      saleId
       amount
       maxAmount
       userId
