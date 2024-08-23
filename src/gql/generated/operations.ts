@@ -67,12 +67,12 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
       __typename
       ... on ItemFairWarningNotification {
         id
-        timestamp
+        date
       }
       ... on ItemMessageNotification {
         id
         message
-        timestamp
+        date
       }
     }
     bids {
@@ -123,12 +123,12 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
       __typename
       ... on ItemFairWarningNotification {
         id
-        timestamp
+        date
       }
       ... on ItemMessageNotification {
         id
         message
-        timestamp
+        date
       }
     }
     bids {
@@ -245,12 +245,12 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {
@@ -319,12 +319,12 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
       __typename
       ... on ItemFairWarningNotification {
         id
-        timestamp
+        date
       }
       ... on ItemMessageNotification {
         id
         message
-        timestamp
+        date
       }
     }
     bids {
@@ -427,12 +427,12 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           reserveMet
@@ -550,12 +550,12 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {
@@ -821,12 +821,12 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
                 __typename
                 ... on ItemFairWarningNotification {
                   id
-                  timestamp
+                  date
                 }
                 ... on ItemMessageNotification {
                   id
                   message
-                  timestamp
+                  date
                 }
               }
               estimates {
@@ -930,12 +930,12 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {

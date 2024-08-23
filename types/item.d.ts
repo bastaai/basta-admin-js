@@ -90,16 +90,18 @@ export type ItemMessageNotification = {
   id: string;
   /** Message */
   message: string;
-  /** Timestamp */
-  timestamp: string;
+  /** Date timestamp when message was created.
+RFC3339 formatted string */
+  date: string;
 };
 
 export type ItemFairWarningNotification = {
   __typename?: 'ItemFairWarningNotification';
   /** Id of the notification */
   id: string;
-  /** Timestamp */
-  timestamp: string;
+  /** Date timestamp when message was created.
+RFC3339 formatted string */
+  date: string;
 };
 
 export type ItemNotification =

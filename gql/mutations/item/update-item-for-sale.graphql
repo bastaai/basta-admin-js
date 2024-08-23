@@ -22,12 +22,12 @@ mutation UPDATE_ITEM_FOR_SALE(
       __typename
       ... on ItemFairWarningNotification {
         id
-        timestamp
+        date
       }
       ... on ItemMessageNotification {
         id
         message
-        timestamp
+        date
       }
     }
     bids {
