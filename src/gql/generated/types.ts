@@ -369,6 +369,8 @@ export type Bid = {
   maxAmount: number;
   /** Optional paddle id if bid was placed with a paddle */
   paddle?: Maybe<Paddle>;
+  /** Sale ID of the sale that includes the item in scope. */
+  saleId: string;
   /** Users id that placed the bid */
   userId: string;
 };
@@ -738,10 +740,13 @@ export type ItemDates = {
 
 export type ItemFairWarningNotification = {
   __typename?: 'ItemFairWarningNotification';
+  /**
+   * Date timestamp when message was created.
+   * RFC3339 formatted string
+   */
+  date: string;
   /** Id of the notification */
   id: string;
-  /** Timestamp */
-  timestamp: string;
 };
 
 /** Item filter */
@@ -752,12 +757,15 @@ export type ItemFilter = {
 
 export type ItemMessageNotification = {
   __typename?: 'ItemMessageNotification';
+  /**
+   * Date timestamp when message was created.
+   * RFC3339 formatted string
+   */
+  date: string;
   /** Id of the notification */
   id: string;
   /** Message */
   message: string;
-  /** Timestamp */
-  timestamp: string;
 };
 
 export type ItemNotification =
@@ -1541,6 +1549,7 @@ export type Sale = {
 /** Sale */
 export type SaleItemsArgs = {
   after?: InputMaybe<string>;
+  filter?: InputMaybe<SaleItemFilter>;
   first?: InputMaybe<number>;
 };
 
@@ -1621,6 +1630,7 @@ export type SaleItem = {
   leaderId?: Maybe<string>;
   /** Next asks for the item in minor currency units. */
   nextAsks: Array<number>;
+  /** SaleItem notifications if item is part of a live sale */
   notifications: Array<ItemNotification>;
   /**
    * Payment Order information associated with item.
@@ -1651,6 +1661,12 @@ export type SaleItem = {
 /** A sale item (item that has been added to a sale) */
 export type SaleItemNextAsksArgs = {
   iterations?: InputMaybe<number>;
+};
+
+/** Item filter for sale items. */
+export type SaleItemFilter = {
+  /** Filter by item status */
+  statuses: Array<ItemStatus>;
 };
 
 /** Item input when creating an item */
@@ -1910,7 +1926,6 @@ export type UpdateSaleInput = {
   closingMethod: ClosingMethod;
   closingTimeCountdown: number;
   currency: string;
-  /** Deprecated. Has no effect and is scheduled to be removed */
   dates?: InputMaybe<SaleDatesInput>;
   description: string;
   /** Should sale be hidden from public view. Default false. */
@@ -2111,16 +2126,12 @@ export type Add_Item_To_SaleMutation = {
     nextAsks: Array<number>;
     reserveMet: boolean;
     notifications: Array<
-      | {
-          __typename: 'ItemFairWarningNotification';
-          id: string;
-          timestamp: string;
-        }
+      | { __typename: 'ItemFairWarningNotification'; id: string; date: string }
       | {
           __typename: 'ItemMessageNotification';
           id: string;
           message: string;
-          timestamp: string;
+          date: string;
         }
     >;
     bids: Array<{
@@ -2179,16 +2190,12 @@ export type Create_Item_For_SaleMutation = {
     nextAsks: Array<number>;
     reserveMet: boolean;
     notifications: Array<
-      | {
-          __typename: 'ItemFairWarningNotification';
-          id: string;
-          timestamp: string;
-        }
+      | { __typename: 'ItemFairWarningNotification'; id: string; date: string }
       | {
           __typename: 'ItemMessageNotification';
           id: string;
           message: string;
-          timestamp: string;
+          date: string;
         }
     >;
     bids: Array<{
@@ -2332,13 +2339,13 @@ export type Remove_Item_From_SaleMutation = {
             | {
                 __typename: 'ItemFairWarningNotification';
                 id: string;
-                timestamp: string;
+                date: string;
               }
             | {
                 __typename: 'ItemMessageNotification';
                 id: string;
                 message: string;
-                timestamp: string;
+                date: string;
               }
           >;
           estimates: {
@@ -2415,16 +2422,12 @@ export type Update_Item_For_SaleMutation = {
     nextAsks: Array<number>;
     reserveMet: boolean;
     notifications: Array<
-      | {
-          __typename: 'ItemFairWarningNotification';
-          id: string;
-          timestamp: string;
-        }
+      | { __typename: 'ItemFairWarningNotification'; id: string; date: string }
       | {
           __typename: 'ItemMessageNotification';
           id: string;
           message: string;
-          timestamp: string;
+          date: string;
         }
     >;
     bids: Array<{
@@ -2548,13 +2551,13 @@ export type Create_SaleMutation = {
             | {
                 __typename: 'ItemFairWarningNotification';
                 id: string;
-                timestamp: string;
+                date: string;
               }
             | {
                 __typename: 'ItemMessageNotification';
                 id: string;
                 message: string;
-                timestamp: string;
+                date: string;
               }
           >;
           estimates: {
@@ -2675,13 +2678,13 @@ export type Publish_SaleMutation = {
             | {
                 __typename: 'ItemFairWarningNotification';
                 id: string;
-                timestamp: string;
+                date: string;
               }
             | {
                 __typename: 'ItemMessageNotification';
                 id: string;
                 message: string;
-                timestamp: string;
+                date: string;
               }
           >;
           estimates: {
@@ -3023,13 +3026,13 @@ export type Get_All_SalesQuery = {
                 | {
                     __typename: 'ItemFairWarningNotification';
                     id: string;
-                    timestamp: string;
+                    date: string;
                   }
                 | {
                     __typename: 'ItemMessageNotification';
                     id: string;
                     message: string;
-                    timestamp: string;
+                    date: string;
                   }
               >;
               estimates: {
@@ -3155,13 +3158,13 @@ export type Get_SaleQuery = {
             | {
                 __typename: 'ItemFairWarningNotification';
                 id: string;
-                timestamp: string;
+                date: string;
               }
             | {
                 __typename: 'ItemMessageNotification';
                 id: string;
                 message: string;
-                timestamp: string;
+                date: string;
               }
           >;
           estimates: {

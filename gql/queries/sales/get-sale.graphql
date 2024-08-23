@@ -43,12 +43,12 @@ query GET_SALE(
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {

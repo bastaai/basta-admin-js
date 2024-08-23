@@ -51,12 +51,12 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           reserveMet

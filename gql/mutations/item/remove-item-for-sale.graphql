@@ -69,13 +69,13 @@ mutation REMOVE_ITEM_FROM_SALE(
 
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
 
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {

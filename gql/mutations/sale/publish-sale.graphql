@@ -42,12 +42,12 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
             __typename
             ... on ItemFairWarningNotification {
               id
-              timestamp
+              date
             }
             ... on ItemMessageNotification {
               id
               message
-              timestamp
+              date
             }
           }
           estimates {

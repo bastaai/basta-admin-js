@@ -20,13 +20,13 @@ mutation ADD_ITEM_TO_SALE($accountId: String!, $input: AddItemToSaleInput!) {
 
       ... on ItemFairWarningNotification {
         id
-        timestamp
+        date
       }
 
       ... on ItemMessageNotification {
         id
         message
-        timestamp
+        date
       }
     }
     bids {
