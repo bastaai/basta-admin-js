@@ -4,6 +4,7 @@ mutation REMOVE_ITEM_FROM_SALE(
 ) {
   removeItemFromSale(accountId: $accountId, input: $input) {
     id
+    cursor
     accountId
     title
     description
@@ -45,11 +46,23 @@ mutation REMOVE_ITEM_FROM_SALE(
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
       edges {
         cursor
         node {
           id
+          accountId
+          currency
+          cursor
+          reserveStatus
+          tags
+          tagsV2 {
+            id
+            name
+            created
+            associated
+          }
           title
           totalBids
           description
@@ -113,6 +126,7 @@ mutation REMOVE_ITEM_FROM_SALE(
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
       edges {
         cursor

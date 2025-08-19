@@ -18,7 +18,7 @@ export enum SaleStatus {
   Published = 'PUBLISHED',
   /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
   Unpublished = 'UNPUBLISHED',
-  Live = "LIVE"
+  Live = 'LIVE',
 }
 
 /** ClosingMethod represents how SaleItems are moved into CLOSING status and when they are CLOSED */
@@ -131,6 +131,7 @@ export type SaleItem = {
   leaderId?: string | null | undefined;
   /** Reserve on the item in minor currency unit. */
   reserve?: number | null | undefined;
+  reserveStatus: ReserveStatus;
   /** Sale id, as items can be created without having to be associated to a sale. */
   saleId: string;
   /** Starting bid for the item in minor currency unit. */
@@ -151,6 +152,15 @@ export type SaleItem = {
   /** Is item hidden for public, and not shown on your sale page. */
   hidden: boolean;
 };
+
+export enum ReserveStatus {
+  /** Reserve has not been met */
+  NotMet = 'NOT_MET',
+  /** Reserve has been met */
+  Met = 'MET',
+  /** The item has no reserve */
+  NoReserve = 'NO_RESERVE',
+}
 
 /** Estimates for an item */
 export type Estimate = {
@@ -198,7 +208,7 @@ export type Sale = {
   items: SaleItem[];
   /** Get list of participants for this sale */
   participants: Participant[];
-  cursor?: string;
+  cursor: string;
 };
 
 /**
@@ -233,6 +243,7 @@ export type RemoveSaleItemInput = {
 
 /** Update SaleItem input when modifying an item */
 export type UpdateSaleItemInput = {
+  itemId: string;
   /**
    * Allowed BidTypes on the item.
    * Currently only a single BidType is allowed per item.
@@ -260,7 +271,7 @@ export type UpdateSaleItemInput = {
   /** Valuation currency in minor currency unit. */
   valuationCurrency?: string | null | undefined;
   /** Should item be hidden from public view. */
-  hidden?: boolean | null  | undefined;
+  hidden?: boolean | null | undefined;
   /**
    * Date and time when item should open up for bidding.
    * Format: RFC3339 timestamp.

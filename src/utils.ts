@@ -26,6 +26,7 @@ export const mapSaleToSale = (sale: _Sale): Sale => {
     description: sale.description ?? '',
     incrementTable: sale.incrementTable,
     status: sale.status,
+    cursor: sale.cursor,
   };
 };
 
@@ -76,6 +77,7 @@ export const mapItemToItem = (item: _Item): Item => {
     saleId: item.saleId ?? undefined,
     valuationAmount: item.valuationAmount ?? undefined,
     valuationCurrency: item.valuationCurrency ?? undefined,
+    cursor: item.cursor,
   };
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "@bastaai/basta-admin-js",
-  "version": "0.1.0-beta.123",
+  "version": "0.1.0-beta.124",
   "description": "Basta Admin SDK is a specialized toolkit, designed with the purpose of facilitating the management and execution of Basta auctions.",
   "author": "Basta (https://www.basta.app)",
   "homepage": "https://docs.basta.app",
@@ -18,6 +18,7 @@
     "build": "npm run clean && rollup --bundleConfigAsCjs -c",
     "debug": "nodemon -e ts --watch src --exec \"npm run build\"",
     "clean": "rimraf dist",
+    "clean:cache": "rm -rf .rpt2_cache node_modules/.cache",
     "test": "npm run lint && npm test:unit && npm typecheck",
     "test:unit": "jest",
     "typecheck": "tsc",

@@ -2,6 +2,7 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
   createSale(accountId: $accountId, input: $input) {
     __typename
     id
+    cursor
     accountId
     title
     description
@@ -35,6 +36,17 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
         node {
           __typename
           id
+          accountId
+          currency
+          cursor
+          reserveStatus
+          tags
+          tagsV2 {
+            id
+            name
+            created
+            associated
+          }
           title
           totalBids
           description
@@ -94,6 +106,7 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
     }
     incrementTable {
@@ -126,6 +139,7 @@ mutation CREATE_SALE($accountId: String!, $input: CreateSaleInput!) {
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
     }
   }

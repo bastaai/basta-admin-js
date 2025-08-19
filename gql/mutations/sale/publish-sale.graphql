@@ -2,6 +2,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
   publishSale(accountId: $accountId, input: $input) {
     __typename
     id
+    cursor
     accountId
     title
     description
@@ -37,6 +38,7 @@ mutation PUBLISH_SALE($accountId: String!, $input: PublishSaleInput!) {
           itemNumber
           nextAsks
           reserveMet
+          reserveStatus
           hidden
           notifications {
             __typename
