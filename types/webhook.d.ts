@@ -117,6 +117,20 @@ export enum ActionType {
   ItemsStatusChanged = 'ITEMS_STATUS_CHANGED',
   /** Event: When a sale status change associated with your account occurs in the system. */
   SaleStatusChanged = 'SALE_STATUS_CHANGED',
+  /** Sent when a sale is created associated with your account */
+  SaleCreated = 'SALE_CREATED',
+  /** Sent when an item is added to a sale in your account */
+  ItemAddedToSale = 'ITEM_ADDED_TO_SALE',
+  /** Sent when SaleItem is updated */
+  SaleItemUpdated = 'SALE_ITEM_UPDATED',
+  /** Sent when a SaleItem is removed from sale */
+  SaleItemRemoved = 'SALE_ITEM_REMOVED',
+  /** Sent when bids are cancelled (removed) on an item in sale. */
+  CancelBidOnItem = 'CANCEL_BID_ON_ITEM',
+  /** Sent when an order is created */
+  OrderCreated = 'ORDER_CREATED',
+  /** Sent when an order is updated */
+  OrderUpdated = 'ORDER_UPDATED',
 }
 
 /** Status of the Action Hook request. */
@@ -127,4 +141,6 @@ export enum ActionHookStatus {
   Pending = 'PENDING',
   /** Action Hook request was successfully sent. */
   Success = 'SUCCESS',
+  /** Action Hook is scheduled for a retry */
+  Retry = 'RETRY',
 }

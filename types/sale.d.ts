@@ -18,7 +18,7 @@ export enum SaleStatus {
   Published = 'PUBLISHED',
   /** Sale has not been published. This status will never appear in the API expcept when you are previewing the sale. */
   Unpublished = 'UNPUBLISHED',
-  Live = "LIVE"
+  Live = 'LIVE',
 }
 
 /** ClosingMethod represents how SaleItems are moved into CLOSING status and when they are CLOSED */
@@ -198,7 +198,8 @@ export type Sale = {
   items: SaleItem[];
   /** Get list of participants for this sale */
   participants: Participant[];
-  cursor?: string;
+  /** Cursor is used in pagination. */
+  cursor: string;
 };
 
 /**
@@ -260,11 +261,13 @@ export type UpdateSaleItemInput = {
   /** Valuation currency in minor currency unit. */
   valuationCurrency?: string | null | undefined;
   /** Should item be hidden from public view. */
-  hidden?: boolean | null  | undefined;
+  hidden?: boolean | null | undefined;
   /**
    * Date and time when item should open up for bidding.
    * Format: RFC3339 timestamp.
    * Example: "2019-10-12T07:20:50.52Z"
    */
   openDate?: string | null | undefined;
+  /** Id of the item that should be updated */
+  itemId: string;
 };

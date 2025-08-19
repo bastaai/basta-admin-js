@@ -165,7 +165,8 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
 export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
   createItem(accountId: $accountId, input: $input) {
     id
-    saleId
+    accountId
+    externalId
     description
     title
     valuationAmount
@@ -175,9 +176,48 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
       high
     }
     images {
+      __typename
       id
       url
       order
+    }
+    cursor
+    tags
+    estimates {
+      low
+      high
+    }
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+          created
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        totalRecords
+      }
     }
   }
 }`;
@@ -231,6 +271,7 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
         cursor
         node {
           id
+          cursor
           title
           totalBids
           description
@@ -363,19 +404,59 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
 export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: String!, $input: UpdateItemInput!) {
   updateItem(accountId: $accountId, itemId: $itemId, input: $input) {
     id
+    accountId
+    externalId
     description
     title
     valuationAmount
     valuationCurrency
-    saleId
     estimates {
       low
       high
     }
     images {
+      __typename
       id
       url
       order
+    }
+    cursor
+    tags
+    estimates {
+      low
+      high
+    }
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+          created
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        totalRecords
+      }
     }
   }
 }`;
@@ -728,19 +809,59 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
       cursor
       node {
         id
-        title
+        accountId
+        externalId
         description
+        title
         valuationAmount
         valuationCurrency
-        saleId
         estimates {
           low
           high
         }
         images {
+          __typename
           id
           url
           order
+        }
+        cursor
+        tags
+        estimates {
+          low
+          high
+        }
+        itemNotes {
+          edges {
+            cursor
+            node {
+              id
+              note
+              userId
+              user {
+                userId
+                name
+                email
+                addresses {
+                  id
+                  addressType
+                  line1
+                  line2
+                  city
+                  state
+                  postalCode
+                  country
+                }
+              }
+              created
+            }
+          }
+          pageInfo {
+            hasNextPage
+            startCursor
+            endCursor
+            totalRecords
+          }
         }
       }
     }
@@ -754,6 +875,8 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
 export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
   item(accountId: $accountId, itemId: $itemId) {
     id
+    accountId
+    externalId
     description
     title
     valuationAmount
@@ -767,6 +890,44 @@ export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
       id
       url
       order
+    }
+    cursor
+    tags
+    estimates {
+      low
+      high
+    }
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+          created
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        totalRecords
+      }
     }
   }
 }`;

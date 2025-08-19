@@ -50,6 +50,7 @@ mutation REMOVE_ITEM_FROM_SALE(
         cursor
         node {
           id
+          cursor
           title
           totalBids
           description

@@ -10,7 +10,7 @@ export enum ItemStatus {
   ItemOpen = 'ITEM_OPEN',
   ItemPaused = 'ITEM_PAUSED',
   ItemProcessing = 'ITEM_PROCESSING',
-  ItemLive = "ITEM_LIVE"
+  ItemLive = 'ITEM_LIVE',
 }
 
 export type Item = {
@@ -28,8 +28,138 @@ export type Item = {
   valuationAmount?: number;
   /** Valuation currency */
   valuationCurrency?: string;
-  cursor?: string;
+  /** Account ID */
+  accountId: string;
+  /** Cursor is used in pagination. */
+  cursor: string;
+  /** Item Notes. */
+  itemNotes: ItemNoteConnection;
+  /** Tags */
+  tags: string[];
+  estimates: Estimate;
+  externalId?: string | null | undefined;
+  metadata?: ItemMetadata | null | undefined;
+  price?: ItemPrice | null | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema?: any | null | undefined;
 };
+
+/** Estimates for an item */
+export type Estimate = {
+  /** Item high estimate */
+  high?: number | null | undefined;
+  /** Item low estimate */
+  low?: number | null | undefined;
+};
+
+export type ItemMetadata = {
+  /** Data */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: any;
+  /** JSON Schema */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema?: any;
+};
+
+/** Item pricing information */
+export type ItemPrice = {
+  /** Currency for pricing information */
+  currency: Currency;
+  /** Item high estimate */
+  highEstimate?: number | null | undefined;
+  /** Item low estimate */
+  lowEstimate?: number | null | undefined;
+  /** Reserve in minor currency */
+  reserve: number;
+  /** Starting bid in minor currency */
+  startingBid: number;
+};
+
+export enum Currency {
+  Aud = 'AUD',
+  Cad = 'CAD',
+  Chf = 'CHF',
+  Dkk = 'DKK',
+  Eur = 'EUR',
+  Gbp = 'GBP',
+  Hkd = 'HKD',
+  Isk = 'ISK',
+  Jpy = 'JPY',
+  Nok = 'NOK',
+  Sek = 'SEK',
+  Usd = 'USD',
+}
+
+export type ItemNoteConnection = {
+  /** ItemNote edges */
+  edges: ItemNoteEdge[];
+  /** Current page information */
+  pageInfo: PageInfo;
+};
+
+export type ItemNoteEdge = {
+  __typename?: 'ItemNoteEdge';
+  /** Current ItemNote Cursor */
+  cursor: string;
+  /** ItemNote node */
+  node: ItemNote;
+};
+
+export type ItemNote = {
+  __typename?: 'ItemNote';
+  /** Created time */
+  created: string;
+  /** ID */
+  id: string;
+  /** Note */
+  note: string;
+  /** The user that wrote the note */
+  user: UserInfo;
+  /** UserID */
+  userId: string;
+};
+
+/** Page info for pagination */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Ending cursor */
+  endCursor: string;
+  /** Has next page */
+  hasNextPage: boolean;
+  /** Starting cursor */
+  startCursor: string;
+  /** Total records */
+  totalRecords: number;
+};
+
+export type UserInfo = {
+  __typename?: 'UserInfo';
+  /** Addresses */
+  addresses: UserAddress[];
+  /** Email */
+  email: string;
+  /** Name */
+  name: string;
+  /** UserId */
+  userId: string;
+};
+
+export type UserAddress = {
+  __typename?: 'UserAddress';
+  addressType: AddressType;
+  city: string;
+  country?: string | null | undefined;
+  id: string;
+  line1: string;
+  line2?: string | null | undefined;
+  postalCode?: string | null | undefined;
+  state?: string | null | undefined;
+};
+
+export enum AddressType {
+  Billing = 'BILLING',
+  Shipping = 'SHIPPING',
+}
 
 /** Item input when creating an item */
 export type CreateItemInput = {
@@ -65,7 +195,7 @@ export type AddItemToSaleInput = {
    * Currently only a single BidType is allowed per item.
    * Defaults to allowing only Max bids if not supplied.
    */
-  allowedBidTypes?: Array<BidType> | null | undefined;
+  allowedBidTypes?: BidType[] | null | undefined;
   /** Optional bid increment table for this item. */
   bidIncrementTable?: BidIncrementTableInput | null | undefined;
   /** High estimate of the item (optional) in minor currency unit. */

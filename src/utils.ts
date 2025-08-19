@@ -26,6 +26,7 @@ export const mapSaleToSale = (sale: _Sale): Sale => {
     description: sale.description ?? '',
     incrementTable: sale.incrementTable,
     status: sale.status,
+    cursor: sale.cursor,
   };
 };
 
@@ -64,6 +65,49 @@ export const mapPaginatedItemsToItem = (edge: ItemsEdge): Item => {
     valuationAmount: item.valuationAmount ?? undefined,
     valuationCurrency: item.valuationCurrency ?? undefined,
     cursor: page,
+    accountId: item.accountId,
+    itemNotes: {
+      edges: item.itemNotes.edges.map((x) => ({
+        cursor: x.cursor,
+        node: {
+          created: x.node.created,
+          id: x.node.id,
+          note: x.node.note,
+          userId: x.node.userId,
+          user: {
+            userId: x.node.user.userId,
+            id: x.node.user.userId,
+            email: x.node.user.email,
+            name: x.node.user.name,
+            addresses: x.node.user.addresses,
+          },
+        },
+      })),
+      pageInfo: {
+        startCursor: item.itemNotes.pageInfo.startCursor,
+        endCursor: item.itemNotes.pageInfo.endCursor,
+        hasNextPage: item.itemNotes.pageInfo.hasNextPage,
+        totalRecords: item.itemNotes.pageInfo.totalRecords,
+      },
+    },
+    tags: item.tags,
+    estimates: {
+      high: item.estimates?.high,
+      low: item.estimates?.low,
+    },
+    externalId: item.externalId,
+    metadata: item.metadata,
+    price:
+      item.price == null
+        ? undefined
+        : {
+            currency: item.price.currency,
+            highEstimate: item.price.highEstimate,
+            lowEstimate: item.price.lowEstimate,
+            reserve: item.price.reserve,
+            startingBid: item.price.startingBid,
+          },
+    schema: item.schema,
   };
 };
 
@@ -76,6 +120,50 @@ export const mapItemToItem = (item: _Item): Item => {
     saleId: item.saleId ?? undefined,
     valuationAmount: item.valuationAmount ?? undefined,
     valuationCurrency: item.valuationCurrency ?? undefined,
+    accountId: item.accountId,
+    cursor: item.cursor,
+    itemNotes: {
+      edges: item.itemNotes.edges.map((x) => ({
+        cursor: x.cursor,
+        node: {
+          created: x.node.created,
+          id: x.node.id,
+          note: x.node.note,
+          userId: x.node.userId,
+          user: {
+            userId: x.node.user.userId,
+            id: x.node.user.userId,
+            email: x.node.user.email,
+            name: x.node.user.name,
+            addresses: x.node.user.addresses,
+          },
+        },
+      })),
+      pageInfo: {
+        startCursor: item.itemNotes.pageInfo.startCursor,
+        endCursor: item.itemNotes.pageInfo.endCursor,
+        hasNextPage: item.itemNotes.pageInfo.hasNextPage,
+        totalRecords: item.itemNotes.pageInfo.totalRecords,
+      },
+    },
+    tags: item.tags,
+    estimates: {
+      high: item.estimates?.high,
+      low: item.estimates?.low,
+    },
+    externalId: item.externalId,
+    metadata: item.metadata,
+    price:
+      item.price == null
+        ? undefined
+        : {
+            currency: item.price.currency,
+            highEstimate: item.price.highEstimate,
+            lowEstimate: item.price.lowEstimate,
+            reserve: item.price.reserve,
+            startingBid: item.price.startingBid,
+          },
+    schema: item.schema,
   };
 };
 
