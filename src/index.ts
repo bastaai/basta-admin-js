@@ -23,7 +23,7 @@ export {
   ItemStatus,
   SaleStatus,
   ReserveAutoBidMethod,
-  SaleType
+  SaleType,
 } from './gql/generated/types';
 
 export const initBasta = (args: { accountId: string; secretKey: string }) => {
