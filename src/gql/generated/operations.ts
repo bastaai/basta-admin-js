@@ -65,6 +65,7 @@ export const ADD_ITEM_TO_SALE = `mutation ADD_ITEM_TO_SALE($accountId: String!, 
     hidden
     nextAsks
     reserveMet
+    reserveStatus
     notifications {
       __typename
       ... on ItemFairWarningNotification {
@@ -122,6 +123,7 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
     hidden
     nextAsks
     reserveMet
+    reserveStatus
     notifications {
       __typename
       ... on ItemFairWarningNotification {
@@ -165,7 +167,41 @@ export const CREATE_ITEM_FOR_SALE = `mutation CREATE_ITEM_FOR_SALE($accountId: S
 export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: CreateItemInput!) {
   createItem(accountId: $accountId, input: $input) {
     id
-    saleId
+    accountId
+    cursor
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          created
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        totalRecords
+      }
+    }
+    tags
     description
     title
     valuationAmount
@@ -175,6 +211,7 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
       high
     }
     images {
+      __typename
       id
       url
       order
@@ -185,6 +222,7 @@ export const CREATE_ITEM = `mutation CREATE_ITEM($accountId: String!, $input: Cr
 export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId: String!, $input: RemoveSaleItemInput!) {
   removeItemFromSale(accountId: $accountId, input: $input) {
     id
+    cursor
     accountId
     title
     description
@@ -226,11 +264,23 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
       edges {
         cursor
         node {
           id
+          accountId
+          currency
+          cursor
+          reserveStatus
+          tags
+          tagsV2 {
+            id
+            name
+            created
+            associated
+          }
           title
           totalBids
           description
@@ -292,6 +342,7 @@ export const REMOVE_ITEM_FROM_SALE = `mutation REMOVE_ITEM_FROM_SALE($accountId:
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
       edges {
         cursor
@@ -320,6 +371,7 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
     hidden
     nextAsks
     reserveMet
+    reserveStatus
     notifications {
       __typename
       ... on ItemFairWarningNotification {
@@ -363,16 +415,51 @@ export const UPDATE_ITEM_FOR_SALE = `mutation UPDATE_ITEM_FOR_SALE($accountId: S
 export const UPDATE_ITEM = `mutation UPDATE_ITEM($accountId: String!, $itemId: String!, $input: UpdateItemInput!) {
   updateItem(accountId: $accountId, itemId: $itemId, input: $input) {
     id
+    accountId
+    cursor
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          created
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        totalRecords
+      }
+    }
+    tags
     description
     title
     valuationAmount
     valuationCurrency
-    saleId
     estimates {
       low
       high
     }
     images {
+      __typename
       id
       url
       order
@@ -384,6 +471,7 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
   createSale(accountId: $accountId, input: $input) {
     __typename
     id
+    cursor
     accountId
     title
     description
@@ -417,6 +505,17 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
         node {
           __typename
           id
+          accountId
+          currency
+          cursor
+          reserveStatus
+          tags
+          tagsV2 {
+            id
+            name
+            created
+            associated
+          }
           title
           totalBids
           description
@@ -476,6 +575,7 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
     }
     incrementTable {
@@ -508,6 +608,7 @@ export const CREATE_SALE = `mutation CREATE_SALE($accountId: String!, $input: Cr
         startCursor
         endCursor
         hasNextPage
+        totalRecords
       }
     }
   }
@@ -517,6 +618,7 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
   publishSale(accountId: $accountId, input: $input) {
     __typename
     id
+    cursor
     accountId
     title
     description
@@ -552,6 +654,7 @@ export const PUBLISH_SALE = `mutation PUBLISH_SALE($accountId: String!, $input: 
           itemNumber
           nextAsks
           reserveMet
+          reserveStatus
           hidden
           notifications {
             __typename
@@ -728,16 +831,51 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
       cursor
       node {
         id
-        title
+        accountId
+        cursor
+        itemNotes {
+          edges {
+            cursor
+            node {
+              id
+              note
+              created
+              userId
+              user {
+                userId
+                name
+                email
+                addresses {
+                  id
+                  addressType
+                  line1
+                  line2
+                  city
+                  state
+                  postalCode
+                  country
+                }
+              }
+            }
+          }
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+            totalRecords
+          }
+        }
+        tags
         description
+        title
         valuationAmount
         valuationCurrency
-        saleId
         estimates {
           low
           high
         }
         images {
+          __typename
           id
           url
           order
@@ -754,6 +892,41 @@ export const GET_ALL_ITEMS = `query GET_ALL_ITEMS($accountId: String!, $itemsFil
 export const GET_ITEM = `query GET_ITEM($accountId: String!, $itemId: String!) {
   item(accountId: $accountId, itemId: $itemId) {
     id
+    accountId
+    cursor
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          created
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        totalRecords
+      }
+    }
+    tags
     description
     title
     valuationAmount
@@ -781,6 +954,7 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
         title
         description
         currency
+        cursor
         status
         closingMethod
         closingTimeCountdown
@@ -825,6 +999,7 @@ export const GET_ALL_SALES = `query GET_ALL_SALES($accountId: String!, $first: I
               hidden
               nextAsks
               reserveMet
+              reserveStatus
               notifications {
                 __typename
                 ... on ItemFairWarningNotification {
@@ -907,6 +1082,7 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
     title
     description
     currency
+    cursor
     status
     closingMethod
     closingTimeCountdown
@@ -928,12 +1104,14 @@ export const GET_SALE = `query GET_SALE($accountId: String!, $id: ID!, $take: In
           leaderId
           saleId
           reserve
+          reserveStatus
           startingBid
           itemNumber
           allowedBidTypes
           status
           nextAsks
           reserveMet
+          reserveStatus
           hidden
           notifications {
             __typename

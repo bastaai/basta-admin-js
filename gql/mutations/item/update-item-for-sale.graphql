@@ -18,6 +18,7 @@ mutation UPDATE_ITEM_FOR_SALE(
     hidden
     nextAsks
     reserveMet
+    reserveStatus
     notifications {
       __typename
       ... on ItemFairWarningNotification {

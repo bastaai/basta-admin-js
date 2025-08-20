@@ -5,16 +5,51 @@ mutation UPDATE_ITEM(
 ) {
   updateItem(accountId: $accountId, itemId: $itemId, input: $input) {
     id
+    accountId
+    cursor
+    itemNotes {
+      edges {
+        cursor
+        node {
+          id
+          note
+          created
+          userId
+          user {
+            userId
+            name
+            email
+            addresses {
+              id
+              addressType
+              line1
+              line2
+              city
+              state
+              postalCode
+              country
+            }
+          }
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        totalRecords
+      }
+    }
+    tags
     description
     title
     valuationAmount
     valuationCurrency
-    saleId
     estimates {
       low
       high
     }
     images {
+      __typename
       id
       url
       order

@@ -11,6 +11,7 @@ query GET_SALE(
     title
     description
     currency
+    cursor
     status
     closingMethod
     closingTimeCountdown
@@ -32,12 +33,14 @@ query GET_SALE(
           leaderId
           saleId
           reserve
+          reserveStatus
           startingBid
           itemNumber
           allowedBidTypes
           status
           nextAsks
           reserveMet
+          reserveStatus
           hidden
           notifications {
             __typename

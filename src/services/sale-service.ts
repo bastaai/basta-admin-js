@@ -19,7 +19,7 @@ import {
   Publish_SaleMutation,
 } from '../gql/generated/types';
 
-import {  mapSaleToSale } from '../utils';
+import { mapSaleToSale } from '../utils';
 
 export class SaleService implements ISaleService {
   protected readonly _bastaReq: BastaRequest;
@@ -50,6 +50,7 @@ export class SaleService implements ISaleService {
       accountId: sale.accountId,
       dates: sale.dates,
       id: sale.id,
+      cursor: sale.cursor,
       images: sale.images,
       items: sale.items.edges.map((x) => x.node),
       participants: sale.participants.edges.map((x) => x.node),
@@ -85,6 +86,7 @@ export class SaleService implements ISaleService {
       accountId: sale.accountId,
       dates: sale.dates,
       id: sale.id,
+      cursor: sale.cursor,
       images: sale.images,
       items: sale.items.edges.map((x) => x.node),
       participants: sale.participants.edges.map((x) => x.node),
